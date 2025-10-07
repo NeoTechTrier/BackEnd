@@ -38,6 +38,6 @@ public class ProdutoModel {
     @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EstoqueModel> estoques;
 
-    @OneToMany(mappedBy = "Produto")
+    @OneToMany(mappedBy = "produto")
     private List<ItemPedidoModel> itensPedido;
 }
