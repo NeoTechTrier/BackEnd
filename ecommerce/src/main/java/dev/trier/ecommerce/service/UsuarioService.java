@@ -1,8 +1,7 @@
 package dev.trier.ecommerce.service;
 
-import dev.trier.ecommerce.dto.UsuarioDto;
-import dev.trier.ecommerce.dto.usuario.CreateUsuarioRequest;
-import dev.trier.ecommerce.dto.usuario.CreateUsuarioResponse;
+import dev.trier.ecommerce.dto.usuario.CriarUsuarioRequestDto;
+import dev.trier.ecommerce.dto.usuario.CriarUsuarioResponseDto;
 import dev.trier.ecommerce.model.UsuarioModel;
 import dev.trier.ecommerce.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
@@ -22,7 +21,8 @@ public class UsuarioService {
     }
 
 
-    public List<UsuarioModel> listarUsuarios() {
+
+    public List<UsuarioModel> buscarUsuarios() {
         return usuarioRepository.findAll();
     }
 
@@ -32,8 +32,9 @@ public class UsuarioService {
     }
 
 
-    public CreateUsuarioResponse cadastrarUsuario(CreateUsuarioRequest request){
+    public CriarUsuarioResponseDto cadastrarUsuario(CriarUsuarioRequestDto request){
         UsuarioModel usuarioModel = new UsuarioModel();
+        usuarioModel.setUserRole(request.usersRole());
         usuarioModel.setNmCliente(request.nmCliente());
         usuarioModel.setNuCPF(request.nuCPF());
         usuarioModel.setNuTelefone(request.nuTelefone());
@@ -43,7 +44,7 @@ public class UsuarioService {
         usuarioModel.setFlAtivo(request.flAtivo());
         UsuarioModel salvo = usuarioRepository.save(usuarioModel);
 
-        return  new CreateUsuarioResponse(
+        return  new CriarUsuarioResponseDto(
                 salvo.getCdUsuario(),
                 salvo.getNmCliente(),
                 salvo.getFlAtivo()
