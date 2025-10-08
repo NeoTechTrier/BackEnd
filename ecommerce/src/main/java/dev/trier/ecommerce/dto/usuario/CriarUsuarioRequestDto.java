@@ -1,6 +1,9 @@
 package dev.trier.ecommerce.dto.usuario;
 
-public record CreateUsuarioRequest(
+import dev.trier.ecommerce.model.enums.UsersRole;
+
+public record CriarUsuarioRequestDto(
+        UsersRole usersRole,
         String nmCliente,
         String nuCPF,
         Integer nuTelefone,
