@@ -1,7 +1,9 @@
 package dev.trier.ecommerce.repository;
 
-import dev.trier.ecommerce.model.UsuarioModel;
+import dev.trier.ecommerce.model.PedidoModel;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface PedidoRepository extends JpaRepository<UsuarioModel,Integer> {
+@Repository
+public interface PedidoRepository extends JpaRepository<PedidoModel, Integer> {
 }
