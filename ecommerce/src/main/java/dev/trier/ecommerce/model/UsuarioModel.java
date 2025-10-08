@@ -15,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Table(name = "TBUSUARIO")
+@Schema(description = "Criação do usuário")
 public class UsuarioModel {
 
     @Id
@@ -44,7 +45,7 @@ public class UsuarioModel {
     @Schema(description = "Número de residencial da pessoa", example = "102 ou SN")
     private String nuEndereco;
 
-    @Schema(description = "Se usuário está ativo ou inativado no sistema", example = "S está ativo")
+    @Schema(description = "Flag indicando se o usuário está ativo ou inativado", example = "'S' = ativo ")
     private String flAtivo = "S";
 
     @Schema(description = "Caso usuário tenha pedidos, irá ficar vinculado a ele.", example = "Código do pedido 1")

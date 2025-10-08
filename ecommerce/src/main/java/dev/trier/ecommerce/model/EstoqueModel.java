@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Table(name = "TBESTOQUE")
+@Schema(description = "Criação do estoque")
 public class EstoqueModel {
 
     @Id

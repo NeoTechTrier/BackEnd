@@ -15,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Table(name = "TBPRODUTO")
+@Schema(description = "Criação do produto")
 public class ProdutoModel {
 
     @Id
@@ -33,10 +34,10 @@ public class ProdutoModel {
     private CategoriaProduto dsProduto;
 
     @Lob
-    @Schema(description = "Imagem do produto para inserção", example = "Bytes da imagem")
+    @Schema(description = "Imagem do produto para inserção")
     private byte[] imgProduto;
 
-    @Schema(description = "Se produto está ativo ou inativado no sistema", example = "S está ativo")
+    @Schema(description = "Flag indicando se o produto está ativo ou inativado", example = "'S' = ativo ")
     private String flAtivo = "S";
 
     @ManyToOne

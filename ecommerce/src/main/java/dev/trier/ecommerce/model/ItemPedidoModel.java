@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Table(name = "TBPRODUTO")
+@Schema(description = "Criação do item pedido")
 public class ItemPedidoModel {
 
     @Id
@@ -19,15 +20,19 @@ public class ItemPedidoModel {
     private Integer cdItemPedido;
 
     @ManyToOne
+    @Schema(description = "Identificador único", example = "1")
     @JoinColumn(name = "cdPedido")
     private PedidoModel pedido;
 
     @ManyToOne
+    @Schema(description = "Identificador único", example = "1")
     @JoinColumn(name = "cdProduto")
     private ProdutoModel produto;
 
+    @Schema(description = "Esse seria o somatório do item pedido", example = "1")
     private Double vlItemPedido;
 
+    @Schema(description = "Aqui vai ser a quantidade de itens para este pedido")
     private Integer qtItem;
 
 

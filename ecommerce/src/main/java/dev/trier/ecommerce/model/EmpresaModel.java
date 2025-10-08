@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Table(name = "TBEMPRESA")
+@Schema(description = "Criação do estoque")
 public class EmpresaModel {
 
     @Id
