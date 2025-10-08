@@ -24,26 +24,35 @@ public class ProdutoModel {
     private Integer cdProduto;
 
     @Schema(description = "Nome do produto", example = "NVIDIA RTX 4070S")
+    @Column(nullable = false)
     private String nmProduto;
 
     @Schema(description = "Valor do produto sem letras", example = "47.50")
+    @Column(nullable = false)
     private Double vlProduto;
 
     @Schema(description = "Categoria do produto", example = "Placa de video")
     @Enumerated(EnumType.STRING)
-    private CategoriaProduto dsProduto;
+    @Column(nullable = false)
+    private CategoriaProduto dsCategoria;
+
+    @Schema(description = "Descrição do produto", example = "Placa de vídeo da nvidia feito...")
+    @Column(nullable = false)
+    private String dsProduto;
 
     @Lob
     @Schema(description = "Imagem do produto para inserção")
+    @Column(nullable = false)
     private byte[] imgProduto;
 
     @Schema(description = "Flag indicando se o produto está ativo ou inativado", example = "'S' = ativo ")
+    @Column(nullable = false)
     private String flAtivo = "S";
 
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "cdEmpresa")
-    @Schema(description = "Código da empresa que fabrica/fornce o produto", example = "Nvidia")
+    @Schema(description = "Código da empresa que fabrica/fornece o produto", example = "Nvidia")
     private EmpresaModel empresa;
 
     @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, orphanRemoval = true)

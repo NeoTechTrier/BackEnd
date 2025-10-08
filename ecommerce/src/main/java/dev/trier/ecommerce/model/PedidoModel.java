@@ -29,15 +29,19 @@ public class PedidoModel {
 
     @Enumerated(EnumType.STRING)
     @Schema(description = "Forma de pagamento do pedido", example = "PIX")
+    @Column(nullable = false)
     private FormaPagamento formaPagamento;
 
     @Schema(description = "Valor do frete aplicado ao pedido", example = "15.50")
+    @Column(nullable = false)
     private Double vlFrete;
 
     @Schema(description = "Valor total do pedido incluindo frete", example = "200.00")
+    @Column(nullable = false)
     private Double vlTotalPedido;
 
     @Schema(description = "Flag indicando se o pedido está ativo ou inativado", example = "S")
+
     private String flAtivo = "S";
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
