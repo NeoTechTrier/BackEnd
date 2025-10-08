@@ -1,5 +1,6 @@
 package dev.trier.ecommerce.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,22 +11,28 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Table(name = "TBPRODUTO")
+@Schema(description = "Criação do item pedido")
 public class ItemPedidoModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "Identificador único", example = "1")
     private Integer cdItemPedido;
 
     @ManyToOne
+    @Schema(description = "Identificador único", example = "1")
     @JoinColumn(name = "cdPedido")
     private PedidoModel pedido;
 
     @ManyToOne
+    @Schema(description = "Identificador único", example = "1")
     @JoinColumn(name = "cdProduto")
     private ProdutoModel produto;
 
+    @Schema(description = "Esse seria o somatório do item pedido", example = "1")
     private Double vlItemPedido;
 
+    @Schema(description = "Aqui vai ser a quantidade de itens para este pedido")
     private Integer qtItem;
 
 
