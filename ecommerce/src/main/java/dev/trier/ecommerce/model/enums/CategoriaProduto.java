@@ -3,7 +3,7 @@ package dev.trier.ecommerce.model.enums;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 public enum CategoriaProduto {
-    PLACA_DE_VIDEO,
+    PLACADEVIDEO,
     PROCESSADOR,
     RAM,
     HEADSET,
