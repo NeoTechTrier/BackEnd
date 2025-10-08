@@ -6,4 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/")
 public class ItemPedidoController {
+    //Buscar por ID
+    //Buscar todos
+    //Salvar
 }

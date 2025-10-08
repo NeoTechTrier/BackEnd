@@ -16,8 +16,16 @@ public class ItemPedidoModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer cdItemPedido;
 
+    @ManyToOne
+    @JoinColumn(name = "cdPedido")
+    private PedidoModel pedido;
 
+    @ManyToOne
+    @JoinColumn(name = "cdPrduto")
+    private ProdutoModel produto;
 
+    private Double vlItemPedido;
 
+    private Integer qtItem;
 
 }

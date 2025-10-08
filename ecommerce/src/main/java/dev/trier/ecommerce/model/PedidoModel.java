@@ -21,7 +21,7 @@ public class PedidoModel {
 
     @ManyToOne
     @JoinColumn(name = "cdUsuario")
-    private UsuarioModel usuarioModel;
+    private UsuarioModel usuario;
 
     @Enumerated(EnumType.STRING)
     private FormaPagamento formaPagamento;
@@ -32,6 +32,6 @@ public class PedidoModel {
 
     private String flAtivo = "S";
 
-    @OneToMany(mappedBy = "Produto", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "cdpedido", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemPedidoModel> itensPedido;
 }

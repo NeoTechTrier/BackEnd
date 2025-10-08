@@ -6,4 +6,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/")
 public class PedidoController {
+    //Buscar Por Id
+    //Buscar pedido Cliente
+    //Buscar  Todos
+    //Salvar
 }
