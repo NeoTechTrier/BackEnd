@@ -8,4 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/empresa")
 @Tag(name = "Empresa", description = "Capacidade de criação e modificação da empresa")
 public class EmpresaController {
+
+
+
 }
