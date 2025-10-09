@@ -17,26 +17,38 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
 
     public UsuarioService(UsuarioRepository usuarioRepository) {
+
         this.usuarioRepository = usuarioRepository;
     }
 
 
 
+    //Metodo Listar todos os usuarios
     public List<UsuarioModel> buscarUsuarios() {
         return usuarioRepository.findAll();
     }
 
-
+    //Metodos buscar usuario por codigo
     public Optional<UsuarioModel> buscarPorCodigo(Integer cdUsuario) {
         return usuarioRepository.findById(cdUsuario);
     }
 
 
+    //Metodo cadastrar novos usurio
     public CriarUsuarioResponseDto cadastrarUsuario(CriarUsuarioRequestDto request){
+
+        /*
+        if (usuarioRepository.existsByNuCPF(request.nuCPF())){
+        }
+         */
+
         UsuarioModel usuarioModel = new UsuarioModel();
+
+        //Transferindo os dados da Dto para o Model
         usuarioModel.setUserRole(request.usersRole());
         usuarioModel.setNmCliente(request.nmCliente());
         usuarioModel.setNuCPF(request.nuCPF());
+        usuarioModel.setDsEmail(request.dsEmail());
         usuarioModel.setNuTelefone(request.nuTelefone());
         usuarioModel.setNuRG(request.nuRG());
         usuarioModel.setDsEndereco(request.dsEndereco());
@@ -49,5 +61,11 @@ public class UsuarioService {
                 salvo.getNmCliente(),
                 salvo.getFlAtivo()
         );
+
+
+
     }
+
+    //Verificar Logica para metodo de Login Usuario, caso precise.
+
 }
