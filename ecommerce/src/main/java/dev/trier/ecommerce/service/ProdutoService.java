@@ -25,8 +25,23 @@ public class ProdutoService {
     public CriarProdutoResponseDto cadastrarProduto(CriarProdutoRequestDto requestDto){
         ProdutoModel produtoModel = new ProdutoModel();
         produtoModel.setNmProduto(requestDto.nmProduto());
+        //produtoModel.setDsProduto(requestDto.dsProduto());
         produtoModel.setVlProduto(requestDto.vlProduto());
-        produtoModel.setDsProduto(requestDto.dsProduto());
+        produtoModel.setEmpresa(requestDto.empresaModel());
+        produtoModel.setFlAtivo(requestDto.flAtivo());
+        ProdutoModel salvo = produtoRespository.save(produtoModel);
+
+        return new CriarProdutoResponseDto(
+                salvo.getCdProduto(),
+                salvo.getNmProduto(),
+                salvo.getFlAtivo()
+        );
+
     }
+
+    //
+
+
+
 
 }

@@ -33,6 +33,10 @@ public class UsuarioModel {
     @Schema(description = "Número de CPF", example = "112.123.123-22")
     private String nuCPF;
 
+    private String dsEmail;
+
+    private String dsSenha;
+
     @Schema(description = "Número de telefone da pessoa", example = "48920023805")
     private Integer nuTelefone;
 

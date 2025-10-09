@@ -29,7 +29,7 @@ public class ProdutoController {
 
     @PostMapping("/cadastrar")
     public ResponseEntity<CriarProdutoResponseDto>  cadastrarProduto(@RequestBody CriarProdutoRequestDto criarProdutoRequestDto) {
-        CriarProdutoResponseDto criar = produtoService.criarProduto(criarProdutoRequestDto);
+        CriarProdutoResponseDto criar = produtoService.cadastrarProduto(criarProdutoRequestDto);
         return ResponseEntity.status(201).body(criar);
     }
 
