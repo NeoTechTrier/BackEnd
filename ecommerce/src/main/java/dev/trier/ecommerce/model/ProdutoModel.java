@@ -15,23 +15,18 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Table(name = "TBPRODUTO")
-@Schema(description = "Criação do produto")
 public class ProdutoModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(description = "Identificador único", example = "1")
     private Integer cdProduto;
 
-    @Schema(description = "Nome do produto", example = "NVIDIA RTX 4070S")
     @Column(nullable = false)
     private String nmProduto;
 
-    @Schema(description = "Valor do produto sem letras", example = "47.50")
     @Column(nullable = false)
     private Double vlProduto;
 
-    @Schema(description = "Categoria do produto", example = "Placa de video")
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private CategoriaProduto dsCategoria;
@@ -52,14 +47,11 @@ public class ProdutoModel {
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "cdEmpresa")
-    @Schema(description = "Código da empresa que fabrica/fornece o produto", example = "Nvidia")
     private EmpresaModel empresa;
 
     @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Schema(description = "A qual estoque pertence o produto", example = "1")
     private List<EstoqueModel> estoques;
 
     @OneToMany(mappedBy = "produto")
-    @Schema(description = "A qual item pedido pertence ", example = "1")
     private List<ItemPedidoModel> itensPedido;
 }
