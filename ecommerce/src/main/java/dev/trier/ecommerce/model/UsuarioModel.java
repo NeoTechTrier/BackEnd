@@ -25,6 +25,10 @@ public class UsuarioModel {
 
     private String nmCliente;
 
+    private String dsEmail;
+
+    private String dsSenha;
+
     private String nuCPF;
 
     private Integer nuTelefone;
