@@ -16,16 +16,13 @@ public class ItemPedidoModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(description = "Identificador único", example = "1")
     private Integer cdItemPedido;
 
     @ManyToOne
-    @Schema(description = "Identificador único", example = "1")
     @JoinColumn(name = "cdPedido")
     private PedidoModel pedido;
 
     @ManyToOne
-    @Schema(description = "Identificador único", example = "1")
     @JoinColumn(name = "cdProduto")
     private ProdutoModel produto;
 
