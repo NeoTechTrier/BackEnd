@@ -1,12 +1,13 @@
 package dev.trier.ecommerce.controller;
 
 
+import dev.trier.ecommerce.dto.empresa.CriarEmpresaRequestDto;
+import dev.trier.ecommerce.dto.empresa.CriarEmpresaResponseDto;
 import dev.trier.ecommerce.model.EmpresaModel;
 import dev.trier.ecommerce.service.EmpresaService;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,8 +23,17 @@ public class EmpresaController {
     }
 
     @GetMapping("/buscar")
-    public List<EmpresaModel> buscarProdutos(){
+    public List<EmpresaModel> buscarEmpresas(){
         return empresaService.buscarEmpresas();
     }
+
+    /*
+    @PostMapping("/cadastrar")
+    public ResponseEntity<CriarEmpresaResponseDto> cadastrarEmpresa(@RequestBody CriarEmpresaRequestDto criarEmpresaRequestDto){
+        CriarEmpresaResponseDto criar = empresaService.cadastrarEmpresa(criarEmpresaRequestDto);
+        return ResponseEntity.status(201).body(criar);
+    }
+
+     */
 
 }
