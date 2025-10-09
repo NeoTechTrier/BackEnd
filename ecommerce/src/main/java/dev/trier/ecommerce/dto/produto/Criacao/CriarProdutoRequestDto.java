@@ -4,9 +4,9 @@ import dev.trier.ecommerce.model.EmpresaModel;
 
 public record CriarProdutoRequestDto(
        String nmProduto,
-       String vlProduto,
-       String dsProduto,
+       //String dsProduto,
+       Double vlProduto,
        EmpresaModel empresaModel,
        String flAtivo
 ) {
-}
+};
