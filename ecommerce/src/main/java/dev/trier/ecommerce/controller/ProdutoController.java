@@ -22,7 +22,7 @@ public class ProdutoController {
     @Autowired
     private ProdutoService produtoService;
 
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(headers = "/criar",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ProdutoModel> criarProduto(@ModelAttribute @Valid ProdutoCriarDto dto) {  //ModelAttribute para receber multipart
         ProdutoModel produtoCriado = produtoService.criarProduto(dto);
         return ResponseEntity.status(HttpStatus.CREATED)
