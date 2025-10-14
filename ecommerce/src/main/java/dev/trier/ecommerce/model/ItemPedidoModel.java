@@ -29,9 +29,4 @@ public class ItemPedidoModel {
     private Double vlItemPedido;
 
     private Integer qtItem;
-
-
-
-
-
 }
