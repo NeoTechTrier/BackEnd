@@ -35,6 +35,10 @@ public class UsuarioModel {
 
     private String nuRG;
 
+    private String dsCidade;
+
+    private String dsEstado;
+
     private String dsEndereco;
 
     private String nuEndereco;
