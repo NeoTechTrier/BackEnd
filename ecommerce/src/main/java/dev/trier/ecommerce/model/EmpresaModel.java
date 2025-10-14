@@ -30,7 +30,7 @@ public class EmpresaModel {
     private String nmRazao;
 
     @Column(nullable = false)
-    private String nuCPNJ;
+    private String nuCNPJ;
 
     @Column(nullable = false)
     private String nuTelefone;
