@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "TBPRODUTO")
 
 public class ItemPedidoModel {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer cdItemPedido;
