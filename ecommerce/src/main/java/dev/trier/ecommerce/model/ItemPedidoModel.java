@@ -20,7 +20,6 @@ public class ItemPedidoModel {
     private Integer cdItemPedido;
 
     @ManyToOne
-    @Schema(description = "Identificador único", example = "1")
     @JoinColumn(name = "cdPedido")
     private PedidoModel pedido;
 
