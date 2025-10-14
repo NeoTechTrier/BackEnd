@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Table(name = "TBPRODUTO")
-@Schema(description = "Criação do item pedido")
+
 public class ItemPedidoModel {
 
     @Id
