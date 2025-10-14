@@ -4,17 +4,15 @@ import dev.trier.ecommerce.dto.empresa.criacao.EmpresaCriarDto;
 import dev.trier.ecommerce.model.EmpresaModel;
 import dev.trier.ecommerce.repository.EmpresaRepository;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
+@AllArgsConstructor
 @Service
 public class EmpresaService {
 
     private final EmpresaRepository empresaRepository;
 
-    public EmpresaService(EmpresaRepository empresaRepository) {
-        this.empresaRepository = empresaRepository;
-    }
-
+    @Transactional
     public EmpresaModel criarEmpresa(EmpresaCriarDto dto) {
         EmpresaModel empresaModel = new EmpresaModel();
         empresaModel.setNmFantasia(dto.nmFantasia());
@@ -24,10 +22,7 @@ public class EmpresaService {
         empresaModel.setDsEndereco(dto.dsEndereco());
         empresaModel.setNuEndereco(dto.nuEndereco());
 
-        try {
-            return empresaRepository.save(empresaModel);
-        } catch (DataIntegrityViolationException ex) {
-            throw ex;
-        }
+
+        return empresaRepository.save(empresaModel);
     }
 }
