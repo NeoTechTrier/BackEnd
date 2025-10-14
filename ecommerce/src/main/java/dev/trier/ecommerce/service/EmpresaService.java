@@ -3,7 +3,7 @@ package dev.trier.ecommerce.service;
 import dev.trier.ecommerce.dto.empresa.criacao.EmpresaCriarDto;
 import dev.trier.ecommerce.model.EmpresaModel;
 import dev.trier.ecommerce.repository.EmpresaRepository;
-import org.springframework.dao.DataIntegrityViolationException;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service
