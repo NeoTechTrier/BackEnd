@@ -33,7 +33,6 @@ public class ItemPedidoModel {
     @Column(nullable = false)
     private Double vlItemPedido;
 
-    @Schema(description = "Aqui vai ser a quantidade de itens para este pedido")
     private Integer qtItem;
 
 
