@@ -29,7 +29,6 @@ public class ItemPedidoModel {
     @JoinColumn(name = "cdProduto")
     private ProdutoModel produto;
 
-    @Schema(description = "Esse seria o somatório do item pedido", example = "1")
     @Column(nullable = false)
     private Double vlItemPedido;
 
