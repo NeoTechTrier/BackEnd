@@ -16,7 +16,6 @@ public class ItemPedidoModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(description = "Identificador único", example = "1")
     private Integer cdItemPedido;
 
     @ManyToOne
