@@ -4,6 +4,7 @@ import dev.trier.ecommerce.model.enums.UsersRole;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 @Schema(description = "DTO para criação de usuário")
 public record UsuarioCriarDto(
@@ -15,8 +16,18 @@ public record UsuarioCriarDto(
     @Schema(description = "Nome do cliente", example = "Davi Beckhauser", requiredMode = Schema.RequiredMode.REQUIRED)
     String nmCliente,
 
+    @NotBlank(message = "O Email é obrigatório.")
+    @Schema(description = "Email para login do usuário", example = "112.123.123-22", requiredMode = Schema.RequiredMode.REQUIRED)
+    String dsEmail,
+
+    @NotBlank(message = "O Email é obrigatório.")
+    @Schema(description = "Email para login do usuário", example = "112.123.123-22", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Pattern(regexp ="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$\n")
+    String dsSenha,
+
     @NotBlank(message = "O CPF é obrigatório.")
     @Schema(description = "Número de CPF", example = "112.123.123-22", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Pattern(regexp ="^(\\d{3}\\.?){3}\\-?\\d{2}$\n")
     String nuCPF,
 
     @NotNull(message = "O telefone é obrigatório.")
