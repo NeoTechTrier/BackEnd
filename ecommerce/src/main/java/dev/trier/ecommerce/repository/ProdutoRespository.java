@@ -4,9 +4,12 @@ import dev.trier.ecommerce.model.ProdutoModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Repository
 public interface ProdutoRespository extends JpaRepository<ProdutoModel, Integer> {
     Optional<ProdutoModel> findByCdProduto(Integer cdProduto);
+    Optional<ProdutoModel> findByNmProduto(String nmProduto);
+    Optional<ProdutoModel> findBydsCategoria(String dsCategoria);
 }
