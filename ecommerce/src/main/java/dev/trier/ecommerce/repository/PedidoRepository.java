@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface PedidoRepository extends JpaRepository<PedidoModel, Integer> {
-    Optional<PedidoModel> findByCdPedido (Integer cdPedido);
+    Optional<PedidoModel> findByCdPedido(Integer cdPedido);
 }

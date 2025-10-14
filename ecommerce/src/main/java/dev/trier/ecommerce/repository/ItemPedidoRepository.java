@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface ItemPedidoRepository extends JpaRepository<ItemPedidoModel, Integer> {
-    Optional<ItemPedidoModel> findByCdItemPedido (Integer cdItemPedido);
+    Optional<ItemPedidoModel> findByCdItemPedido(Integer cdItemPedido);
 }

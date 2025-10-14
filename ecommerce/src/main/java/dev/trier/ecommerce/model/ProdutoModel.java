@@ -15,32 +15,35 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Table(name = "TBPRODUTO")
+@Schema(description = "Criação do produto")
 public class ProdutoModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer cdProduto;
 
+
     @Column(nullable = false)
     private String nmProduto;
 
+
     @Column(nullable = false)
     private Double vlProduto;
+
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private CategoriaProduto dsCategoria;
 
-    @Schema(description = "Descrição do produto", example = "Placa de vídeo da nvidia feito...")
+
     @Column(nullable = false)
     private String dsProduto;
 
     @Lob
-    @Schema(description = "Imagem do produto para inserção")
     @Column(nullable = false)
     private byte[] imgProduto;
 
-    @Schema(description = "Flag indicando se o produto está ativo ou inativado", example = "'S' = ativo ")
+
     @Column(nullable = false)
     private String flAtivo = "S";
 
