@@ -6,6 +6,9 @@ import dev.trier.ecommerce.repository.EmpresaRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+
 @AllArgsConstructor
 @Service
 public class EmpresaService {
@@ -24,5 +27,9 @@ public class EmpresaService {
 
 
         return empresaRepository.save(empresaModel);
+    }
+
+    public List<EmpresaModel> listarTodos(){
+        return empresaRepository.findAll();
     }
 }
