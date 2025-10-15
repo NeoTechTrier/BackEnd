@@ -9,10 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/produto")
@@ -22,10 +21,18 @@ public class ProdutoController {
     @Autowired
     private ProdutoService produtoService;
 
-    @PostMapping(headers = "/criar",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ProdutoModel> criarProduto(@ModelAttribute @Valid ProdutoCriarDto dto) {  //ModelAttribute para receber multipart
-        ProdutoModel produtoCriado = produtoService.criarProduto(dto);
+    @PostMapping(path = "/criar",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ProdutoModel> criarProduto(@ModelAttribute @Valid ProdutoCriarDto produtoCriarDto) {  //ModelAttribute para receber multipart
+        ProdutoModel produtoCriado = produtoService.criarProduto(produtoCriarDto);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(produtoCriado);
+    }
+
+    @GetMapping(path = "listar/produto")
+    public ResponseEntity <List<ProdutoModel>> listarTodos(){
+        var lista = produtoService.listarTodos();
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(lista);
     }
 }
