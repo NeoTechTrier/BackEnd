@@ -1,12 +1,11 @@
 package dev.trier.ecommerce.controller;
 
-import dev.trier.ecommerce.dto.usuario.CriarUsuarioRequestDto;
-import dev.trier.ecommerce.dto.usuario.CriarUsuarioResponseDto;
-import dev.trier.ecommerce.exceptions.RecursoNaoEncontradoException;
+import dev.trier.ecommerce.dto.usuario.criacao.UsuarioCriarDto;
 import dev.trier.ecommerce.model.UsuarioModel;
 import dev.trier.ecommerce.service.UsuarioService;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.PushBuilder;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,57 +13,27 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/usuario")
+@RequestMapping("/usuario")
 @Tag(name = "Usuário", description = "Capacidade de criação e modificação do usuário")
 public class UsuarioController {
-    public final UsuarioService  usuarioService;
 
-    public UsuarioController(UsuarioService usuarioService) {
-        this.usuarioService = usuarioService;
-    }
+    @Autowired
+    private UsuarioService usuarioService;
 
-    @PostMapping("/cadastrar")
-    public ResponseEntity<CriarUsuarioResponseDto> cadastroUsuario(@RequestBody CriarUsuarioRequestDto criarUsuarioRequestDto) {
-        CriarUsuarioResponseDto criar = usuarioService.cadastrarUsuario(criarUsuarioRequestDto);
+
+    @PostMapping(path = "/criar")
+    public ResponseEntity<UsuarioModel> criarUsuario(@RequestBody @Valid UsuarioCriarDto usuarioCriarDto) {
+        UsuarioModel usuarioCriado = usuarioService.criarUsuario(usuarioCriarDto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(criar);
+                .body(usuarioCriado);
     }
 
-    //Precisa criar um DTO especificopara es
-    @GetMapping
-    public List<UsuarioModel> buscaerUsuario() {
-        return usuarioService.buscarUsuarios();
+    @GetMapping(path = "/listar/usuarios")
+    public ResponseEntity<List<UsuarioModel>> listarUsuarios() {
+        var lista = usuarioService.listarUsuarios();
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(lista);
     }
-
-    //Teste de Get por Codigo de usuario
-    /*
-    @GetMapping("/{id}")
-    public ResponseEntity<UsuarioModel> buscarUsuarioCodigo(@PathVariable Integer id) {
-        return usuarioService.buscarPorCodigo(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
-     */
-
-    /*
-    @GetMapping("/{cdUsuario}") //? -> irá retornar ou try ou catch
-    public ResponseEntity<?> buscarUsuarioPorId(@PathVariable Integer cdUsuario) {
-        try {
-            UsuarioModel usuarioModel = usuarioService.buscarPorCodigo(cdUsuario);
-            return ResponseEntity.ok(usuarioModel);
-        }
-        catch (RecursoNaoEncontradoException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
-    }
-     */
-    @GetMapping("/{cdUsuario}") //? -> irá retornar ou try ou catch
-    public ResponseEntity<?> buscarUsuarioPorId(@PathVariable Integer cdUsuario) {
-            UsuarioModel usuarioModel = usuarioService.buscarPorCodigo(cdUsuario);
-            return ResponseEntity.ok(usuarioModel);
-    }
-
-
-
 }

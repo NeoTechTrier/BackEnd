@@ -1,11 +1,15 @@
 package dev.trier.ecommerce.controller;
 
-import dev.trier.ecommerce.dto.produto.Criacao.CriarProdutoRequestDto;
-import dev.trier.ecommerce.dto.produto.Criacao.CriarProdutoResponseDto;
+import dev.trier.ecommerce.dto.produto.criacao.ProdutoCriarDto;
 import dev.trier.ecommerce.model.ProdutoModel;
 import dev.trier.ecommerce.service.ProdutoService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,34 +19,30 @@ import java.util.List;
 @Tag(name = "Produto", description = "Produto de criação e modificação do produto")
 public class ProdutoController {
 
-    public final ProdutoService produtoService;
+    @Autowired
+    private ProdutoService produtoService;
 
-    public ProdutoController(ProdutoService produtoService) {
-        this.produtoService = produtoService;
+    @PostMapping(path = "/criar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ProdutoModel> criarProduto(@ModelAttribute @Valid ProdutoCriarDto produtoCriarDto) {  //ModelAttribute para receber multipart
+        ProdutoModel produtoCriado = produtoService.criarProduto(produtoCriarDto);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(produtoCriado);
     }
 
-
-    @GetMapping("/buscar")
-    public List<ProdutoModel> buscarProdutos() {
-        return produtoService.buscarProdutos();
+    @GetMapping(path = "/listar/todos")
+    public ResponseEntity<List<ProdutoModel>> listarTodos() {
+        var lista = produtoService.listarProdutos();
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(lista);
     }
 
-    //ID Cliente;
-    /*
-    @GetMapping("/{id}")
-    public ProdutoModel buscarProduto(@PathVariable Integer id) {
-        return produtoService.buscarPorId(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @GetMapping("/{cdProduto}/imagem")
+    @Transactional
+    public ResponseEntity<byte[]> listarImagem(@PathVariable Integer cdProduto) {
+        ProdutoModel produto = produtoService.buscarProdutoPorId(cdProduto);
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(produto.getImgProduto());
     }
-
-     */
-    //Buscar pedido Cliente, é Produto ou Pedido?
-
-    @PostMapping("/cadastrar")
-    public ResponseEntity<CriarProdutoResponseDto>  cadastrarProduto(@RequestBody CriarProdutoRequestDto criarProdutoRequestDto) {
-        CriarProdutoResponseDto criar = produtoService.cadastrarProduto(criarProdutoRequestDto);
-        return ResponseEntity.status(201).body(criar);
-    }
-
 }
