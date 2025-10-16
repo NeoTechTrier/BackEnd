@@ -2,6 +2,7 @@ package dev.trier.ecommerce.service;
 
 import dev.trier.ecommerce.dto.usuario.CriarUsuarioRequestDto;
 import dev.trier.ecommerce.dto.usuario.CriarUsuarioResponseDto;
+import dev.trier.ecommerce.exceptions.RecursoNaoEncontradoException;
 import dev.trier.ecommerce.model.UsuarioModel;
 import dev.trier.ecommerce.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
@@ -29,16 +30,25 @@ public class UsuarioService {
     }
 
     //Metodos buscar usuario por codigo
+    /*
     public Optional<UsuarioModel> buscarPorCodigo(Integer cdUsuario) {
         return usuarioRepository.findById(cdUsuario);
     }
+     */
+
+    //teste de tratamento de exceções
+    public UsuarioModel buscarPorCodigo(Integer cdUsuario) {
+        return usuarioRepository.findById(cdUsuario)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Usuário " + cdUsuario + " não encontrado."));
+    }
+
 
 
     //Metodo cadastrar novos usurio
     public CriarUsuarioResponseDto cadastrarUsuario(CriarUsuarioRequestDto request){
 
         if (usuarioRepository.findByNuCPF(request.nuCPF()).isPresent()) {
-            throw new IllegalArgumentException("Cpf já cadastrado"); //verifique outros meios para alertar a existencia de um dado já existente.
+            throw new IllegalArgumentException("Cpf já cadastrado"); //É ideal usar exceptions para tratar o return
         }
 
         UsuarioModel usuarioModel = new UsuarioModel();

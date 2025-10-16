@@ -2,10 +2,12 @@ package dev.trier.ecommerce.controller;
 
 import dev.trier.ecommerce.dto.usuario.CriarUsuarioRequestDto;
 import dev.trier.ecommerce.dto.usuario.CriarUsuarioResponseDto;
+import dev.trier.ecommerce.exceptions.RecursoNaoEncontradoException;
 import dev.trier.ecommerce.model.UsuarioModel;
 import dev.trier.ecommerce.service.UsuarioService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.PushBuilder;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +26,9 @@ public class UsuarioController {
     @PostMapping("/cadastrar")
     public ResponseEntity<CriarUsuarioResponseDto> cadastroUsuario(@RequestBody CriarUsuarioRequestDto criarUsuarioRequestDto) {
         CriarUsuarioResponseDto criar = usuarioService.cadastrarUsuario(criarUsuarioRequestDto);
-        return ResponseEntity.status(201).body(criar);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(criar);
     }
 
     //Precisa criar um DTO especificopara es
@@ -34,11 +38,33 @@ public class UsuarioController {
     }
 
     //Teste de Get por Codigo de usuario
+    /*
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioModel> buscarUsuarioCodigo(@PathVariable Integer id) {
         return usuarioService.buscarPorCodigo(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+     */
+
+    /*
+    @GetMapping("/{cdUsuario}") //? -> irá retornar ou try ou catch
+    public ResponseEntity<?> buscarUsuarioPorId(@PathVariable Integer cdUsuario) {
+        try {
+            UsuarioModel usuarioModel = usuarioService.buscarPorCodigo(cdUsuario);
+            return ResponseEntity.ok(usuarioModel);
+        }
+        catch (RecursoNaoEncontradoException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+     */
+    @GetMapping("/{cdUsuario}") //? -> irá retornar ou try ou catch
+    public ResponseEntity<?> buscarUsuarioPorId(@PathVariable Integer cdUsuario) {
+            UsuarioModel usuarioModel = usuarioService.buscarPorCodigo(cdUsuario);
+            return ResponseEntity.ok(usuarioModel);
+    }
+
+
 
 }
