@@ -1,5 +1,6 @@
 package dev.trier.ecommerce.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,6 +35,12 @@ public class EmpresaModel {
 
     @Column(nullable = false)
     private String nuTelefone;
+
+    @Column(nullable = false)
+    private String dsCidade;
+
+    @Column(nullable = false)
+    private String dsEstado;
 
     @Column(nullable = false)
     private String dsEndereco;
