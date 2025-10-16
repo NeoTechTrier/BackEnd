@@ -27,6 +27,18 @@ public class ProdutoController {
         return produtoService.buscarProdutos();
     }
 
+    //ID Cliente;
+    /*
+    @GetMapping("/{id}")
+    public ProdutoModel buscarProduto(@PathVariable Integer id) {
+        return produtoService.buscarPorId(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+     */
+    //Buscar pedido Cliente, é Produto ou Pedido?
+
     @PostMapping("/cadastrar")
     public ResponseEntity<CriarProdutoResponseDto>  cadastrarProduto(@RequestBody CriarProdutoRequestDto criarProdutoRequestDto) {
         CriarProdutoResponseDto criar = produtoService.cadastrarProduto(criarProdutoRequestDto);
