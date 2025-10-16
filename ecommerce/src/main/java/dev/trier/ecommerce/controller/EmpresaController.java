@@ -1,5 +1,6 @@
 package dev.trier.ecommerce.controller;
 
+import dev.trier.ecommerce.dto.empresa.criacao.EmpresaCriadaRespostaDto;
 import dev.trier.ecommerce.dto.empresa.criacao.EmpresaCriarDto;
 import dev.trier.ecommerce.model.EmpresaModel;
 import dev.trier.ecommerce.service.EmpresaService;
@@ -23,8 +24,8 @@ public class EmpresaController {
 
 
     @PostMapping("/criar")
-    public ResponseEntity<EmpresaModel> criarEmpresa(@RequestBody @Valid EmpresaCriarDto empresaCriarDto){
-        EmpresaModel empresaCriado = empresaService.criarEmpresa(empresaCriarDto);
+    public ResponseEntity<EmpresaCriadaRespostaDto> criarEmpresa(@RequestBody @Valid EmpresaCriarDto empresaCriarDto){
+        EmpresaCriadaRespostaDto empresaCriado = empresaService.criarEmpresa(empresaCriarDto);
         return  ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(empresaCriado);
