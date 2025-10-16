@@ -55,4 +55,12 @@ public class ProdutoService {
     public List<ProdutoModel> listarProdutos(){
       return produtoRespository.findAll();
     }
+
+    public ProdutoModel buscarProdutoPorId(Integer cdProduto) {
+        return produtoRespository.findByCdProduto(cdProduto)
+                .orElseThrow(
+                        () -> new RuntimeException("Produto não encontrado"));
+    }
+
+
 }
