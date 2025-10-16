@@ -7,7 +7,7 @@ public record CriarUsuarioRequestDto(
         String nmCliente,
         String nuCPF,
         String dsEmail,
-        //String dsSenha,
+        String dsSenha,
         Integer nuTelefone,
         String nuRG,
         String dsEndereco,
