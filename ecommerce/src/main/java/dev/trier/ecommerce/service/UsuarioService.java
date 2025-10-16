@@ -1,7 +1,9 @@
 package dev.trier.ecommerce.service;
 
 import dev.trier.ecommerce.dto.usuario.criacao.UsuarioCriarDto;
+import dev.trier.ecommerce.exceptions.RecursoNaoEncontradoException;
 import dev.trier.ecommerce.model.UsuarioModel;
+import dev.trier.ecommerce.model.enums.UsersRole;
 import dev.trier.ecommerce.repository.UsuarioRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ public class UsuarioService {
     @Transactional
     public UsuarioModel criarUsuario(UsuarioCriarDto usuarioCriarDto){
         UsuarioModel usuarioModel = new UsuarioModel();
+        usuarioModel.setUserRole(UsersRole.valueOf("USER"));
         usuarioModel.setNmCliente(usuarioCriarDto.nmCliente());
         usuarioModel.setDsEmail(usuarioCriarDto.dsEmail());
         usuarioModel.setDsSenha(usuarioCriarDto.dsSenha());
@@ -35,4 +38,10 @@ public class UsuarioService {
     public List<UsuarioModel> listarUsuarios(){
         return usuarioRepository.findAll();
     }
+
+    public UsuarioModel listarUsuarioNome(String nmCliente){
+        return usuarioRepository.findByNmCliente(nmCliente)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Usuário " + nmCliente + " não encontrado."));
+    }
+
 }
