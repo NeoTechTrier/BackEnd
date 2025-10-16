@@ -33,4 +33,12 @@ public class UsuarioController {
         return usuarioService.buscarUsuarios();
     }
 
+    //Teste de Get por Codigo de usuario
+    @GetMapping("/{id}")
+    public ResponseEntity<UsuarioModel> buscarUsuarioCodigo(@PathVariable Integer id) {
+        return usuarioService.buscarPorCodigo(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
 }
