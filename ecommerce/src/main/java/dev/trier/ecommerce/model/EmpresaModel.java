@@ -31,7 +31,7 @@ public class EmpresaModel {
     private String nuCPNJ;
 
     @Schema(description = "Telefone da empresa", example = "11987654321")
-    private Integer nuTelefone;
+    private String nuTelefone;
 
     @Schema(description = "Descrição do endereço da empresa", example = "Rua das Flores, Bairro Central")
     private String dsEndereco;
