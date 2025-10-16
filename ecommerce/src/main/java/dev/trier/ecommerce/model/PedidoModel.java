@@ -1,5 +1,4 @@
 package dev.trier.ecommerce.model;
-
 import dev.trier.ecommerce.model.enums.FormaPagamento;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

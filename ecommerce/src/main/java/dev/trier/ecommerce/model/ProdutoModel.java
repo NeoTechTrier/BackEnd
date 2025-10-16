@@ -1,13 +1,10 @@
 package dev.trier.ecommerce.model;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import dev.trier.ecommerce.model.enums.CategoriaProduto;
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.util.List;
 
 @Entity
@@ -15,7 +12,6 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Table(name = "TBPRODUTO")
-@Schema(description = "Criação do produto")
 public class ProdutoModel {
 
     @Id

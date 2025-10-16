@@ -1,6 +1,4 @@
 package dev.trier.ecommerce.model;
-
-
 import dev.trier.ecommerce.model.enums.UsersRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

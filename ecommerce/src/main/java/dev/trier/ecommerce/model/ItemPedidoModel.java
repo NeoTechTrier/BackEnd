@@ -1,6 +1,4 @@
 package dev.trier.ecommerce.model;
-
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Table(name = "TBPRODUTO")
-
 public class ItemPedidoModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
