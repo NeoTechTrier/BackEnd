@@ -37,10 +37,9 @@ public class UsuarioService {
     //Metodo cadastrar novos usurio
     public CriarUsuarioResponseDto cadastrarUsuario(CriarUsuarioRequestDto request){
 
-        /*
-        if (usuarioRepository.existsByNuCPF(request.nuCPF())){
+        if (usuarioRepository.findByNuCPF(request.nuCPF()).isPresent()) {
+            throw new IllegalArgumentException("Cpf já cadastrado"); //verifique outros meios para alertar a existencia de um dado já existente.
         }
-         */
 
         UsuarioModel usuarioModel = new UsuarioModel();
 
@@ -49,6 +48,7 @@ public class UsuarioService {
         usuarioModel.setNmCliente(request.nmCliente());
         usuarioModel.setNuCPF(request.nuCPF());
         usuarioModel.setDsEmail(request.dsEmail());
+        usuarioModel.setDsSenha(request.dsSenha());
         usuarioModel.setNuTelefone(request.nuTelefone());
         usuarioModel.setNuRG(request.nuRG());
         usuarioModel.setDsEndereco(request.dsEndereco());
