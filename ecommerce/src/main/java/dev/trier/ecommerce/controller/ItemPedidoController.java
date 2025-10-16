@@ -1,11 +1,42 @@
 package dev.trier.ecommerce.controller;
 
+import dev.trier.ecommerce.dto.itempedido.criacao.ItemPedidoCriarDto;
+import dev.trier.ecommerce.model.ItemPedidoModel;
+import dev.trier.ecommerce.repository.ItemPedidoRepository;
+import dev.trier.ecommerce.service.ItemPedidoService;
+import dev.trier.ecommerce.service.ProdutoService;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/itempedido")
 @Tag(name = "Item Pedido", description = "Capacidade de criação e modificação do item pedido")
 public class ItemPedidoController {
+
+    @Autowired
+    private ItemPedidoService itemPedidoService;
+
+
+    @PostMapping(path = "/criar")
+    public ResponseEntity<ItemPedidoModel> criarItemPedido(@RequestBody @Valid ItemPedidoCriarDto itemPedidoCriarDto){
+        ItemPedidoModel itemPedidoModel = itemPedidoService.criarItemPedido(itemPedidoCriarDto);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(itemPedidoModel);
+    }
+
+    @GetMapping(path = "/listar/todos")
+    public ResponseEntity<List<ItemPedidoModel>> listarItemPedido() {
+        var lista = itemPedidoService.listaItemPedidos();
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(lista);
+    }
+
 }
