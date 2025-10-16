@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Table(name = "TBPRODUTO")
+@Table(name = "TBITEMPEDIDO")
 public class ItemPedidoModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
