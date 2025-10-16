@@ -21,16 +21,16 @@ public class ProdutoController {
     @Autowired
     private ProdutoService produtoService;
 
-    @PostMapping(path = "/criar",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(path = "/criar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ProdutoModel> criarProduto(@ModelAttribute @Valid ProdutoCriarDto produtoCriarDto) {  //ModelAttribute para receber multipart
         ProdutoModel produtoCriado = produtoService.criarProduto(produtoCriarDto);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(produtoCriado);
     }
 
-    @GetMapping(path = "listar/produto")
-    public ResponseEntity <List<ProdutoModel>> listarTodos(){
-        var lista = produtoService.listarTodos();
+    @GetMapping(path = "/listar/todos")
+    public ResponseEntity<List<ProdutoModel>> listarTodos() {
+        var lista = produtoService.listarProdutos();
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(lista);
