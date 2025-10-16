@@ -30,7 +30,7 @@ public class EmpresaController {
                 .body(empresaCriado);
     }
 
-    @GetMapping("/listar/empresas")
+    @GetMapping("/listar/todos")
     public ResponseEntity<List<EmpresaModel>> listar(){
         var lista = empresaService.listarTodos();
         return ResponseEntity
