@@ -36,4 +36,11 @@ public class UsuarioController {
                 .status(HttpStatus.OK)
                 .body(lista);
     }
+
+
+    @GetMapping("/{nmCliente}")
+    public ResponseEntity<?> listarUsuarioNome(@PathVariable String nmCliente) {
+        UsuarioModel usuarioModel = usuarioService.listarUsuarioNome(nmCliente);
+        return ResponseEntity.ok(usuarioModel);
+    }
 }
