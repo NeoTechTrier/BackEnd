@@ -3,7 +3,7 @@ package dev.trier.ecommerce.dto.produto.criacao;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import org.springframework.web.multipart.MultipartFile;
-
+@Schema(description = "DTO para criação de um novo produto.")
 public record ProdutoCriarDto(
 
         @Schema(description = "Nome do produto.", example = "Placa de vídeo RTX 4090", requiredMode = Schema.RequiredMode.REQUIRED)

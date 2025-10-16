@@ -18,4 +18,5 @@ public record ItemPedidoCriarDto(
         @Schema(description = "Aqui vai ser a quantidade de itens para este pedido")
         Integer qtItem
 ) {
+
 }
