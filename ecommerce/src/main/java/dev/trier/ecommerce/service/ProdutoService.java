@@ -52,7 +52,7 @@ public class ProdutoService {
         return produtoRespository.save(produtoModel);
     }
 
-    public List<ProdutoModel> listarTodos(){
+    public List<ProdutoModel> listarProdutos(){
       return produtoRespository.findAll();
     }
 }

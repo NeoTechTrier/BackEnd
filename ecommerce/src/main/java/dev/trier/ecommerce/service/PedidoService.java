@@ -7,6 +7,9 @@ import dev.trier.ecommerce.repository.PedidoRepository;
 import dev.trier.ecommerce.repository.UsuarioRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+
 @AllArgsConstructor
 @Service
 public class PedidoService {
@@ -27,5 +30,9 @@ public class PedidoService {
 
 
         return pedidoRepository.save(pedidoModel);
+    }
+
+    public List<PedidoModel> listarPedidos(){
+        return pedidoRepository.findAll();
     }
 }
