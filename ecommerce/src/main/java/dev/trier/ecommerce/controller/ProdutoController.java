@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,5 +35,14 @@ public class ProdutoController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(lista);
+    }
+
+    @GetMapping("/{cdProduto}/imagem")
+    @Transactional
+    public ResponseEntity<byte[]> listarImagem(@PathVariable Integer cdProduto) {
+        ProdutoModel produto = produtoService.buscarProdutoPorId(cdProduto);
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(produto.getImgProduto());
     }
 }
