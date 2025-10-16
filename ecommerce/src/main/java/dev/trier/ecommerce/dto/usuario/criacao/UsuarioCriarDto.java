@@ -8,9 +8,6 @@ import jakarta.validation.constraints.Pattern;
 
 @Schema(description = "DTO para criação de usuário")
 public record UsuarioCriarDto(
-    @NotNull(message = "O papel do usuário é obrigatório.")
-    @Schema(description = "Categoria do usuário", example = "User", requiredMode = Schema.RequiredMode.REQUIRED)
-    UsersRole userRole,
 
     @NotBlank(message = "O nome do cliente é obrigatório.")
     @Schema(description = "Nome do cliente", example = "Davi Beckhauser", requiredMode = Schema.RequiredMode.REQUIRED)
