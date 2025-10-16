@@ -41,6 +41,10 @@ public record UsuarioCriarDto(
     @Schema(description = "Nome da cidade", example = "Braço do Norte", requiredMode = Schema.RequiredMode.REQUIRED)
     String dsCidade,
 
+    @NotBlank(message = "O estado é obrigatório.")
+    @Schema(description = "Nome do estado", example = "Santa Catarina", requiredMode = Schema.RequiredMode.REQUIRED)
+    String dsEstado,
+
     @NotBlank(message = "O endereço é obrigatório.")
     @Schema(description = "Endereço de localização de sua moradia", example = "Travessão, estrada geral", requiredMode = Schema.RequiredMode.REQUIRED)
     String dsEndereco,
