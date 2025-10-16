@@ -13,6 +13,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
+
 @AllArgsConstructor
 @Service
 public class ItemPedidoService {
@@ -36,6 +39,12 @@ public class ItemPedidoService {
         itemPedidoModel.setPedido(pedidoModel);
         itemPedidoModel.setQtItem(itemPedidoCriarDto.qtItem());
 
-        return itemPedidoRepository.save(itemPedidoModel);
+        return  itemPedidoRepository.save(itemPedidoModel);
+
+
+    }
+
+    public List<ItemPedidoModel> listaItemPedidos() {
+        return itemPedidoRepository.findAll();
     }
 }
