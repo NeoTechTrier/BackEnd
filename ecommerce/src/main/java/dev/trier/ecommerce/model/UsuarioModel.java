@@ -29,7 +29,7 @@ public class UsuarioModel {
 
     private String nuCPF;
 
-    private Integer nuTelefone;
+    private String nuTelefone;
 
     private String nuRG;
 
