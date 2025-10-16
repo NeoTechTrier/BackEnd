@@ -24,7 +24,13 @@ public class PedidoController {
         return pedidoService.buscarPedidos();
     }
 
+    //Finalizar Pedido
 
+    //Buscar por Id
+
+    //Buscar pedido por Cliente.
+
+    //Salvar.
 
 
 }
