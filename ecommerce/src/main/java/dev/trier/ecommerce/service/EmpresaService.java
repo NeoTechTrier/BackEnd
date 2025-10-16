@@ -22,6 +22,8 @@ public class EmpresaService {
         empresaModel.setNmRazao(dto.nmRazao());
         empresaModel.setNuCNPJ(dto.nuCNPJ());
         empresaModel.setNuTelefone(dto.nuTelefone());
+        empresaModel.setDsCidade(dto.dsCidade());
+        empresaModel.setDsEstado(dto.dsEstado());
         empresaModel.setDsEndereco(dto.dsEndereco());
         empresaModel.setNuEndereco(dto.nuEndereco());
 
