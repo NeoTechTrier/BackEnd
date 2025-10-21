@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface EmpresaRepository extends JpaRepository<EmpresaModel, Integer> {
     Optional<EmpresaModel> findByCdEmpresa(Integer cdEmpresa);
-    //Optional<EmpresaModel> findByNuCnpj (String nuCnPj);
+    Optional<EmpresaModel> findByNuCNPJ (String nuCNPJ);
     Optional<EmpresaModel> findByNmRazao (String nmRazao);
     Optional<EmpresaModel> findByNmFantasia (String nmFantasia);
 
