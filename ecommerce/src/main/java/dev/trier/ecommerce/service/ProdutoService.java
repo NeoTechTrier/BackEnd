@@ -30,14 +30,12 @@ public class ProdutoService {
                 .orElseThrow(
                         () -> new RuntimeException("Empresa não encontrada para o código: " + produtoCriarDto.cdEmpresa()) // Procura empresa antes de criar o produto
                 );
-
         ProdutoModel produtoModel = new ProdutoModel();
         produtoModel.setNmProduto(produtoCriarDto.nmProduto());
         produtoModel.setVlProduto(produtoCriarDto.vlProduto());
         produtoModel.setDsCategoria(CategoriaProduto.valueOf(produtoCriarDto.dsCategoria()));
         produtoModel.setDsProduto(produtoCriarDto.dsProduto());
         produtoModel.setEmpresa(empresaModel);
-
 
 
         MultipartFile imgProduto = produtoCriarDto.imgProduto();
