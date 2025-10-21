@@ -1,6 +1,9 @@
 package dev.trier.ecommerce.controller;
 
+import dev.trier.ecommerce.dto.produto.request.UpdateRequestDto;
+import dev.trier.ecommerce.dto.produto.response.ProdutoIdResponseDto;
 import dev.trier.ecommerce.dto.produto.criacao.ProdutoCriarDto;
+import dev.trier.ecommerce.dto.produto.response.UpdateResponseDto;
 import dev.trier.ecommerce.model.ProdutoModel;
 import dev.trier.ecommerce.service.ProdutoService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -13,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/produto")
@@ -37,6 +41,7 @@ public class ProdutoController {
                 .body(lista);
     }
 
+    //Verficar lógica desse metodo get
     @GetMapping("/{cdProduto}/imagem")
     @Transactional
     public ResponseEntity<byte[]> listarImagem(@PathVariable Integer cdProduto) {
@@ -45,4 +50,24 @@ public class ProdutoController {
                 .contentType(MediaType.IMAGE_JPEG)
                 .body(produto.getImgProduto());
     }
+
+    //Endpoint para buscar dados do produto, uso de dto para definidas as entidades em get do BD
+    @GetMapping("/{cdProduto}")
+    public ResponseEntity<Optional<ProdutoIdResponseDto>> buscarProdutoId(@PathVariable Integer cdProduto) {
+        Optional<ProdutoIdResponseDto> response = produtoService.buscarProdutoId(cdProduto);
+        return ResponseEntity.ok()
+                .body(response);
+    }
+
+    @PutMapping("/update/{cdProduto}")
+    public ResponseEntity<UpdateResponseDto> atualizarProduto(@PathVariable Integer cdProduto, @Valid @RequestBody  UpdateRequestDto updateRequestDto ) {
+        try {
+            UpdateResponseDto produtoDto = produtoService.atualizarProduto(updateRequestDto,cdProduto);
+            return ResponseEntity.ok().body(produtoDto);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+
 }

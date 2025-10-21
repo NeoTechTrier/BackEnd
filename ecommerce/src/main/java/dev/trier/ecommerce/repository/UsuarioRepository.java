@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface UsuarioRepository extends JpaRepository<UsuarioModel, Integer> {
     Optional<UsuarioModel> findByCdUsuario(Integer cdUsuario);
     Optional<UsuarioModel> findByNmCliente(String nmCliente);
+    Optional<UsuarioModel> findByNuCPF(String nuCPF);
 }

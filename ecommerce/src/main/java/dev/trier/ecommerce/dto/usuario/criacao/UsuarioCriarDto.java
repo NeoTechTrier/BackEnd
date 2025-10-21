@@ -8,7 +8,6 @@ import jakarta.validation.constraints.Pattern;
 
 @Schema(description = "DTO para criação de usuário")
 public record UsuarioCriarDto(
-
     @NotBlank(message = "O nome do cliente é obrigatório.")
     @Schema(description = "Nome do cliente", example = "Davi Beckhauser", requiredMode = Schema.RequiredMode.REQUIRED)
     String nmCliente,
@@ -19,17 +18,17 @@ public record UsuarioCriarDto(
 
     @NotBlank(message = "O Email é obrigatório.")
     @Schema(description = "Email para login do usuário", example = "112.123.123-22", requiredMode = Schema.RequiredMode.REQUIRED)
-    @Pattern(regexp ="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$\n")
+    @Pattern(regexp ="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")
     String dsSenha,
 
     @NotBlank(message = "O CPF é obrigatório.")
     @Schema(description = "Número de CPF", example = "112.123.123-22", requiredMode = Schema.RequiredMode.REQUIRED)
-    @Pattern(regexp ="^(\\d{3}\\.?){3}\\-?\\d{2}$\n")
+    @Pattern(regexp ="^(\\d{3}\\.?){3}\\-?\\d{2}$")
     String nuCPF,
 
     @NotNull(message = "O telefone é obrigatório.")
     @Schema(description = "Número de telefone da pessoa", example = "48920023805", requiredMode = Schema.RequiredMode.REQUIRED)
-    Integer nuTelefone,
+    String nuTelefone,
 
     @Schema(description = "Número de RG da pessoa", example = "7510437")
     String nuRG,
