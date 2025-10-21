@@ -24,6 +24,7 @@ public class GlobalExpectionHandler {
     }
 
 
+    //Tratamento erro Global, busca automatico
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleGenericException(Exception ex) {
         Map<String, Object> body = new LinkedHashMap<>();
