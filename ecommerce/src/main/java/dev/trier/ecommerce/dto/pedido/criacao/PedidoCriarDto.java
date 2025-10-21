@@ -23,7 +23,7 @@ public record PedidoCriarDto(
 
     @NotNull(message = "O valor total do pedido é obrigatório.")
     @DecimalMin(value = "0.0", inclusive = false, message = "O valor total do pedido não pode ser negativo.")
-    @Schema(description = "Valor total do pedido incluindo frete", example = "200.00", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "Valo     r total do pedido incluindo frete", example = "200.00", requiredMode = Schema.RequiredMode.REQUIRED)
     Double vlTotalPedido
 
 ) {}
