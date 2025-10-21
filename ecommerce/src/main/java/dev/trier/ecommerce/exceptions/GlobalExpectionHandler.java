@@ -3,6 +3,7 @@ package dev.trier.ecommerce.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -13,6 +14,7 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExpectionHandler {
 
+    @CrossOrigin
     @ExceptionHandler(RecursoNaoEncontradoException.class)
     public ResponseEntity<Object> handleRecursoNaoEncontrado(RecursoNaoEncontradoException ex) {
         Map<String, Object> body = new LinkedHashMap<>();
@@ -25,6 +27,7 @@ public class GlobalExpectionHandler {
 
 
     //Tratamento erro Global, busca automatico
+    @CrossOrigin
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleGenericException(Exception ex) {
         Map<String, Object> body = new LinkedHashMap<>();
