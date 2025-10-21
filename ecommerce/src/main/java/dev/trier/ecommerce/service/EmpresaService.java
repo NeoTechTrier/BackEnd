@@ -1,6 +1,7 @@
 package dev.trier.ecommerce.service;
 
 import dev.trier.ecommerce.dto.empresa.criacao.EmpresaCriarDto;
+import dev.trier.ecommerce.exceptions.RecursoNaoEncontradoException;
 import dev.trier.ecommerce.model.EmpresaModel;
 import dev.trier.ecommerce.repository.EmpresaRepository;
 import jakarta.transaction.Transactional;
@@ -34,4 +35,11 @@ public class EmpresaService {
     public List<EmpresaModel> listarTodos(){
         return empresaRepository.findAll();
     }
+
+    //Buscar empresa por CNPJ
+    public EmpresaModel listarEmpresaCNPJ(String nuCNPJ){
+        return empresaRepository.findByNuCNPJ(nuCNPJ)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("CNPJ "+ nuCNPJ + " não encontrado."));
+    }
+    //Buscar Filial Ativa
 }
