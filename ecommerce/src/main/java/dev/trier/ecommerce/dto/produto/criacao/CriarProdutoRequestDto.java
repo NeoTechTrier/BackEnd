@@ -1,4 +1,4 @@
-package dev.trier.ecommerce.dto.produto.Criacao;
+package dev.trier.ecommerce.dto.produto.criacao;
 
 import dev.trier.ecommerce.model.EmpresaModel;
 
