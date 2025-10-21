@@ -38,4 +38,11 @@ public class EmpresaController {
                 .status(HttpStatus.OK)
                 .body(lista);
     }
+
+    //Get com possivel unutilidade, verificar em que situação será necessario
+    @GetMapping("/{nuCNPJ}")
+    public ResponseEntity<?> listarEmpresaCNPJ(@PathVariable String nuCNPJ){
+        EmpresaModel empresaModel= empresaService.listarEmpresaCNPJ(nuCNPJ);
+        return ResponseEntity.ok(empresaModel);
+    }
 }

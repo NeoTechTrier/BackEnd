@@ -35,4 +35,6 @@ public class PedidoService {
     public List<PedidoModel> listarPedidos(){
         return pedidoRepository.findAll();
     }
+
+    //Metodo para rebombe
 }
