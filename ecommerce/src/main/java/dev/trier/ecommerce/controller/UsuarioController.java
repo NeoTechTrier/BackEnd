@@ -2,7 +2,6 @@ package dev.trier.ecommerce.controller;
 
 import dev.trier.ecommerce.dto.usuario.criacao.UsuarioCriarDto;
 import dev.trier.ecommerce.dto.usuario.criacao.UsuarioResponseDto;
-import dev.trier.ecommerce.model.UsuarioModel;
 import dev.trier.ecommerce.service.UsuarioService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -42,6 +41,7 @@ public class UsuarioController {
      */
 
     //Funcioando
+    @CrossOrigin
     @GetMapping(path = "/listar/usuarios")
     public ResponseEntity<List<UsuarioResponseDto>> listarUsuarios() {
         return ResponseEntity.ok().body(usuarioService.listarUsuarios());
@@ -55,14 +55,14 @@ public class UsuarioController {
  */
 
     //IMCOMPLETO
+    @CrossOrigin
     @GetMapping("/{cdCliente}")
     public Optional<UsuarioResponseDto>  listarCdUsuario(@PathVariable Integer cdCliente) {
         return usuarioService.listarCdUsuario(cdCliente);
     }
 
 
-
-
+    @CrossOrigin
     @GetMapping("/nome/{nmCliente}")
     public ResponseEntity<?> listarUsuarioNome(@PathVariable String nmCliente) {
         Optional<UsuarioResponseDto> usuario = usuarioService.listarUsuarioNome(nmCliente);
