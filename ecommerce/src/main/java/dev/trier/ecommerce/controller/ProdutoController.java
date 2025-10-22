@@ -63,12 +63,9 @@ public class ProdutoController {
     }
 
     //Verficar lógica desse metodo get
-<<<<<<< HEAD
-    @GetMapping(path = "/{cdProduto}/imagem")
-=======
+
     @CrossOrigin
-    @GetMapping("/{cdProduto}/imagem")
->>>>>>> Maicon
+    @GetMapping(path = "/{cdProduto}/imagem")
     @Transactional
     public ResponseEntity<byte[]> listarImagem(@PathVariable Integer cdProduto) {
         ProdutoModel produto = produtoService.buscarProdutoPorId(cdProduto);
@@ -78,21 +75,15 @@ public class ProdutoController {
     }
 
     //Endpoint para buscar dados do produto, uso de dto para definidas as entidades em get do BD
-<<<<<<< HEAD
-    @GetMapping(path = "/{cdProduto}")
-=======
+
+
     @CrossOrigin
-    @GetMapping("/{cdProduto}")
->>>>>>> Maicon
+    @GetMapping(path = "/{cdProduto}")
     public ResponseEntity<Optional<ProdutoIdResponseDto>> buscarProdutoId(@PathVariable Integer cdProduto) {
         Optional<ProdutoIdResponseDto> response = produtoService.buscarProdutoId(cdProduto);
         return ResponseEntity.ok()
                 .body(response);
     }
-
-<<<<<<< HEAD
-    @PutMapping(path = "/update/{cdProduto}")
-=======
 
     @CrossOrigin
     @GetMapping("/{nmProduto}")
@@ -102,9 +93,7 @@ public class ProdutoController {
                 .body(response);
     }
 
-
     @PutMapping("/update/{cdProduto}")
->>>>>>> Maicon
     public ResponseEntity<UpdateResponseDto> atualizarProduto(@PathVariable Integer cdProduto, @Valid @RequestBody  UpdateRequestDto updateRequestDto ) {
         try {
             UpdateResponseDto produtoDto = produtoService.atualizarProduto(updateRequestDto,cdProduto);
@@ -113,7 +102,5 @@ public class ProdutoController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
-
-
 
 }
