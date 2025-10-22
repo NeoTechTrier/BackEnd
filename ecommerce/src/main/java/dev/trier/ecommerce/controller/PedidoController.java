@@ -15,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/pedido")
 @Tag(name = "Pedido", description = "Capacidade de criação e modificação do pedido")
+@CrossOrigin("*")
 public class PedidoController {
 
     @Autowired

@@ -1,5 +1,7 @@
 package dev.trier.ecommerce.service;
 
+import dev.trier.ecommerce.dto.empresa.criacao.EmpresaCriadaRespostaDto;
+import dev.trier.ecommerce.dto.estoque.criacao.EstoqueCriadoRespostaDto;
 import dev.trier.ecommerce.dto.estoque.criacao.EstoqueCriarDto;
 import dev.trier.ecommerce.model.EstoqueModel;
 import dev.trier.ecommerce.model.ProdutoModel;
@@ -21,7 +23,7 @@ public class EstoqueService {
     private final ProdutoRespository produtoRespository;
 
     @Transactional
-    public EstoqueModel criarEstoque(EstoqueCriarDto estoqueCriarDto) {
+    public EstoqueCriadoRespostaDto criarEstoque(EstoqueCriarDto estoqueCriarDto) {
 
         ProdutoModel produtoModel = produtoRespository.findById(estoqueCriarDto.cdProduto())
                 .orElseThrow(
@@ -30,8 +32,14 @@ public class EstoqueService {
         EstoqueModel estoqueModel = new EstoqueModel();
         estoqueModel.setProduto(produtoModel);
         estoqueModel.setQtdEstoqueProduto(estoqueCriarDto.qtdEstoqueProduto());
+        EstoqueModel salvar = estoqueRepository.save(estoqueModel);
 
-        return estoqueRepository.save(estoqueModel);
+        return new EstoqueCriadoRespostaDto(
+            salvar.getCdEstoque(),
+                salvar.getProduto().getCdProduto(),
+                salvar.getProduto().getNmProduto(),
+                salvar.getQtdEstoqueProduto()
+        );
 
     }
 

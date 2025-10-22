@@ -1,5 +1,6 @@
 package dev.trier.ecommerce.controller;
 
+import dev.trier.ecommerce.dto.estoque.criacao.EstoqueCriadoRespostaDto;
 import dev.trier.ecommerce.dto.estoque.criacao.EstoqueCriarDto;
 import dev.trier.ecommerce.model.EstoqueModel;
 import dev.trier.ecommerce.repository.EstoqueRepository;
@@ -16,14 +17,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/estoque")
 @Tag(name = "Estoque", description = "Capacidade de criação e modificação do estoque")
+@CrossOrigin("*")
 public class EstoqueController {
 
     @Autowired
     private EstoqueService estoqueService;
 
     @PostMapping(path = "/criar")
-    public ResponseEntity<EstoqueModel> criarEstoque(@RequestBody @Valid EstoqueCriarDto estoqueCriarDto) {
-        EstoqueModel estoqueCriado = estoqueService.criarEstoque(estoqueCriarDto);
+    public ResponseEntity<EstoqueCriadoRespostaDto> criarEstoque(@RequestBody @Valid EstoqueCriarDto estoqueCriarDto) {
+        EstoqueCriadoRespostaDto estoqueCriado = estoqueService.criarEstoque(estoqueCriarDto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(estoqueCriado);
@@ -35,5 +37,7 @@ public class EstoqueController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(lista);
+
+
     }
 }

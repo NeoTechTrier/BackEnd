@@ -1,5 +1,6 @@
 package dev.trier.ecommerce.service;
 
+import dev.trier.ecommerce.dto.empresa.criacao.EmpresaCriadaRespostaDto;
 import dev.trier.ecommerce.dto.empresa.criacao.EmpresaCriarDto;
 import dev.trier.ecommerce.exceptions.RecursoNaoEncontradoException;
 import dev.trier.ecommerce.model.EmpresaModel;
@@ -17,29 +18,35 @@ public class EmpresaService {
     private final EmpresaRepository empresaRepository;
 
     @Transactional
-    public EmpresaModel criarEmpresa(EmpresaCriarDto dto) {
+    public EmpresaCriadaRespostaDto criarEmpresa(EmpresaCriarDto empresadto) {
         EmpresaModel empresaModel = new EmpresaModel();
-        empresaModel.setNmFantasia(dto.nmFantasia());
-        empresaModel.setNmRazao(dto.nmRazao());
-        empresaModel.setNuCNPJ(dto.nuCNPJ());
-        empresaModel.setNuTelefone(dto.nuTelefone());
-        empresaModel.setDsCidade(dto.dsCidade());
-        empresaModel.setDsEstado(dto.dsEstado());
-        empresaModel.setDsEndereco(dto.dsEndereco());
-        empresaModel.setNuEndereco(dto.nuEndereco());
+        empresaModel.setNmFantasia(empresadto.nmFantasia());
+        empresaModel.setNmRazao(empresadto.nmRazao());
+        empresaModel.setNuCNPJ(empresadto.nuCNPJ());
+        empresaModel.setNuTelefone(empresadto.nuTelefone());
+        empresaModel.setDsCidade(empresadto.dsCidade());
+        empresaModel.setDsEstado(empresadto.dsEstado());
+        empresaModel.setDsEndereco(empresadto.dsEndereco());
+        empresaModel.setNuEndereco(empresadto.nuEndereco());
+        EmpresaModel salvar = empresaRepository.save(empresaModel);
 
 
-        return empresaRepository.save(empresaModel);
+
+        return new EmpresaCriadaRespostaDto(
+                salvar.getNmFantasia(),
+                salvar.getNmRazao(),
+                salvar.getNuCNPJ()
+        );
     }
 
     public List<EmpresaModel> listarTodos(){
         return empresaRepository.findAll();
     }
 
-    //Buscar empresa por CNPJ
+
     public EmpresaModel listarEmpresaCNPJ(String nuCNPJ){
         return empresaRepository.findByNuCNPJ(nuCNPJ)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("CNPJ "+ nuCNPJ + " não encontrado."));
     }
-    //Buscar Filial Ativa
+
 }
