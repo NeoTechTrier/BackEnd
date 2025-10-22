@@ -1,5 +1,6 @@
 package dev.trier.ecommerce.controller;
 
+import dev.trier.ecommerce.dto.estoque.criacao.EstoqueCriadoRespostaDto;
 import dev.trier.ecommerce.dto.estoque.criacao.EstoqueCriarDto;
 import dev.trier.ecommerce.model.EstoqueModel;
 import dev.trier.ecommerce.repository.EstoqueRepository;
@@ -22,8 +23,8 @@ public class EstoqueController {
     private EstoqueService estoqueService;
 
     @PostMapping(path = "/criar")
-    public ResponseEntity<EstoqueModel> criarEstoque(@RequestBody @Valid EstoqueCriarDto estoqueCriarDto) {
-        EstoqueModel estoqueCriado = estoqueService.criarEstoque(estoqueCriarDto);
+    public ResponseEntity<EstoqueCriadoRespostaDto> criarEstoque(@RequestBody @Valid EstoqueCriarDto estoqueCriarDto) {
+        EstoqueCriadoRespostaDto estoqueCriado = estoqueService.criarEstoque(estoqueCriarDto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(estoqueCriado);

@@ -1,5 +1,6 @@
 package dev.trier.ecommerce.service;
 
+import dev.trier.ecommerce.dto.itempedido.criacao.ItemPedidoCriadoRespostaDto;
 import dev.trier.ecommerce.dto.itempedido.criacao.ItemPedidoCriarDto;
 import dev.trier.ecommerce.model.ItemPedidoModel;
 import dev.trier.ecommerce.model.PedidoModel;
@@ -26,7 +27,7 @@ public class ItemPedidoService {
     private final EstoqueRepository estoqueRepository;
 
     @Transactional
-    public ItemPedidoModel criarItemPedido(ItemPedidoCriarDto itemPedidoCriarDto) {
+    public ItemPedidoCriadoRespostaDto criarItemPedido(ItemPedidoCriarDto itemPedidoCriarDto) {
         ProdutoModel produtoModel = produtoRespository.findById(itemPedidoCriarDto.cdProduto())
                 .orElseThrow(
                         () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado para o código: " + itemPedidoCriarDto.cdProduto()));  //Procura cdProduto antes de criar no ItemPedido
@@ -39,7 +40,17 @@ public class ItemPedidoService {
         itemPedidoModel.setPedido(pedidoModel);
         itemPedidoModel.setQtItem(itemPedidoCriarDto.qtItem());
 
-        return  itemPedidoRepository.save(itemPedidoModel);
+        ItemPedidoModel salvar=  itemPedidoRepository.save(itemPedidoModel);
+
+
+        return new ItemPedidoCriadoRespostaDto(
+                salvar.getCdItemPedido(),
+                salvar.getPedido().getCdPedido(),
+                salvar.getProduto().getCdProduto(),
+                salvar.getVlItemPedido(),
+                salvar.getQtItem()
+
+        );
 
 
     }
