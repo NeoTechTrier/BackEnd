@@ -51,7 +51,6 @@ public class UsuarioService {
     }
 
 
-
     //Deu Certo
     public List<UsuarioResponseDto> listarUsuarios(){
         return usuarioRepository.findAll() 
@@ -66,11 +65,6 @@ public class UsuarioService {
                 .collect(Collectors.toList()) ;
     }
 
-
-
-
-
-
     public Optional<UsuarioResponseDto> listarUsuarioNome(String nmCliente){
        return usuarioRepository.findByNmCliente(nmCliente)
                .map(usuario -> new UsuarioResponseDto(
@@ -82,7 +76,6 @@ public class UsuarioService {
                ));
                // .orElseThrow(() -> new RecursoNaoEncontradoException("Usuário " + nmCliente + " não encontrado."));
     }
-
 
     public Optional<UsuarioResponseDto> listarUsuarioCPF(String nuCPF){
         return  usuarioRepository.findByNuCPF(nuCPF)
@@ -96,10 +89,4 @@ public class UsuarioService {
        // .orElseThrow(() -> new RecursoNaoEncontradoException(nuCPF + "não encontrado."));
 
     }
-
-
-
-
-
-
 }
