@@ -17,9 +17,9 @@ public record ProdutoCriarDto(
         @Positive(message = "Valor do produto precisa ser positivo")
         Double vlProduto,
 
-        @Schema(description = "Categoria do produto. Escritas válidas: PLACA_DE_VIDEO, PROCESSADOR, RAM, HEADSET, TECLADO, MOUSE, MONITOR.", example = "PLACA_DE_VIDEO", requiredMode = Schema.RequiredMode.REQUIRED)
+        @Schema(description = "Categoria do produto. Escritas válidas: PERIFERICOS,PROCESSADOR,RAM e GABINETE", example = "PROCESSADOR", requiredMode = Schema.RequiredMode.REQUIRED)
         @NotBlank(message = "Obrigatório preenchimento da categoria")
-        @Pattern(regexp = "^(PLACADEVIDEO|PROCESSADOR|RAM|HEADSET|TECLADO|MOUSE|MONITOR)$", message = "Equipamento inválido. As opções válidas são: PLACA_DE_VIDEO, PROCESSADOR, RAM, HEADSET, TECLADO, MOUSE, MONITOR.")
+        @Pattern(regexp = "^(PROCESSADOR|RAM|PERIFERICOS|GABINETE)$", message = "Equipamento inválido. As opções válidas são: PLACA_DE_VIDEO, PROCESSADOR, RAM, HEADSET, TECLADO, MOUSE, MONITOR.")
         String dsCategoria,
 
         @NotBlank(message = "Obrigatório a descrição do produto")

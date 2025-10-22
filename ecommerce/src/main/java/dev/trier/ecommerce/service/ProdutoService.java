@@ -57,6 +57,18 @@ public class ProdutoService {
       return produtoRespository.findAll();
     }
 
+    public List<ProdutoIdResponseDto> listarProdutosPorCategoria(String categoria) {
+        CategoriaProduto cat = CategoriaProduto.fromString(categoria);
+        return produtoRespository.findAllByDsCategoria(cat).stream()
+                .map(produto -> new ProdutoIdResponseDto(
+                        produto.nmProduto(),
+                        produto.vlProduto(),
+                        produto.dsProduto(),
+                        produto.categoria()
+                ))
+                .toList();
+    }
+
     public ProdutoModel buscarProdutoPorId(Integer cdProduto) {
         return produtoRespository.findByCdProduto(cdProduto)
                 .orElseThrow(
@@ -69,7 +81,8 @@ public class ProdutoService {
                 .map(produto -> new ProdutoIdResponseDto(
                         produto.getNmProduto(),
                         produto.getVlProduto(),
-                        produto.getDsProduto()
+                        produto.getDsProduto(),
+                        produto.getDsCategoria()
                         ));
 
                 //.orElseThrow(() -> new RuntimeException("Produto não encontrado"));

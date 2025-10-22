@@ -17,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/empresa")
 @Tag(name = "Empresa", description = "Capacidade de criação e modificação da empresa")
+@CrossOrigin("*")
 public class EmpresaController {
 
     @Autowired

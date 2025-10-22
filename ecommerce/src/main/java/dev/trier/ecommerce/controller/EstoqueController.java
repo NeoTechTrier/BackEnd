@@ -17,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/estoque")
 @Tag(name = "Estoque", description = "Capacidade de criação e modificação do estoque")
+@CrossOrigin("*")
 public class EstoqueController {
 
     @Autowired
