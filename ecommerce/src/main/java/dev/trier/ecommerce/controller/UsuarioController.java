@@ -17,6 +17,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/usuario")
 @Tag(name = "Usuário", description = "Capacidade de criação e modificação do usuário")
+@CrossOrigin("*")
 public class UsuarioController {
 
     @Autowired
