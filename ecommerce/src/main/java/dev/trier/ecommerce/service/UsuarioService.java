@@ -2,12 +2,10 @@ package dev.trier.ecommerce.service;
 
 import dev.trier.ecommerce.dto.usuario.criacao.UsuarioCriarDto;
 import dev.trier.ecommerce.dto.usuario.criacao.UsuarioResponseDto;
-import dev.trier.ecommerce.exceptions.RecursoNaoEncontradoException;
 import dev.trier.ecommerce.model.UsuarioModel;
 import dev.trier.ecommerce.model.enums.UsersRole;
 import dev.trier.ecommerce.repository.UsuarioRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,8 +19,9 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
 
+
     @Transactional
-    public UsuarioModel criarUsuario(UsuarioCriarDto usuarioCriarDto){
+    public UsuarioResponseDto criarUsuario(UsuarioCriarDto usuarioCriarDto){
         UsuarioModel usuarioModel = new UsuarioModel();
         usuarioModel.setUserRole(UsersRole.valueOf("USER"));
         usuarioModel.setNmCliente(usuarioCriarDto.nmCliente());
@@ -35,8 +34,15 @@ public class UsuarioService {
         usuarioModel.setNuTelefone(usuarioCriarDto.nuTelefone());
         usuarioModel.setDsEndereco(usuarioCriarDto.dsEndereco());
         usuarioModel.setNuEndereco(usuarioCriarDto.nuEndereco());
+        UsuarioModel salvo = usuarioRepository.save(usuarioModel);
 
-        return usuarioRepository.save(usuarioModel);
+        return new UsuarioResponseDto(
+                salvo.getNmCliente(),
+                salvo.getDsEmail(),
+                salvo.getNuTelefone(),
+                salvo.getDsCidade(),
+                salvo.getFlAtivo()
+        );
     }
 
     public Optional<UsuarioResponseDto> listarCdUsuario(Integer cdUsuario){
