@@ -1,15 +1,11 @@
 package dev.trier.ecommerce.service;
 
-import dev.trier.ecommerce.dto.usuario.CriarUsuarioRequestDto;
-import dev.trier.ecommerce.dto.usuario.CriarUsuarioResponseDto;
 import dev.trier.ecommerce.dto.usuario.criacao.UsuarioCriarDto;
 import dev.trier.ecommerce.dto.usuario.criacao.UsuarioResponseDto;
-import dev.trier.ecommerce.exceptions.RecursoNaoEncontradoException;
 import dev.trier.ecommerce.model.UsuarioModel;
 import dev.trier.ecommerce.model.enums.UsersRole;
 import dev.trier.ecommerce.repository.UsuarioRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
