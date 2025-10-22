@@ -1,8 +1,10 @@
 package dev.trier.ecommerce.controller;
 
+import dev.trier.ecommerce.dto.produto.criacao.CriarProdutoResponseDto;
 import dev.trier.ecommerce.dto.produto.request.UpdateRequestDto;
 import dev.trier.ecommerce.dto.produto.response.ProdutoIdResponseDto;
 import dev.trier.ecommerce.dto.produto.criacao.ProdutoCriarDto;
+import dev.trier.ecommerce.dto.produto.response.ProdutoNomeResponseDto;
 import dev.trier.ecommerce.dto.produto.response.UpdateResponseDto;
 import dev.trier.ecommerce.model.ProdutoModel;
 import dev.trier.ecommerce.service.ProdutoService;
@@ -33,6 +35,18 @@ public class ProdutoController {
                 .body(produtoCriado);
     }
 
+/*
+//EM TESTE EXEMPLO
+    @PostMapping(path = "/criar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<CriarProdutoResponseDto> criarProduto(@ModelAttribute @Valid ProdutoCriarDto produtoCriarDto) {  //ModelAttribute para receber multipart
+        CriarProdutoResponseDto CriarProdutoResponseDto = produtoService.criarProduto(produtoCriarDto);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(CriarProdutoResponseDto);
+    }
+
+ */
+
+    @CrossOrigin
     @GetMapping(path = "/listar/todos")
     public ResponseEntity<List<ProdutoModel>> listarTodos() {
         var lista = produtoService.listarProdutos();
@@ -42,6 +56,7 @@ public class ProdutoController {
     }
 
     //Verficar lógica desse metodo get
+    @CrossOrigin
     @GetMapping("/{cdProduto}/imagem")
     @Transactional
     public ResponseEntity<byte[]> listarImagem(@PathVariable Integer cdProduto) {
@@ -52,12 +67,23 @@ public class ProdutoController {
     }
 
     //Endpoint para buscar dados do produto, uso de dto para definidas as entidades em get do BD
+    @CrossOrigin
     @GetMapping("/{cdProduto}")
     public ResponseEntity<Optional<ProdutoIdResponseDto>> buscarProdutoId(@PathVariable Integer cdProduto) {
         Optional<ProdutoIdResponseDto> response = produtoService.buscarProdutoId(cdProduto);
         return ResponseEntity.ok()
                 .body(response);
     }
+
+
+    @CrossOrigin
+    @GetMapping("/{nmProduto}")
+    public ResponseEntity<Optional<ProdutoNomeResponseDto>> listarProdutoNome(@PathVariable String nmProduto) {
+        Optional<ProdutoNomeResponseDto> response = produtoService.listarProdutoNome(nmProduto);
+        return ResponseEntity.ok()
+                .body(response);
+    }
+
 
     @PutMapping("/update/{cdProduto}")
     public ResponseEntity<UpdateResponseDto> atualizarProduto(@PathVariable Integer cdProduto, @Valid @RequestBody  UpdateRequestDto updateRequestDto ) {
@@ -68,6 +94,7 @@ public class ProdutoController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
+
 
 
 }
