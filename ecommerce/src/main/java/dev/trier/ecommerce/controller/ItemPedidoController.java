@@ -1,5 +1,6 @@
 package dev.trier.ecommerce.controller;
 
+import dev.trier.ecommerce.dto.itempedido.criacao.ItemPedidoCriadoRespostaDto;
 import dev.trier.ecommerce.dto.itempedido.criacao.ItemPedidoCriarDto;
 import dev.trier.ecommerce.model.ItemPedidoModel;
 import dev.trier.ecommerce.repository.ItemPedidoRepository;
@@ -25,8 +26,8 @@ public class ItemPedidoController {
 
 
     @PostMapping(path = "/criar")
-    public ResponseEntity<ItemPedidoModel> criarItemPedido(@RequestBody @Valid ItemPedidoCriarDto itemPedidoCriarDto){
-        ItemPedidoModel itemPedidoModel = itemPedidoService.criarItemPedido(itemPedidoCriarDto);
+    public ResponseEntity<ItemPedidoCriadoRespostaDto> criarItemPedido(@RequestBody @Valid ItemPedidoCriarDto itemPedidoCriarDto){
+        ItemPedidoCriadoRespostaDto itemPedidoModel = itemPedidoService.criarItemPedido(itemPedidoCriarDto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(itemPedidoModel);
