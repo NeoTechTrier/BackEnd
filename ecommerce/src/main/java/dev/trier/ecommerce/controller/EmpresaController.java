@@ -5,6 +5,7 @@ import dev.trier.ecommerce.dto.empresa.criacao.EmpresaCriarDto;
 import dev.trier.ecommerce.model.EmpresaModel;
 import dev.trier.ecommerce.service.EmpresaService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ public class EmpresaController {
     }
 
     @GetMapping("/listar/todos")
+    @Transactional
     public ResponseEntity<List<EmpresaModel>> listar(){
         var lista = empresaService.listarTodos();
         return ResponseEntity
@@ -41,9 +43,11 @@ public class EmpresaController {
     }
 
     //Get com possivel unutilidade, verificar em que situação será necessario
-    @GetMapping("/{nuCNPJ}")
+    @GetMapping("/listarCNPJ/{nuCNPJ}")
     public ResponseEntity<?> listarEmpresaCNPJ(@PathVariable String nuCNPJ){
         EmpresaModel empresaModel= empresaService.listarEmpresaCNPJ(nuCNPJ);
         return ResponseEntity.ok(empresaModel);
     }
+
+//    @PutMapping(path = "/modificar")
 }
