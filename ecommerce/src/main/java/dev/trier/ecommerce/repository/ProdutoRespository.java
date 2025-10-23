@@ -16,6 +16,9 @@ public interface ProdutoRespository extends JpaRepository<ProdutoModel, Integer>
     Optional<ProdutoModel> findByCdProduto(Integer cdProduto);
     Optional<ProdutoModel> findByNmProduto(String nmProduto);
 
+
+
+
     @Query("SELECT new dev.trier.ecommerce.dto.produto.response.ProdutoIdResponseDto(" +
             "p.nmProduto, p.vlProduto, p.dsProduto, p.dsCategoria) " +
             "FROM ProdutoModel p WHERE p.dsCategoria = :categoria")
