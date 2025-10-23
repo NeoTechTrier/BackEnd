@@ -38,6 +38,5 @@ public class EstoqueController {
                 .status(HttpStatus.OK)
                 .body(lista);
 
-
     }
 }
