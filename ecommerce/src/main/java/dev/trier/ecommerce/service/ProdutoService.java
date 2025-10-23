@@ -1,11 +1,10 @@
 package dev.trier.ecommerce.service;
 
 
+import dev.trier.ecommerce.dto.produto.criacao.CriarProdutoResponseDto;
 import dev.trier.ecommerce.dto.produto.request.UpdateRequestDto;
 
-import dev.trier.ecommerce.dto.produto.response.ProdutoIdResponseDto;
-import dev.trier.ecommerce.dto.produto.response.ProdutoNomeResponseDto;
-import dev.trier.ecommerce.dto.produto.response.UpdateResponseDto;
+import dev.trier.ecommerce.dto.produto.response.*;
 import dev.trier.ecommerce.dto.produto.criacao.ProdutoCriarDto;
 import dev.trier.ecommerce.exceptions.RecursoNaoEncontradoException;
 import dev.trier.ecommerce.model.EmpresaModel;
@@ -21,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -31,7 +31,7 @@ public class ProdutoService {
     private final EmpresaRepository empresaRepository;
 
     @Transactional
-    public ProdutoModel criarProduto(ProdutoCriarDto produtoCriarDto) {
+    public CriarProdutoResponseDto criarProduto(ProdutoCriarDto produtoCriarDto) {
         EmpresaModel empresaModel = empresaRepository.findById(produtoCriarDto.cdEmpresa())
                 .orElseThrow(
                         () -> new RuntimeException("Empresa não encontrada para o código: " + produtoCriarDto.cdEmpresa()) // Procura empresa antes de criar o produto
@@ -52,8 +52,15 @@ public class ProdutoService {
                 throw new RuntimeException("Erro ao processar imagem do produto", e);
             }
         }
-
-        return produtoRespository.save(produtoModel);
+        ProdutoModel salvo = produtoRespository.save(produtoModel);
+        return new CriarProdutoResponseDto(
+                salvo.getNmProduto(),
+                salvo.getVlProduto(),
+                salvo.getDsCategoria(),
+                salvo.getDsProduto(),
+                salvo.getImgProduto(),
+                salvo.getCdProduto()
+        );
     }
 
 
@@ -98,13 +105,25 @@ public class ProdutoService {
         );
     }
 
+   public List<ProdutoModel> listarProdutos(){
+      return produtoRespository.findAll();
+    }
      */
 
 
-
-
-    public List<ProdutoModel> listarProdutos(){
-      return produtoRespository.findAll();
+    //Vericar os dados do DTO
+    public List<ListarProdutosResponseDto> listarProdutos(){
+      return produtoRespository.findAll()
+              .stream()
+              .map(produto -> new ListarProdutosResponseDto(
+                      produto.getNmProduto(),
+                      produto.getVlProduto(),
+                      produto.getDsCategoria().toString(),
+                      produto.getDsProduto(),
+                      produto.getImgProduto(),
+                      produto.getEmpresa().getCdEmpresa()
+              ))
+              .collect(Collectors.toList());
     }
 
     public List<ProdutoIdResponseDto> listarProdutosPorCategoria(String categoria) {
@@ -119,11 +138,28 @@ public class ProdutoService {
                 .toList();
     }
 
+    //---------------------------------------------------------------------------------
+
+    //Provavel GET busca Imagem
     public ProdutoModel buscarProdutoPorId(Integer cdProduto) {
         return produtoRespository.findByCdProduto(cdProduto)
                 .orElseThrow(
                         () -> new RuntimeException("Produto não encontrado"));
     }
+
+    /*
+    //Metodos para o endpoint de imagem pelo DTO
+    public Optional<ListarImagemCdProdutoDto> lsitarImagemCdProduto(Integer cdProduto) {
+        return produtoRespository.findByCdProduto(cdProduto)
+                .map(produto -> new ListarImagemCdProdutoDto(
+                        produto.getImgProduto()
+                ));
+    }
+
+     */
+
+    //---------------------------------------------------------------------------------
+
 
 
     public Optional<ProdutoIdResponseDto> buscarProdutoId(Integer cdProduto) {
