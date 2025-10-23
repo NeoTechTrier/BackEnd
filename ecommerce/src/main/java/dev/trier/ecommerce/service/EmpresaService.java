@@ -39,6 +39,7 @@ public class EmpresaService {
         );
     }
 
+    @Transactional
     public List<EmpresaModel> listarTodos(){
         return empresaRepository.findAll();
     }
@@ -48,5 +49,8 @@ public class EmpresaService {
         return empresaRepository.findByNuCNPJ(nuCNPJ)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("CNPJ "+ nuCNPJ + " não encontrado."));
     }
+
+
+
 
 }
