@@ -17,6 +17,7 @@ public class PedidoService {
     private final PedidoRepository pedidoRepository;
     private final UsuarioRepository usuarioRepository;
 
+    //Metodo Criar Pedido
     public PedidoModel criarPedido(PedidoCriarDto pedidoCriarDto){
         UsuarioModel usarioModel = usuarioRepository.findById(pedidoCriarDto.cdUsuario()).orElseThrow(
                 () -> new RuntimeException("Usuário não encontrado para o código: " + pedidoCriarDto.cdUsuario()) // Procura usuário antes de criar o pedidoCriarDto
@@ -32,9 +33,13 @@ public class PedidoService {
         return pedidoRepository.save(pedidoModel);
     }
 
+    //Metodo Listar Pedidos //SOMENTE PARA ADMIN
     public List<PedidoModel> listarPedidos(){
         return pedidoRepository.findAll();
     }
 
-    //Metodo para rebombe
+    //Metodo Finalizar Pedido
+
+
+    //Metodo Retirar Produto do Carrinho (Verificar se é em Pedido ou ItemPedido)
 }
