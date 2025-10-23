@@ -2,6 +2,7 @@ package dev.trier.ecommerce.service;
 
 import dev.trier.ecommerce.dto.empresa.criacao.EmpresaCriadaRespostaDto;
 import dev.trier.ecommerce.dto.empresa.criacao.EmpresaCriarDto;
+import dev.trier.ecommerce.dto.empresa.criacao.response.ListarEmpresasResponseDto;
 import dev.trier.ecommerce.exceptions.RecursoNaoEncontradoException;
 import dev.trier.ecommerce.model.EmpresaModel;
 import dev.trier.ecommerce.repository.EmpresaRepository;
@@ -39,8 +40,19 @@ public class EmpresaService {
         );
     }
 
-    public List<EmpresaModel> listarTodos(){
-        return empresaRepository.findAll();
+    public List<ListarEmpresasResponseDto> listarTodos(){
+        return empresaRepository.findAll()
+                .stream()
+                .map(empresa -> new ListarEmpresasResponseDto(
+                        empresa.getNmFantasia(),
+                        empresa.getNmRazao(),
+                        empresa.getNuCNPJ(),
+                        empresa.getNuTelefone(),
+                        empresa.getDsEstado(),
+                        empresa.getDsEndereco(),
+                        empresa.getNuEndereco()
+                ))
+                .toList();
     }
 
 

@@ -2,6 +2,7 @@ package dev.trier.ecommerce.controller;
 
 import dev.trier.ecommerce.dto.empresa.criacao.EmpresaCriadaRespostaDto;
 import dev.trier.ecommerce.dto.empresa.criacao.EmpresaCriarDto;
+import dev.trier.ecommerce.dto.empresa.criacao.response.ListarEmpresasResponseDto;
 import dev.trier.ecommerce.model.EmpresaModel;
 import dev.trier.ecommerce.service.EmpresaService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -33,7 +34,7 @@ public class EmpresaController {
     }
 
     @GetMapping("/listar/todos")
-    public ResponseEntity<List<EmpresaModel>> listar(){
+    public ResponseEntity<List<ListarEmpresasResponseDto>> listar(){
         var lista = empresaService.listarTodos();
         return ResponseEntity
                 .status(HttpStatus.OK)
