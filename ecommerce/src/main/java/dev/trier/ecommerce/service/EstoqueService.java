@@ -3,6 +3,7 @@ package dev.trier.ecommerce.service;
 import dev.trier.ecommerce.dto.empresa.criacao.EmpresaCriadaRespostaDto;
 import dev.trier.ecommerce.dto.estoque.criacao.EstoqueCriadoRespostaDto;
 import dev.trier.ecommerce.dto.estoque.criacao.EstoqueCriarDto;
+import dev.trier.ecommerce.dto.estoque.criacao.ListarEstoqueResponseDto;
 import dev.trier.ecommerce.model.EstoqueModel;
 import dev.trier.ecommerce.model.ProdutoModel;
 import dev.trier.ecommerce.repository.EstoqueRepository;
@@ -43,7 +44,15 @@ public class EstoqueService {
 
     }
 
-    public List<EstoqueModel> listarEstoque(){
-        return estoqueRepository.findAll();
+    public List<ListarEstoqueResponseDto> listarEstoque(){
+        return estoqueRepository.findAll()
+                .stream()
+                .map(estoqueModel -> new ListarEstoqueResponseDto(
+                        estoqueModel.getCdEstoque(),
+                        estoqueModel.getQtdEstoqueProduto(),
+                        estoqueModel.getFlAtivo(),
+                        estoqueModel.getProduto().getCdProduto()
+                ))
+                .toList();
     }
 }

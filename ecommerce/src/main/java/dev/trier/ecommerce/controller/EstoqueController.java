@@ -2,6 +2,7 @@ package dev.trier.ecommerce.controller;
 
 import dev.trier.ecommerce.dto.estoque.criacao.EstoqueCriadoRespostaDto;
 import dev.trier.ecommerce.dto.estoque.criacao.EstoqueCriarDto;
+import dev.trier.ecommerce.dto.estoque.criacao.ListarEstoqueResponseDto;
 import dev.trier.ecommerce.model.EstoqueModel;
 import dev.trier.ecommerce.repository.EstoqueRepository;
 import dev.trier.ecommerce.service.EstoqueService;
@@ -32,7 +33,7 @@ public class EstoqueController {
     }
 
     @GetMapping(path = "/listar/todos")
-    public ResponseEntity<List<EstoqueModel>> listarEstoque() {
+    public ResponseEntity<List<ListarEstoqueResponseDto>> listarEstoque() {
         var lista = estoqueService.listarEstoque();
         return ResponseEntity
                 .status(HttpStatus.OK)
