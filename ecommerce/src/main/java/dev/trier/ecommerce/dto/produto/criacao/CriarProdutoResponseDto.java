@@ -7,6 +7,7 @@ public record CriarProdutoResponseDto(
         Double vlProduto,
         CategoriaProduto dsCategoria,
         String dsProduto,
-        byte[] imgPruduto
+        byte[] imgPruduto,
+        Integer cdEmpresa
 ) {
 }
