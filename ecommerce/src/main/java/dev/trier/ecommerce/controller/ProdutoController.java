@@ -61,8 +61,7 @@ public class ProdutoController {
         return ResponseEntity.status(HttpStatus.OK).body(lista);
     }
 
-
-
+    //Verficar lógica desse metodo get
 
     @CrossOrigin
     @GetMapping(path = "/{cdProduto}/imagem")
@@ -105,7 +104,6 @@ public class ProdutoController {
                 .body(produtoService.buscarProdutoId(cdProduto));
     }
 
-
     @CrossOrigin
     @GetMapping(path = "/{nmProduto}")
     public ResponseEntity<Optional<ProdutoNomeResponseDto>> listarProdutoNome(@PathVariable String nmProduto) {
@@ -114,8 +112,6 @@ public class ProdutoController {
                 .body(response);
     }
 
-
-    //NÃO FINALIZADO
     @PutMapping("/update/{cdProduto}")
     public ResponseEntity<UpdateResponseDto> atualizarProduto(@PathVariable Integer cdProduto, @Valid @RequestBody  UpdateRequestDto updateRequestDto ) {
         try {
@@ -125,7 +121,5 @@ public class ProdutoController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
-
-
 
 }
