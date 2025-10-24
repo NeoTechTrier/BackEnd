@@ -4,7 +4,7 @@ public record UpdateEmpresaDto(
 
         String nmFantasia,
         String nmRazao,
-        String nuCPNJ,
+        String nuCNPJ,
         String nuTelefone,
         String dsCidade,
         String dsEstado,
