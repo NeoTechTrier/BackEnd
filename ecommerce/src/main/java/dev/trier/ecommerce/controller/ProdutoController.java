@@ -14,6 +14,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +33,8 @@ public class ProdutoController {
 
     @Autowired
     private ProdutoService produtoService;
+
+    private final Logger logger = LoggerFactory.getLogger(ProdutoController.class);
 
     @PostMapping(path = "/criar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<CriarProdutoResponseDto> criarProduto(@ModelAttribute @Valid ProdutoCriarDto produtoCriarDto) {  //ModelAttribute para receber multipart
@@ -112,14 +121,21 @@ public class ProdutoController {
                 .body(response);
     }
 
-    @PutMapping("/update/{cdProduto}")
-    public ResponseEntity<UpdateResponseDto> atualizarProduto(@PathVariable Integer cdProduto, @Valid @RequestBody  UpdateRequestDto updateRequestDto ) {
+    @CrossOrigin
+    @PutMapping(path = "/update/{cdProduto}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<UpdateResponseDto> atualizarProduto(
+            @PathVariable Integer cdProduto,
+            @RequestPart("produto") @Parameter(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = UpdateRequestDto.class))) UpdateRequestDto updateRequestDto,
+            @RequestPart(value = "imgProduto", required = false) MultipartFile imgProduto
+    ) {
         try {
-            UpdateResponseDto produtoDto = produtoService.atualizarProduto(updateRequestDto,cdProduto);
-            return ResponseEntity.ok().body(produtoDto);
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-    }
+            UpdateResponseDto produtoDto = produtoService.atualizarProduto(updateRequestDto, imgProduto, cdProduto);
+             return ResponseEntity.ok(produtoDto);
+         } catch (Exception e) {
+             logger.error("Erro ao atualizar produto cd={}", cdProduto, e);
+             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+         }
+     }
+
 
 }

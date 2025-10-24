@@ -2,6 +2,7 @@ package dev.trier.ecommerce.controller;
 
 import dev.trier.ecommerce.dto.usuario.criacao.UsuarioCriarDto;
 import dev.trier.ecommerce.dto.usuario.criacao.UsuarioResponseDto;
+import dev.trier.ecommerce.dto.usuario.modificacao.UsuarioUpdateDto;
 import dev.trier.ecommerce.service.UsuarioService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -68,5 +69,16 @@ public class UsuarioController {
     public ResponseEntity<?> listarUsuarioNome(@PathVariable String nmCliente) {
         Optional<UsuarioResponseDto> usuario = usuarioService.listarUsuarioNome(nmCliente);
         return ResponseEntity.ok(usuario);
+    }
+
+    @PutMapping("/update/{cdUsuario}")
+    public ResponseEntity<UsuarioResponseDto> atualizarUsuario(@PathVariable Integer cdUsuario,
+                                                                @RequestBody @Valid UsuarioUpdateDto usuarioUpdateDto) {
+        try {
+            UsuarioResponseDto atualizado = usuarioService.atualizarUsuario(cdUsuario, usuarioUpdateDto);
+            return ResponseEntity.ok(atualizado);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 }

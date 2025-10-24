@@ -21,11 +21,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import dev.trier.ecommerce.utils.Utils;
 
 @AllArgsConstructor
 @Service
 public class ProdutoService {
-
 
     private final ProdutoRespository produtoRespository;
     private final EmpresaRepository empresaRepository;
@@ -42,7 +42,6 @@ public class ProdutoService {
         produtoModel.setDsCategoria(CategoriaProduto.valueOf(produtoCriarDto.dsCategoria()));
         produtoModel.setDsProduto(produtoCriarDto.dsProduto());
         produtoModel.setEmpresa(empresaModel);
-
 
         MultipartFile imgProduto = produtoCriarDto.imgProduto();
         if (imgProduto != null && !imgProduto.isEmpty()) {
@@ -62,7 +61,6 @@ public class ProdutoService {
                 salvo.getCdProduto()
         );
     }
-
 
     /*
     @Transactional
@@ -160,8 +158,6 @@ public class ProdutoService {
 
     //---------------------------------------------------------------------------------
 
-
-
     public Optional<ProdutoIdResponseDto> buscarProdutoId(Integer cdProduto) {
         return produtoRespository.findByCdProduto(cdProduto)
                 .map(produto -> new ProdutoIdResponseDto(
@@ -175,15 +171,35 @@ public class ProdutoService {
 
     }
 
-    public UpdateResponseDto atualizarProduto(UpdateRequestDto response, Integer cdProduto) {
+    public UpdateResponseDto atualizarProduto(UpdateRequestDto updateProdutoDto, MultipartFile imgProduto, Integer cdProduto) {
         ProdutoModel produtoModel = produtoRespository.findByCdProduto(cdProduto)
-                .orElseThrow(()-> new RecursoNaoEncontradoException("Produto não encontrado" + response.cdProduto()));
-        produtoModel.setNmProduto(response.nmProduto());
-        produtoModel.setVlProduto(response.vlProduto());
-        produtoModel.setDsProduto(response.dsProduto());
-        ProdutoModel salvo = produtoRespository.save(produtoModel);
-        //if (response.imgProduto() != null && !response.imgProduto().isEmpty()) {}
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Produto não encontrado: " + cdProduto));
 
+        // Copia apenas propriedades não nulas (ignora categorias/empresa para tratar separadamente)
+        Utils.copyNonNullProperties(updateProdutoDto, produtoModel, "dsCategoria", "cdEmpresa", "cdProduto");
+
+        // tratar categoria
+        if (updateProdutoDto.dsCategoria() != null) {
+            produtoModel.setDsCategoria(CategoriaProduto.fromString(updateProdutoDto.dsCategoria()));
+        }
+
+        // tratar empresa
+        if (updateProdutoDto.cdEmpresa() != null) {
+            EmpresaModel empresaModel = empresaRepository.findById(updateProdutoDto.cdEmpresa())
+                    .orElseThrow(() -> new RecursoNaoEncontradoException("Empresa não encontrada: " + updateProdutoDto.cdEmpresa()));
+            produtoModel.setEmpresa(empresaModel);
+        }
+
+        // processar imagem recebida como parte multipart
+        if (imgProduto != null && !imgProduto.isEmpty()) {
+            try {
+                produtoModel.setImgProduto(imgProduto.getBytes());
+            } catch (IOException e) {
+                throw new RuntimeException("Erro ao processar imagem do produto", e);
+            }
+        }
+
+        ProdutoModel salvo = produtoRespository.save(produtoModel);
         return new UpdateResponseDto(
                 salvo.getNmProduto(),
                 salvo.getVlProduto(),
@@ -201,8 +217,6 @@ public class ProdutoService {
                         produto.getDsProduto()
                 ));
     }
-
     //public List<ProdutoCategoriaResponseDto> listarProdutoCategoria()
-
 
 }

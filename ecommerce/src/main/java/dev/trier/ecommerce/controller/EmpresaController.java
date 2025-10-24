@@ -2,12 +2,12 @@ package dev.trier.ecommerce.controller;
 
 import dev.trier.ecommerce.dto.empresa.criacao.EmpresaCriadaRespostaDto;
 import dev.trier.ecommerce.dto.empresa.criacao.EmpresaCriarDto;
-import dev.trier.ecommerce.model.EmpresaModel;
+import dev.trier.ecommerce.dto.empresa.modificacao.UpdateEmpresaDto;
+import dev.trier.ecommerce.dto.empresa.response.EmpresaListResponseDto;
 import dev.trier.ecommerce.service.EmpresaService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +35,7 @@ public class EmpresaController {
 
     @GetMapping("/listar/todos")
     @Transactional
-    public ResponseEntity<List<EmpresaModel>> listar(){
+    public ResponseEntity<List<EmpresaListResponseDto>> listar(){
         var lista = empresaService.listarTodos();
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -44,10 +44,20 @@ public class EmpresaController {
 
     //Get com possivel unutilidade, verificar em que situação será necessario
     @GetMapping("/listarCNPJ/{nuCNPJ}")
-    public ResponseEntity<?> listarEmpresaCNPJ(@PathVariable String nuCNPJ){
-        EmpresaModel empresaModel= empresaService.listarEmpresaCNPJ(nuCNPJ);
-        return ResponseEntity.ok(empresaModel);
+    public ResponseEntity<EmpresaListResponseDto> listarEmpresaCNPJ(@PathVariable String nuCNPJ){
+        EmpresaListResponseDto empresa = empresaService.listarEmpresaCNPJ(nuCNPJ);
+        return ResponseEntity.ok(empresa);
     }
 
-//    @PutMapping(path = "/modificar")
+    @PutMapping("/update/{cdEmpresa}")
+    public ResponseEntity<EmpresaCriadaRespostaDto> atualizarEmpresa(@PathVariable Integer cdEmpresa,
+                                                                     @RequestBody @Valid UpdateEmpresaDto updateEmpresaDto) {
+        try {
+            EmpresaCriadaRespostaDto atualizado = empresaService.atualizarEmpresa(cdEmpresa, updateEmpresaDto);
+            return ResponseEntity.ok(atualizado);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
 }

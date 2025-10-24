@@ -2,6 +2,7 @@ package dev.trier.ecommerce.controller;
 
 import dev.trier.ecommerce.dto.estoque.criacao.EstoqueCriadoRespostaDto;
 import dev.trier.ecommerce.dto.estoque.criacao.EstoqueCriarDto;
+import dev.trier.ecommerce.dto.estoque.modificacao.EstoqueUpdateDto;
 import dev.trier.ecommerce.model.EstoqueModel;
 import dev.trier.ecommerce.repository.EstoqueRepository;
 import dev.trier.ecommerce.service.EstoqueService;
@@ -39,4 +40,16 @@ public class EstoqueController {
                 .body(lista);
 
     }
+
+    @PutMapping("/update/{cdEstoque}")
+    public ResponseEntity<EstoqueCriadoRespostaDto> atualizarEstoque(@PathVariable Integer cdEstoque,
+                                                                    @RequestBody @Valid EstoqueUpdateDto updateDto) {
+        try {
+            EstoqueCriadoRespostaDto atualizado = estoqueService.atualizarEstoque(cdEstoque, updateDto);
+            return ResponseEntity.ok(atualizado);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
 }
