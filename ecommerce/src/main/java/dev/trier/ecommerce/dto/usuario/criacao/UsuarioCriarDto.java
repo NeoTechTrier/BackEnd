@@ -22,8 +22,8 @@ public record UsuarioCriarDto(
     String dsSenha,
 
     @NotBlank(message = "O CPF é obrigatório.")
-    @Schema(description = "Número de CPF", example = "112.123.123-22", requiredMode = Schema.RequiredMode.REQUIRED)
-    @Pattern(regexp ="^(\\d{3}\\.?){3}\\-?\\d{2}$")
+    @Schema(description = "Número de CPF", example = "25368896026", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Pattern(regexp = "\\d{11}", message = "CPF deve conter exatamente 11 dígitos numéricos")
     String nuCPF,
 
     @NotNull(message = "O telefone é obrigatório.")
