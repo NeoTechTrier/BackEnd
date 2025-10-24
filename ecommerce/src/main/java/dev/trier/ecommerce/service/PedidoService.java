@@ -2,6 +2,7 @@ package dev.trier.ecommerce.service;
 
 import dev.trier.ecommerce.dto.pedido.criacao.ListarPedidosResponseDto;
 import dev.trier.ecommerce.dto.pedido.criacao.PedidoCriarDto;
+import dev.trier.ecommerce.dto.pedido.criacao.PedidoCriarResponseDto;
 import dev.trier.ecommerce.model.PedidoModel;
 import dev.trier.ecommerce.model.UsuarioModel;
 import dev.trier.ecommerce.repository.PedidoRepository;
@@ -19,7 +20,7 @@ public class PedidoService {
     private final UsuarioRepository usuarioRepository;
 
     //Metodo Criar Pedido
-    public PedidoModel criarPedido(PedidoCriarDto pedidoCriarDto){
+    public PedidoCriarResponseDto criarPedido(PedidoCriarDto pedidoCriarDto){
         UsuarioModel usarioModel = usuarioRepository.findById(pedidoCriarDto.cdUsuario()).orElseThrow(
                 () -> new RuntimeException("Usuário não encontrado para o código: " + pedidoCriarDto.cdUsuario()) // Procura usuário antes de criar o pedidoCriarDto
         );
@@ -30,8 +31,13 @@ public class PedidoService {
         pedidoModel.setVlFrete(pedidoCriarDto.vlFrete());
         pedidoModel.setVlTotalPedido(pedidoCriarDto.vlTotalPedido());
 
+        PedidoModel salvo = pedidoRepository.save(pedidoModel);
 
-        return pedidoRepository.save(pedidoModel);
+        return new PedidoCriarResponseDto(
+                salvo.getFormaPagamento(),
+                salvo.getVlFrete(),
+                salvo.getVlTotalPedido()
+        );
     }
 
     //Metodo Listar Pedidos //SOMENTE PARA ADMIN
