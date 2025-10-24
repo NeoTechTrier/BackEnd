@@ -1,5 +1,6 @@
 package dev.trier.ecommerce.controller;
 
+import dev.trier.ecommerce.dto.pedido.criacao.ListarPedidosResponseDto;
 import dev.trier.ecommerce.dto.pedido.criacao.PedidoCriarDto;
 import dev.trier.ecommerce.model.PedidoModel;
 import dev.trier.ecommerce.service.PedidoService;
@@ -30,7 +31,7 @@ PedidoController {
                 .body(pedidoModel);
     }
     @GetMapping(path = "/listar/todos")
-    public ResponseEntity<List<PedidoModel>> listarPedidos(){
+    public ResponseEntity<List<ListarPedidosResponseDto>> listarPedidos(){
         var lista = pedidoService.listarPedidos();
         return ResponseEntity
                 .status(HttpStatus.OK)

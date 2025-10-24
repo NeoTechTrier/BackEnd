@@ -1,5 +1,6 @@
 package dev.trier.ecommerce.service;
 
+import dev.trier.ecommerce.dto.pedido.criacao.ListarPedidosResponseDto;
 import dev.trier.ecommerce.dto.pedido.criacao.PedidoCriarDto;
 import dev.trier.ecommerce.model.PedidoModel;
 import dev.trier.ecommerce.model.UsuarioModel;
@@ -34,8 +35,16 @@ public class PedidoService {
     }
 
     //Metodo Listar Pedidos //SOMENTE PARA ADMIN
-    public List<PedidoModel> listarPedidos(){
-        return pedidoRepository.findAll();
+    public List<ListarPedidosResponseDto> listarPedidos(){
+        return pedidoRepository.findAll()
+                .stream()
+                .map(pedidos-> new ListarPedidosResponseDto(
+                        pedidos.getUsuario().getCdUsuario(),
+                        pedidos.getFormaPagamento(),
+                        pedidos.getVlFrete(),
+                        pedidos.getVlTotalPedido()
+                ))
+                .toList();
     }
 
     //Metodo Finalizar Pedido
