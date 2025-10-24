@@ -1,6 +1,10 @@
 package dev.trier.ecommerce.dto.pedido.criacao;
 
-public record PedidoCriarResponseDto(
+import dev.trier.ecommerce.model.enums.FormaPagamento;
 
+public record PedidoCriarResponseDto(
+        FormaPagamento formaPagamento,
+        Double vlFrete,
+        Double vlTotalPedido
 ) {
 }
