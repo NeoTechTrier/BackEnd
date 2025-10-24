@@ -42,7 +42,6 @@ public class ItemPedidoService {
 
         ItemPedidoModel salvar=  itemPedidoRepository.save(itemPedidoModel);
 
-
         return new ItemPedidoCriadoRespostaDto(
                 salvar.getCdItemPedido(),
                 salvar.getPedido().getCdPedido(),
@@ -51,8 +50,6 @@ public class ItemPedidoService {
                 salvar.getQtItem()
 
         );
-
-
     }
 
     public List<ItemPedidoModel> listaItemPedidos() {
