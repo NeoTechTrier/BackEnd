@@ -38,7 +38,5 @@ public class EstoqueController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(lista);
-
-
     }
 }
