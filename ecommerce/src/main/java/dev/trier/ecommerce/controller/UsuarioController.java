@@ -60,8 +60,8 @@ public class UsuarioController {
     //IMCOMPLETO
     @CrossOrigin
     @GetMapping("/{cdCliente}")
-    public Optional<UsuarioResponseDto>  listarCdUsuario(@PathVariable Integer cdCliente) {
-        return usuarioService.listarCdUsuario(cdCliente);
+    public ResponseEntity<Optional<UsuarioResponseDto>>  listarCdUsuario(@PathVariable Integer cdCliente) {
+        return ResponseEntity.ok().body(usuarioService.listarCdUsuario(cdCliente));
     }
 
 
