@@ -3,10 +3,13 @@ package dev.trier.ecommerce.service;
 import dev.trier.ecommerce.dto.empresa.criacao.EmpresaCriadaRespostaDto;
 import dev.trier.ecommerce.dto.estoque.criacao.EstoqueCriadoRespostaDto;
 import dev.trier.ecommerce.dto.estoque.criacao.EstoqueCriarDto;
+import dev.trier.ecommerce.dto.estoque.modificacao.EstoqueUpdateDto;
 import dev.trier.ecommerce.model.EstoqueModel;
 import dev.trier.ecommerce.model.ProdutoModel;
 import dev.trier.ecommerce.repository.EstoqueRepository;
 import dev.trier.ecommerce.repository.ProdutoRespository;
+import dev.trier.ecommerce.exceptions.RecursoNaoEncontradoException;
+import dev.trier.ecommerce.utils.Utils;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -41,6 +44,31 @@ public class EstoqueService {
                 salvar.getQtdEstoqueProduto()
         );
 
+    }
+
+    @Transactional
+    public EstoqueCriadoRespostaDto atualizarEstoque(Integer cdEstoque, EstoqueUpdateDto updateDto) {
+        EstoqueModel estoqueModel = estoqueRepository.findByCdEstoque(cdEstoque)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Estoque não encontrado: " + cdEstoque));
+
+        // If cdProduto is provided, fetch the product and set it
+        if (updateDto.cdProduto() != null) {
+            ProdutoModel produtoModel = produtoRespository.findById(updateDto.cdProduto())
+                    .orElseThrow(() -> new RecursoNaoEncontradoException("Produto não encontrado: " + updateDto.cdProduto()));
+            estoqueModel.setProduto(produtoModel);
+        }
+
+        // Copy other non-null properties (like qtdEstoqueProduto)
+        Utils.copyNonNullProperties(updateDto, estoqueModel, "cdEstoque", "produto", "flAtivo");
+
+        EstoqueModel salvo = estoqueRepository.save(estoqueModel);
+
+        return new EstoqueCriadoRespostaDto(
+                salvo.getCdEstoque(),
+                salvo.getProduto() != null ? salvo.getProduto().getCdProduto() : null,
+                salvo.getProduto() != null ? salvo.getProduto().getNmProduto() : null,
+                salvo.getQtdEstoqueProduto()
+        );
     }
 
     public List<EstoqueModel> listarEstoque(){
