@@ -1,9 +1,10 @@
 package dev.trier.ecommerce.controller;
 
 import dev.trier.ecommerce.dto.produto.criacao.CriarProdutoResponseDto;
-import dev.trier.ecommerce.dto.produto.request.UpdateRequestDto;
 import dev.trier.ecommerce.dto.produto.response.*;
 import dev.trier.ecommerce.dto.produto.criacao.ProdutoCriarDto;
+import dev.trier.ecommerce.dto.produto.response.UpdateRequestDto;
+import dev.trier.ecommerce.exceptions.RecursoNaoEncontradoException;
 import dev.trier.ecommerce.model.ProdutoModel;
 import dev.trier.ecommerce.service.ProdutoService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -14,13 +15,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,7 +31,7 @@ public class ProdutoController {
     @Autowired
     private ProdutoService produtoService;
 
-    private final Logger logger = LoggerFactory.getLogger(ProdutoController.class);
+
 
     @PostMapping(path = "/criar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<CriarProdutoResponseDto> criarProduto(@ModelAttribute @Valid ProdutoCriarDto produtoCriarDto) {  //ModelAttribute para receber multipart
@@ -122,20 +119,38 @@ public class ProdutoController {
     }
 
     @CrossOrigin
-    @PutMapping(path = "/update/{cdProduto}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<UpdateResponseDto> atualizarProduto(
+    @PatchMapping(path = "/update/texto/{cdProduto}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProdutoTextUpdateResponseDto> atualizarProdutoTexto(
             @PathVariable Integer cdProduto,
-            @RequestPart("produto") @Parameter(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = UpdateRequestDto.class))) UpdateRequestDto updateRequestDto,
-            @RequestPart(value = "imgProduto", required = false) MultipartFile imgProduto
+            @RequestBody @Valid ProdutoTextUpdateDto updateRequestDto
     ) {
         try {
-            UpdateResponseDto produtoDto = produtoService.atualizarProduto(updateRequestDto, imgProduto, cdProduto);
-             return ResponseEntity.ok(produtoDto);
-         } catch (Exception e) {
-             logger.error("Erro ao atualizar produto cd={}", cdProduto, e);
-             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-         }
-     }
+            ProdutoTextUpdateResponseDto produtoDto = produtoService.atualizarProdutoTexto(updateRequestDto, cdProduto);
+            return ResponseEntity.ok(produtoDto);
+        } catch (RecursoNaoEncontradoException e) {
 
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } catch (Exception e) {
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    @CrossOrigin
+    @PatchMapping(path = "/update/imagem/{cdProduto}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Void> atualizarImagemProduto(
+            @PathVariable Integer cdProduto,
+            @RequestPart("imgProduto") MultipartFile imgProduto
+    ) {
+        try {
+            produtoService.atualizarImagemProduto(cdProduto, imgProduto);
+            return ResponseEntity.ok().build();
+        } catch (RecursoNaoEncontradoException e) {
+
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
 
 }
