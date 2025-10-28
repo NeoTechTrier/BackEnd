@@ -61,7 +61,7 @@ public class ProdutoController {
         return ResponseEntity.status(HttpStatus.OK).body(lista);
     }
 
-    //Verficar lógica desse metodo get
+
 
     @CrossOrigin
     @GetMapping(path = "/{cdProduto}/imagem")
@@ -112,14 +112,14 @@ public class ProdutoController {
                 .body(response);
     }
 
-    @PutMapping("/update/{cdProduto}")
-    public ResponseEntity<UpdateResponseDto> atualizarProduto(@PathVariable Integer cdProduto, @Valid @RequestBody  UpdateRequestDto updateRequestDto ) {
-        try {
-            UpdateResponseDto produtoDto = produtoService.atualizarProduto(updateRequestDto,cdProduto);
-            return ResponseEntity.ok().body(produtoDto);
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
+    /*
+
+    //Metodo delete Produto, efeito cascata, na qual só apgara se o produto não estiver sido comprado
+    @DeleteMapping("/{cdProduto}/excluir")
+    public ResponseEntity<?> deleteProduto(@PathVariable Integer cdProduto){
+        produtoService.deleteProduto(cdProduto);
+        return ResponseEntity.noContent().build();
     }
 
+     */
 }

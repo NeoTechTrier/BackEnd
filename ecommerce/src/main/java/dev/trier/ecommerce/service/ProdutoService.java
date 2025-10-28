@@ -121,6 +121,7 @@ public class ProdutoService {
                       produto.getDsCategoria().toString(),
                       produto.getDsProduto(),
                       produto.getImgProduto(),
+                      produto.getCdProduto(),
                       produto.getEmpresa().getCdEmpresa()
               ))
               .collect(Collectors.toList());
@@ -175,21 +176,6 @@ public class ProdutoService {
 
     }
 
-    public UpdateResponseDto atualizarProduto(UpdateRequestDto response, Integer cdProduto) {
-        ProdutoModel produtoModel = produtoRespository.findByCdProduto(cdProduto)
-                .orElseThrow(()-> new RecursoNaoEncontradoException("Produto não encontrado" + response.cdProduto()));
-        produtoModel.setNmProduto(response.nmProduto());
-        produtoModel.setVlProduto(response.vlProduto());
-        produtoModel.setDsProduto(response.dsProduto());
-        ProdutoModel salvo = produtoRespository.save(produtoModel);
-        //if (response.imgProduto() != null && !response.imgProduto().isEmpty()) {}
-
-        return new UpdateResponseDto(
-                salvo.getNmProduto(),
-                salvo.getVlProduto(),
-                salvo.getDsProduto()
-        );
-    }
 
     //Verificar uso de Optional ou List
     public Optional<ProdutoNomeResponseDto> listarProdutoNome(String nmProduto) {
@@ -202,7 +188,19 @@ public class ProdutoService {
                 ));
     }
 
-    //public List<ProdutoCategoriaResponseDto> listarProdutoCategoria()
+    /*
+   //Metodo para excluir produto
+    //Precisa colocar em modo cascata e verficar se já foi comprado
+    public  void deleteProduto(Integer cdProduto) {
+        if (!produtoRespository.findByCdProduto(cdProduto)) {
+            throw new RuntimeException("Produto não encontrado");
+        } else {
+            produtoRespository.deleteById(cdProduto);
+        }
+
+    }
+
+     */
 
 
 
