@@ -2,9 +2,9 @@ package dev.trier.ecommerce.service;
 
 
 import dev.trier.ecommerce.dto.produto.criacao.CriarProdutoResponseDto;
-import dev.trier.ecommerce.dto.produto.request.UpdateRequestDto;
 
 import dev.trier.ecommerce.dto.produto.response.*;
+import dev.trier.ecommerce.dto.produto.response.ProdutoTextUpdateDto;
 import dev.trier.ecommerce.dto.produto.criacao.ProdutoCriarDto;
 import dev.trier.ecommerce.exceptions.RecursoNaoEncontradoException;
 import dev.trier.ecommerce.model.EmpresaModel;
@@ -26,7 +26,6 @@ import java.util.stream.Collectors;
 @Service
 public class ProdutoService {
 
-
     private final ProdutoRespository produtoRespository;
     private final EmpresaRepository empresaRepository;
 
@@ -42,7 +41,6 @@ public class ProdutoService {
         produtoModel.setDsCategoria(CategoriaProduto.valueOf(produtoCriarDto.dsCategoria()));
         produtoModel.setDsProduto(produtoCriarDto.dsProduto());
         produtoModel.setEmpresa(empresaModel);
-
 
         MultipartFile imgProduto = produtoCriarDto.imgProduto();
         if (imgProduto != null && !imgProduto.isEmpty()) {
@@ -62,7 +60,6 @@ public class ProdutoService {
                 salvo.getCdProduto()
         );
     }
-
 
     /*
     @Transactional
@@ -113,18 +110,18 @@ public class ProdutoService {
 
     //Vericar os dados do DTO
     public List<ListarProdutosResponseDto> listarProdutos(){
-      return produtoRespository.findAll()
-              .stream()
-              .map(produto -> new ListarProdutosResponseDto(
-                      produto.getNmProduto(),
-                      produto.getVlProduto(),
-                      produto.getDsCategoria().toString(),
-                      produto.getDsProduto(),
-                      produto.getImgProduto(),
-                      produto.getCdProduto(),
-                      produto.getEmpresa().getCdEmpresa()
-              ))
-              .collect(Collectors.toList());
+        return produtoRespository.findAll()
+                .stream()
+                .map(produto -> new ListarProdutosResponseDto(
+                        produto.getNmProduto(),
+                        produto.getVlProduto(),
+                        produto.getDsCategoria().toString(),
+                        produto.getDsProduto(),
+                        produto.getImgProduto(),
+                        produto.getCdProduto(),
+                        produto.getEmpresa().getCdEmpresa()
+                ))
+                .collect(Collectors.toList());
     }
 
     public List<ProdutoIdResponseDto> listarProdutosPorCategoria(String categoria) {
@@ -161,8 +158,6 @@ public class ProdutoService {
 
     //---------------------------------------------------------------------------------
 
-
-
     public Optional<ProdutoIdResponseDto> buscarProdutoId(Integer cdProduto) {
         return produtoRespository.findByCdProduto(cdProduto)
                 .map(produto -> new ProdutoIdResponseDto(
@@ -170,12 +165,51 @@ public class ProdutoService {
                         produto.getVlProduto(),
                         produto.getDsProduto(),
                         produto.getDsCategoria()
-                        ));
+                ));
 
-                //.orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+        //.orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 
     }
 
+    @Transactional
+    public ProdutoTextUpdateResponseDto atualizarProdutoTexto(ProdutoTextUpdateDto updateProdutoDto, Integer cdProduto) {
+        ProdutoModel produtoModel = produtoRespository.findByCdProduto(cdProduto)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Produto não encontrado: " + cdProduto));
+
+        // Atualiza apenas os campos permitidos: nmProduto, vlProduto, dsProduto
+        if (updateProdutoDto.getNmProduto() != null) {
+            produtoModel.setNmProduto(updateProdutoDto.getNmProduto());
+        }
+        if (updateProdutoDto.getVlProduto() != null) {
+            produtoModel.setVlProduto(updateProdutoDto.getVlProduto());
+        }
+        if (updateProdutoDto.getDsProduto() != null) {
+            produtoModel.setDsProduto(updateProdutoDto.getDsProduto());
+        }
+
+        ProdutoModel salvo = produtoRespository.save(produtoModel);
+        return new ProdutoTextUpdateResponseDto(
+                salvo.getNmProduto(),
+                salvo.getVlProduto(),
+                salvo.getDsProduto()
+        );
+    }
+
+    // Atualizar apenas imagem
+    @Transactional
+    public void atualizarImagemProduto(Integer cdProduto, MultipartFile imgProduto) {
+        ProdutoModel produtoModel = produtoRespository.findByCdProduto(cdProduto)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Produto não encontrado: " + cdProduto));
+
+        if (imgProduto != null && !imgProduto.isEmpty()) {
+            try {
+                produtoModel.setImgProduto(imgProduto.getBytes());
+                produtoRespository.save(produtoModel);
+            } catch (IOException e) {
+                throw new RuntimeException("Erro ao processar imagem do produto", e);
+            }
+        }
+    }
 
     //Verificar uso de Optional ou List
     public Optional<ProdutoNomeResponseDto> listarProdutoNome(String nmProduto) {
@@ -201,8 +235,5 @@ public class ProdutoService {
     }
 
      */
-
-
-
 
 }

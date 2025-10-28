@@ -1,11 +1,12 @@
 package dev.trier.ecommerce.controller;
 
 import dev.trier.ecommerce.dto.produto.criacao.CriarProdutoResponseDto;
-import dev.trier.ecommerce.dto.produto.request.UpdateRequestDto;
 import dev.trier.ecommerce.dto.produto.response.*;
 import dev.trier.ecommerce.dto.produto.criacao.ProdutoCriarDto;
+import dev.trier.ecommerce.exceptions.RecursoNaoEncontradoException;
 import dev.trier.ecommerce.model.ProdutoModel;
 import dev.trier.ecommerce.service.ProdutoService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +31,11 @@ public class ProdutoController {
     @Autowired
     private ProdutoService produtoService;
 
+
+
     @PostMapping(path = "/criar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(summary = "Criar produto", description = "Cria um novo produto com imagem (multipart/form-data)")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CriarProdutoResponseDto> criarProduto(@ModelAttribute @Valid ProdutoCriarDto produtoCriarDto) {  //ModelAttribute para receber multipart
         CriarProdutoResponseDto produtoCriado = produtoService.criarProduto(produtoCriarDto);
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -48,6 +56,8 @@ public class ProdutoController {
     //Precisa trocar o return para ResponseDto
     @CrossOrigin
     @GetMapping(path = "/listar/todos")
+    @Operation(summary = "Listar produtos", description = "Lista todos os produtos")
+
     public ResponseEntity<List<ListarProdutosResponseDto>> listarTodos() {
         //var lista = produtoService.listarProdutos();
         return ResponseEntity
@@ -56,6 +66,7 @@ public class ProdutoController {
     }
 
     @GetMapping(path = "/categoria/{categoria}")
+    @Operation(summary = "Listar por categoria", description = "Lista produtos filtrando pela categoria")
     public ResponseEntity<List<ProdutoIdResponseDto>> listarPorCategoria(@PathVariable String categoria) {
         List<ProdutoIdResponseDto> lista = produtoService.listarProdutosPorCategoria(categoria);
         return ResponseEntity.status(HttpStatus.OK).body(lista);
@@ -66,6 +77,8 @@ public class ProdutoController {
     @CrossOrigin
     @GetMapping(path = "/{cdProduto}/imagem")
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Obter imagem do produto", description = "Retorna a imagem do produto em formato JPEG")
     public ResponseEntity<byte[]> listarImagem(@PathVariable Integer cdProduto) {
         ProdutoModel produto = produtoService.buscarProdutoPorId(cdProduto);
         return ResponseEntity.ok()
@@ -98,6 +111,8 @@ public class ProdutoController {
     //Endpoint para buscar dados do produto, uso de dto para definidas as entidades em get do BD
     @CrossOrigin
     @GetMapping(path = "/{cdProduto}/idProduto")
+    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Buscar produto por ID", description = "Retorna os dados do produto pelo código")
     public ResponseEntity<Optional<ProdutoIdResponseDto>> buscarProdutoId(@PathVariable Integer cdProduto) {
         //ProdutoIdResponseDto response = produtoService.buscarProdutoId(cdProduto);
         return ResponseEntity.ok()
@@ -106,6 +121,7 @@ public class ProdutoController {
 
     @CrossOrigin
     @GetMapping(path = "/{nmProduto}")
+    @Operation(summary = "Buscar produto por nome", description = "Retorna os dados do produto pelo nome")
     public ResponseEntity<Optional<ProdutoNomeResponseDto>> listarProdutoNome(@PathVariable String nmProduto) {
         Optional<ProdutoNomeResponseDto> response = produtoService.listarProdutoNome(nmProduto);
         return ResponseEntity.ok()

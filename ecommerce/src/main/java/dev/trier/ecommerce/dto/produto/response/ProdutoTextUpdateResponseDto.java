@@ -1,5 +1,4 @@
-package dev.trier.ecommerce.dto.produto.request;
-
+package dev.trier.ecommerce.dto.produto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,14 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateRequestDto {
+public class ProdutoTextUpdateResponseDto {
     private String nmProduto;
     private Double vlProduto;
     private String dsProduto;
-    private String dsCategoria;
-    private Integer cdEmpresa;
-
-
-
-
 }

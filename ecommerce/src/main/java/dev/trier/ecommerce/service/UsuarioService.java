@@ -2,10 +2,14 @@ package dev.trier.ecommerce.service;
 
 import dev.trier.ecommerce.dto.usuario.criacao.UsuarioCriarDto;
 import dev.trier.ecommerce.dto.usuario.criacao.UsuarioResponseDto;
+import dev.trier.ecommerce.dto.usuario.modificacao.UsuarioUpdateDto;
+import dev.trier.ecommerce.exceptions.RecursoNaoEncontradoException;
+import dev.trier.ecommerce.utils.Utils;
 import dev.trier.ecommerce.model.UsuarioModel;
 import dev.trier.ecommerce.model.enums.UsersRole;
 import dev.trier.ecommerce.repository.UsuarioRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +22,7 @@ import java.util.stream.Collectors;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
 
     @Transactional
@@ -26,7 +31,8 @@ public class UsuarioService {
         usuarioModel.setUserRole(UsersRole.valueOf("USER"));
         usuarioModel.setNmCliente(usuarioCriarDto.nmCliente());
         usuarioModel.setDsEmail(usuarioCriarDto.dsEmail());
-        usuarioModel.setDsSenha(usuarioCriarDto.dsSenha());
+        // encode password
+        usuarioModel.setDsSenha(passwordEncoder.encode(usuarioCriarDto.dsSenha()));
         usuarioModel.setNuCPF(usuarioCriarDto.nuCPF());
         usuarioModel.setNuRG(usuarioCriarDto.nuRG());
         usuarioModel.setDsCidade(usuarioCriarDto.dsCidade());
@@ -40,8 +46,25 @@ public class UsuarioService {
                 salvo.getNmCliente(),
                 salvo.getDsEmail(),
                 salvo.getNuTelefone(),
-                salvo.getDsCidade(),
-                salvo.getFlAtivo()
+                salvo.getDsCidade()
+        );
+    }
+
+    @Transactional
+    public UsuarioResponseDto atualizarUsuario(Integer cdUsuario, UsuarioUpdateDto usuarioUpdateDto) {
+        UsuarioModel usuarioModel = usuarioRepository.findByCdUsuario(cdUsuario)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Usuário não encontrado: " + cdUsuario));
+
+        
+        Utils.copyNonNullProperties(usuarioUpdateDto, usuarioModel, "cdUsuario", "userRole", "pedidos", "flAtivo");
+
+        UsuarioModel salvo = usuarioRepository.save(usuarioModel);
+
+        return new UsuarioResponseDto(
+                salvo.getNmCliente(),
+                salvo.getDsEmail(),
+                salvo.getNuTelefone(),
+                salvo.getDsCidade()
         );
     }
 
@@ -51,8 +74,7 @@ public class UsuarioService {
                         usuario.getNmCliente(),
                         usuario.getDsEmail(),
                         usuario.getNuTelefone(),
-                        usuario.getDsCidade(),
-                        usuario.getFlAtivo()
+                        usuario.getDsCidade()
                 ));
     }
 
@@ -65,8 +87,7 @@ public class UsuarioService {
                         usuario.getNmCliente(),
                         usuario.getDsEmail(),
                         usuario.getNuTelefone(),
-                        usuario.getDsCidade(),
-                        usuario.getFlAtivo()
+                        usuario.getDsCidade()
                 ))
                 .collect(Collectors.toList()) ;
     }
@@ -77,10 +98,9 @@ public class UsuarioService {
                        usuario.getNmCliente(),
                        usuario.getDsEmail(),
                        usuario.getNuTelefone(),
-                       usuario.getDsCidade(),
-                       usuario.getFlAtivo()
+                       usuario.getDsCidade()
                ));
-               // .orElseThrow(() -> new RecursoNaoEncontradoException("Usuário " + nmCliente + " não encontrado."));
+               // .orElseThrow(() -> new RecursoNaoEncontradoException("Usu\u00e1rio " + nmCliente + " n\u00e3o encontrado."));
     }
 
     public Optional<UsuarioResponseDto> listarUsuarioCPF(String nuCPF){
@@ -89,10 +109,9 @@ public class UsuarioService {
                         usuario.getNmCliente(),
                         usuario.getDsEmail(),
                         usuario.getNuTelefone(),
-                        usuario.getDsCidade(),
-                        usuario.getFlAtivo()
+                        usuario.getDsCidade()
                 ));
-       // .orElseThrow(() -> new RecursoNaoEncontradoException(nuCPF + "não encontrado."));
+       // .orElseThrow(() -> new RecursoNaoEncontradoException(nuCPF + "n\u00e3o encontrado."));
 
     }
 }

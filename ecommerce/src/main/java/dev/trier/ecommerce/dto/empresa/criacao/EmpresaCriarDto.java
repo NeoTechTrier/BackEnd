@@ -16,9 +16,9 @@ public record EmpresaCriarDto(
     String nmRazao,
 
     @NotBlank(message = "Preenchimento do CPNJ obrigatório")
-    @Size(min = 18, max = 18)
-    @Pattern(regexp = "\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2}")
-    @Schema(description = "CNPJ da empresa nesse formato: 00.000.000/0000-00)", example = "12.345.678/0001-99", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Size(min = 14, max = 18)
+    @Pattern(regexp = "\\d{14}", message = "CNPJ deve conter exatamente 14 dígitos numéricos")
+    @Schema(description = "CNPJ da empresa nesse formato: 00000000000000)", example = "12345678000199", requiredMode = Schema.RequiredMode.REQUIRED)
     String nuCNPJ,
 
     @NotBlank(message = "Preenchimento do telefone obrigatório")

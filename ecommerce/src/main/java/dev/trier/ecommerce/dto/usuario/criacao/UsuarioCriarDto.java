@@ -2,6 +2,7 @@ package dev.trier.ecommerce.dto.usuario.criacao;
 
 import dev.trier.ecommerce.model.enums.UsersRole;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -13,17 +14,18 @@ public record UsuarioCriarDto(
     String nmCliente,
 
     @NotBlank(message = "O Email é obrigatório.")
-    @Schema(description = "Email para login do usuário", example = "112.123.123-22", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "Email para login do usuário", example = "davibeckhauser@hotmail.com", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Email
     String dsEmail,
 
-    @NotBlank(message = "O Email é obrigatório.")
-    @Schema(description = "Email para login do usuário", example = "112.123.123-22", requiredMode = Schema.RequiredMode.REQUIRED)
+    @NotBlank(message = "A senha é obrigatório.")
+    @Schema(description = "Senha para login do usuário", example = "Spring@2025", requiredMode = Schema.RequiredMode.REQUIRED)
     @Pattern(regexp ="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")
     String dsSenha,
 
     @NotBlank(message = "O CPF é obrigatório.")
-    @Schema(description = "Número de CPF", example = "112.123.123-22", requiredMode = Schema.RequiredMode.REQUIRED)
-    @Pattern(regexp ="^(\\d{3}\\.?){3}\\-?\\d{2}$")
+    @Schema(description = "Número de CPF", example = "25368896026", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Pattern(regexp = "\\d{11}", message = "CPF deve conter exatamente 11 dígitos numéricos")
     String nuCPF,
 
     @NotNull(message = "O telefone é obrigatório.")
@@ -45,8 +47,9 @@ public record UsuarioCriarDto(
     @Schema(description = "Endereço de localização de sua moradia", example = "Travessão, estrada geral", requiredMode = Schema.RequiredMode.REQUIRED)
     String dsEndereco,
 
-    @NotBlank(message = "O número do endereço é obrigatório.")
-    @Schema(description = "Número residencial da pessoa", example = "102 ou SN", requiredMode = Schema.RequiredMode.REQUIRED)
+    @NotBlank(message = "Preenchimento do número do endereço obrigatório")
+    @Pattern(regexp = "^(\\d+[A-Za-z]?)$|^(?i)s\\s*/?\\s*n$")  //repositório da faculdade
+    @Schema(description = "Número do endereço", example = "123 ou SN S/N ", requiredMode = Schema.RequiredMode.REQUIRED)
     String nuEndereco
 ) {}
 

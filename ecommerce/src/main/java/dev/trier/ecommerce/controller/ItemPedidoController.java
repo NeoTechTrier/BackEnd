@@ -7,6 +7,7 @@ import dev.trier.ecommerce.model.ItemPedidoModel;
 import dev.trier.ecommerce.repository.ItemPedidoRepository;
 import dev.trier.ecommerce.service.ItemPedidoService;
 import dev.trier.ecommerce.service.ProdutoService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ public class ItemPedidoController {
 
 
     @PostMapping(path = "/criar")
+    @Operation(summary = "Criar item do pedido", description = "Cria um novo item vinculado a um pedido")
     public ResponseEntity<ItemPedidoCriadoRespostaDto> criarItemPedido(@RequestBody @Valid ItemPedidoCriarDto itemPedidoCriarDto){
         ItemPedidoCriadoRespostaDto itemPedidoModel = itemPedidoService.criarItemPedido(itemPedidoCriarDto);
         return ResponseEntity
@@ -35,7 +37,8 @@ public class ItemPedidoController {
     }
 
     @GetMapping(path = "/listar/todos")
-    public ResponseEntity<List<ListarItensPedidosResponseDto>> listarItemPedido() {
+    @Operation(summary = "Listar itens de pedido", description = "Lista todos os itens de pedido cadastrados")
+    public ResponseEntity<List<ItemPedidoModel>> listarItemPedido() {
         var lista = itemPedidoService.listaItemPedidos();
         return ResponseEntity
                 .status(HttpStatus.OK)
