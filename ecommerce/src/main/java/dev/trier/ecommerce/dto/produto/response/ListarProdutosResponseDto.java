@@ -8,7 +8,7 @@ public record ListarProdutosResponseDto(
         String dsCategoria,
         String dsProduto,
         byte[] imgProduto,
+        Integer cdProduto,
         Integer cdEmpresa
-        //Não pode contre camadas do Model, precisa modificar
 ) {
 }
