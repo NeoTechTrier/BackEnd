@@ -72,7 +72,7 @@ public class ProdutoController {
         return ResponseEntity.status(HttpStatus.OK).body(lista);
     }
 
-    //Verficar lógica desse metodo get
+
 
     @CrossOrigin
     @GetMapping(path = "/{cdProduto}/imagem")
@@ -128,43 +128,14 @@ public class ProdutoController {
                 .body(response);
     }
 
-    @CrossOrigin
-    @PreAuthorize("hasRole('ADMIN')")
-    @PatchMapping(path = "/update/texto/{cdProduto}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @Operation(summary = "Atualizar texto do produto", description = "Atualiza os dados textuais de um produto")
-    public ResponseEntity<ProdutoTextUpdateResponseDto> atualizarProdutoTexto(
-            @PathVariable Integer cdProduto,
-            @RequestBody @Valid ProdutoTextUpdateDto updateRequestDto
-    ) {
-        try {
-            ProdutoTextUpdateResponseDto produtoDto = produtoService.atualizarProdutoTexto(updateRequestDto, cdProduto);
-            return ResponseEntity.ok(produtoDto);
-        } catch (RecursoNaoEncontradoException e) {
+    /*
 
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } catch (Exception e) {
-
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
+    //Metodo delete Produto, efeito cascata, na qual só apgara se o produto não estiver sido comprado
+    @DeleteMapping("/{cdProduto}/excluir")
+    public ResponseEntity<?> deleteProduto(@PathVariable Integer cdProduto){
+        produtoService.deleteProduto(cdProduto);
+        return ResponseEntity.noContent().build();
     }
 
-    @CrossOrigin
-    @PreAuthorize("hasRole('ADMIN')")
-    @PatchMapping(path = "/update/imagem/{cdProduto}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @Operation(summary = "Atualizar imagem do produto", description = "Atualiza a imagem de um produto")
-    public ResponseEntity<Void> atualizarImagemProduto(
-            @PathVariable Integer cdProduto,
-            @RequestPart("imgProduto") MultipartFile imgProduto
-    ) {
-        try {
-            produtoService.atualizarImagemProduto(cdProduto, imgProduto);
-            return ResponseEntity.ok().build();
-        } catch (RecursoNaoEncontradoException e) {
-
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-    }
-
+     */
 }

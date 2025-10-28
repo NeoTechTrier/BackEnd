@@ -35,6 +35,7 @@ public class EmpresaController {
                 .body(empresaCriado);
     }
 
+    @CrossOrigin
     @GetMapping("/listar/todos")
     @Transactional
     @Operation(summary = "Listar empresas", description = "Lista todas as empresas cadastradas")

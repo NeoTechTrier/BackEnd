@@ -1,7 +1,9 @@
 package dev.trier.ecommerce.service;
 
+import dev.trier.ecommerce.dto.estoque.criacao.ListarEstoqueResponseDto;
 import dev.trier.ecommerce.dto.itempedido.criacao.ItemPedidoCriadoRespostaDto;
 import dev.trier.ecommerce.dto.itempedido.criacao.ItemPedidoCriarDto;
+import dev.trier.ecommerce.dto.itempedido.criacao.ListarItensPedidosResponseDto;
 import dev.trier.ecommerce.model.ItemPedidoModel;
 import dev.trier.ecommerce.model.PedidoModel;
 import dev.trier.ecommerce.model.ProdutoModel;
@@ -24,7 +26,7 @@ public class ItemPedidoService {
     private final ItemPedidoRepository itemPedidoRepository;
     private final ProdutoRespository produtoRespository;
     private final PedidoRepository pedidoRepository;
-    private final EstoqueRepository estoqueRepository;
+
 
     @Transactional
     public ItemPedidoCriadoRespostaDto criarItemPedido(ItemPedidoCriarDto itemPedidoCriarDto) {
@@ -52,7 +54,16 @@ public class ItemPedidoService {
         );
     }
 
-    public List<ItemPedidoModel> listaItemPedidos() {
-        return itemPedidoRepository.findAll();
+    //Criar DTO para listar ItemPedidos
+    public List<ListarItensPedidosResponseDto> listaItemPedidos() {
+        return itemPedidoRepository.findAll()
+                .stream()
+                .map(itemPedidoModel -> new ListarItensPedidosResponseDto(
+                        itemPedidoModel.getPedido().getCdPedido(),
+                        itemPedidoModel.getVlItemPedido(),
+                        itemPedidoModel.getQtItem()
+                ))
+                .toList();
     }
+
 }

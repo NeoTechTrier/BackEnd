@@ -60,6 +60,8 @@ public class UsuarioController {
     }
  */
 
+
+
     //IMCOMPLETO
     @CrossOrigin
     @GetMapping("/{cdCliente}")
@@ -70,6 +72,8 @@ public class UsuarioController {
     }
 
 
+    //<<<<<<<VERIFICAR ESSAS DUAS SEQUENCIAS DE ENDPOINT>>>>>>>>
+    //Talvez seja inutil,
     @CrossOrigin
     @GetMapping("/nome/{nmCliente}")
     @PreAuthorize("hasRole('ADMIN')")

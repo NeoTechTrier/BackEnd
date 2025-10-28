@@ -2,6 +2,7 @@ package dev.trier.ecommerce.controller;
 
 import dev.trier.ecommerce.dto.itempedido.criacao.ItemPedidoCriadoRespostaDto;
 import dev.trier.ecommerce.dto.itempedido.criacao.ItemPedidoCriarDto;
+import dev.trier.ecommerce.dto.itempedido.criacao.ListarItensPedidosResponseDto;
 import dev.trier.ecommerce.model.ItemPedidoModel;
 import dev.trier.ecommerce.repository.ItemPedidoRepository;
 import dev.trier.ecommerce.service.ItemPedidoService;

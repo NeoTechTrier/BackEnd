@@ -221,6 +221,19 @@ public class ProdutoService {
                         produto.getDsProduto()
                 ));
     }
-    //public List<ProdutoCategoriaResponseDto> listarProdutoCategoria()
+
+    /*
+   //Metodo para excluir produto
+    //Precisa colocar em modo cascata e verficar se já foi comprado
+    public  void deleteProduto(Integer cdProduto) {
+        if (!produtoRespository.findByCdProduto(cdProduto)) {
+            throw new RuntimeException("Produto não encontrado");
+        } else {
+            produtoRespository.deleteById(cdProduto);
+        }
+
+    }
+
+     */
 
 }

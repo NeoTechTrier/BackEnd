@@ -10,6 +10,5 @@ public record ListarProdutosResponseDto(
         byte[] imgProduto,
         Integer cdProduto,
         Integer cdEmpresa
-        //Não pode contre camadas do Model, precisa modificar
 ) {
 }
