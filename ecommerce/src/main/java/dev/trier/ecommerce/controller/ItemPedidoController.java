@@ -38,7 +38,7 @@ public class ItemPedidoController {
 
     @GetMapping(path = "/listar/todos")
     @Operation(summary = "Listar itens de pedido", description = "Lista todos os itens de pedido cadastrados")
-    public ResponseEntity<List<ItemPedidoModel>> listarItemPedido() {
+    public ResponseEntity<List<ListarItensPedidosResponseDto>> listarItemPedido() {
         var lista = itemPedidoService.listaItemPedidos();
         return ResponseEntity
                 .status(HttpStatus.OK)
