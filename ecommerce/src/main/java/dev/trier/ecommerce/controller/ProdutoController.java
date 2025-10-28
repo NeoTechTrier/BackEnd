@@ -57,7 +57,6 @@ public class ProdutoController {
     @CrossOrigin
     @GetMapping(path = "/listar/todos")
     @Operation(summary = "Listar produtos", description = "Lista todos os produtos")
-
     public ResponseEntity<List<ListarProdutosResponseDto>> listarTodos() {
         //var lista = produtoService.listarProdutos();
         return ResponseEntity

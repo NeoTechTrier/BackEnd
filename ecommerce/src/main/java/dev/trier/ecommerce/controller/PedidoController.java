@@ -27,15 +27,15 @@ PedidoController {
 
     @PostMapping(path = "/criar")
     @Operation(summary = "Criar pedido", description = "Cria um novo pedido")
-    public ResponseEntity<PedidoModel> criarPedido(@RequestBody @Valid PedidoCriarDto pedidoCriarDto) {
-        PedidoModel pedidoModel = pedidoService.criarPedido(pedidoCriarDto);
+    public ResponseEntity<PedidoCriarResponseDto> criarPedido(@RequestBody @Valid PedidoCriarDto pedidoCriarDto) {
+        PedidoCriarResponseDto pedidoModel = pedidoService.criarPedido(pedidoCriarDto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(pedido);
+                .body(pedidoModel);
     }
     @GetMapping(path = "/listar/todos")
     @Operation(summary = "Listar pedidos", description = "Lista todos os pedidos cadastrados")
-    public ResponseEntity<List<PedidoModel>> listarPedidos(){
+    public ResponseEntity<List<ListarPedidosResponseDto>> listarPedidos(){
         var lista = pedidoService.listarPedidos();
         return ResponseEntity
                 .status(HttpStatus.OK)
