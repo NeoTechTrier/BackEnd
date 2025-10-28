@@ -33,6 +33,7 @@ public class EmpresaController {
                 .body(empresaCriado);
     }
 
+    @CrossOrigin
     @GetMapping("/listar/todos")
     public ResponseEntity<List<ListarEmpresasResponseDto>> listar(){
         var lista = empresaService.listarTodos();
