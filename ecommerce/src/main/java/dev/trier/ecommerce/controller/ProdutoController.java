@@ -76,7 +76,6 @@ public class ProdutoController {
     @CrossOrigin
     @GetMapping(path = "/{cdProduto}/imagem")
     @Transactional
-    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Obter imagem do produto", description = "Retorna a imagem do produto em formato JPEG")
     public ResponseEntity<byte[]> listarImagem(@PathVariable Integer cdProduto) {
         ProdutoModel produto = produtoService.buscarProdutoPorId(cdProduto);
