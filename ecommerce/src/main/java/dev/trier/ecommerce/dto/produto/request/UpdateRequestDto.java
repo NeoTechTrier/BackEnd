@@ -1,4 +1,4 @@
-package dev.trier.ecommerce.dto.produto.response;
+package dev.trier.ecommerce.dto.produto.request;
 
 
 import lombok.AllArgsConstructor;

@@ -118,6 +118,7 @@ public class ProdutoService {
                         produto.getDsCategoria().toString(),
                         produto.getDsProduto(),
                         produto.getImgProduto(),
+                        produto.getCdProduto(),
                         produto.getEmpresa().getCdEmpresa()
                 ))
                 .collect(Collectors.toList());
