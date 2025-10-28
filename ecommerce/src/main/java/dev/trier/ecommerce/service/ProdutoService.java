@@ -56,7 +56,6 @@ public class ProdutoService {
                 salvo.getVlProduto(),
                 salvo.getDsCategoria(),
                 salvo.getDsProduto(),
-                salvo.getImgProduto(),
                 salvo.getCdProduto()
         );
     }
