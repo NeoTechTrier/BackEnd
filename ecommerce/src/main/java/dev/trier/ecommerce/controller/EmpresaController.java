@@ -5,6 +5,7 @@ import dev.trier.ecommerce.dto.empresa.criacao.EmpresaCriarDto;
 import dev.trier.ecommerce.dto.empresa.modificacao.UpdateEmpresaDto;
 import dev.trier.ecommerce.dto.empresa.response.EmpresaListResponseDto;
 import dev.trier.ecommerce.service.EmpresaService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -26,6 +27,7 @@ public class EmpresaController {
 
 
     @PostMapping("/criar")
+    @Operation(summary = "Criar empresa", description = "Cria uma nova empresa")
     public ResponseEntity<EmpresaCriadaRespostaDto> criarEmpresa(@RequestBody @Valid EmpresaCriarDto empresaCriarDto){
         EmpresaCriadaRespostaDto empresaCriado = empresaService.criarEmpresa(empresaCriarDto);
         return  ResponseEntity
@@ -35,6 +37,7 @@ public class EmpresaController {
 
     @GetMapping("/listar/todos")
     @Transactional
+    @Operation(summary = "Listar empresas", description = "Lista todas as empresas cadastradas")
     public ResponseEntity<List<EmpresaListResponseDto>> listar(){
         var lista = empresaService.listarTodos();
         return ResponseEntity
@@ -44,12 +47,14 @@ public class EmpresaController {
 
     //Get com possivel unutilidade, verificar em que situação será necessario
     @GetMapping("/listarCNPJ/{nuCNPJ}")
+    @Operation(summary = "Buscar empresa por CNPJ", description = "Retorna os dados da empresa a partir do CNPJ informado")
     public ResponseEntity<EmpresaListResponseDto> listarEmpresaCNPJ(@PathVariable String nuCNPJ){
         EmpresaListResponseDto empresa = empresaService.listarEmpresaCNPJ(nuCNPJ);
         return ResponseEntity.ok(empresa);
     }
 
     @PutMapping("/update/{cdEmpresa}")
+    @Operation(summary = "Atualizar empresa", description = "Atualiza os dados de uma empresa pelo código")
     public ResponseEntity<EmpresaCriadaRespostaDto> atualizarEmpresa(@PathVariable Integer cdEmpresa,
                                                                      @RequestBody @Valid UpdateEmpresaDto updateEmpresaDto) {
         try {

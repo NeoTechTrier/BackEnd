@@ -3,6 +3,7 @@ package dev.trier.ecommerce.controller;
 import dev.trier.ecommerce.dto.pedido.criacao.PedidoCriarDto;
 import dev.trier.ecommerce.model.PedidoModel;
 import dev.trier.ecommerce.service.PedidoService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ PedidoController {
     private PedidoService pedidoService;
 
     @PostMapping(path = "/criar")
+    @Operation(summary = "Criar pedido", description = "Cria um novo pedido")
     public ResponseEntity<PedidoModel> criarPedido(@RequestBody @Valid PedidoCriarDto pedidoCriarDto) {
         PedidoModel pedidoModel = pedidoService.criarPedido(pedidoCriarDto);
         return ResponseEntity
@@ -30,6 +32,7 @@ PedidoController {
                 .body(pedidoModel);
     }
     @GetMapping(path = "/listar/todos")
+    @Operation(summary = "Listar pedidos", description = "Lista todos os pedidos cadastrados")
     public ResponseEntity<List<PedidoModel>> listarPedidos(){
         var lista = pedidoService.listarPedidos();
         return ResponseEntity
