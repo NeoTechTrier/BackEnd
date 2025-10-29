@@ -31,4 +31,7 @@ public interface ProdutoRespository extends JpaRepository<ProdutoModel, Integer>
     @Transactional
     @Query("delete from ProdutoModel p where p.empresa.cdEmpresa = :cdEmpresa")
     void deleteAllByEmpresa_CdEmpresa(Integer cdEmpresa);
+
+
+
 }
