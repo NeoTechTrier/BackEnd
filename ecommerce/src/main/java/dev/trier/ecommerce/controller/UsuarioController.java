@@ -64,8 +64,7 @@ public class UsuarioController {
 
     //IMCOMPLETO
     @CrossOrigin
-    @GetMapping("/{cdCliente}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/buscar/{cdCliente}")
     @Operation(summary = "Buscar usuário por código", description = "Retorna os dados do usuário pelo código informado")
     public Optional<UsuarioResponseDto>  listarCdUsuario(@PathVariable Integer cdCliente) {
         return usuarioService.listarCdUsuario(cdCliente);
@@ -84,7 +83,7 @@ public class UsuarioController {
     }
 
     @PutMapping("/update/{cdUsuario}")
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Atualizar usuário", description = "Atualiza os dados de um usuário pelo código")
     public ResponseEntity<UsuarioResponseDto> atualizarUsuario(@PathVariable Integer cdUsuario,
                                                                 @RequestBody @Valid UsuarioUpdateDto usuarioUpdateDto) {

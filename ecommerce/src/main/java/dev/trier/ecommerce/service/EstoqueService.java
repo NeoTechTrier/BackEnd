@@ -79,7 +79,8 @@ public class EstoqueService {
                         estoqueModel.getCdEstoque(),
                         estoqueModel.getQtdEstoqueProduto(),
                         estoqueModel.getProduto().getCdProduto(),
-                        estoqueModel.getProduto().getNmProduto()
+                        estoqueModel.getProduto().getNmProduto(),
+                        estoqueModel.getProduto().getFlAtivo()
                 ))
                 .toList();
     }
