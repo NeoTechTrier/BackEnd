@@ -4,6 +4,7 @@ public record ListarEstoqueResponseDto(
         Integer cdEstoque,
         Integer qtdEstoqueProduto,
         Integer cdProduto,
-        String nmProduto
+        String nmProduto,
+        String flAtivo
 ) {
 }
