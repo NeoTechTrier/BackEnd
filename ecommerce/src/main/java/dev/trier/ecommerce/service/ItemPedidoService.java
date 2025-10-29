@@ -38,6 +38,7 @@ public class ItemPedidoService {
         ItemPedidoModel itemPedidoModel = new ItemPedidoModel();
         itemPedidoModel.setProduto(produtoModel);
         itemPedidoModel.setPedido(pedidoModel);
+        itemPedidoModel.setVlItemPedido(itemPedidoCriarDto.vlItemPedido());
         itemPedidoModel.setQtItem(itemPedidoCriarDto.qtItem());
 
         ItemPedidoModel salvar=  itemPedidoRepository.save(itemPedidoModel);

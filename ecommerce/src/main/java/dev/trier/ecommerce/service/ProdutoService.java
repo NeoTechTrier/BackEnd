@@ -22,12 +22,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import dev.trier.ecommerce.exceptions.EntityInUseException;
+import dev.trier.ecommerce.repository.ItemPedidoRepository;
+
 @AllArgsConstructor
 @Service
 public class ProdutoService {
 
     private final ProdutoRespository produtoRespository;
     private final EmpresaRepository empresaRepository;
+    private final ItemPedidoRepository itemPedidoRepository;
 
     @Transactional
     public CriarProdutoResponseDto criarProduto(ProdutoCriarDto produtoCriarDto) {
@@ -221,6 +225,16 @@ public class ProdutoService {
                         produto.getDsProduto()
                 ));
     }
-    //public List<ProdutoCategoriaResponseDto> listarProdutoCategoria()
+
+
+    @Transactional
+    public void removerProduto(Integer cdProduto) {
+        boolean usada = itemPedidoRepository.existsByProduto_CdProduto(cdProduto);
+        if (usada) {
+            throw new EntityInUseException("Produto já está presente em um ItemPedido e não pode ser excluído.");
+        }
+
+        produtoRespository.deleteById(cdProduto);
+    }
 
 }

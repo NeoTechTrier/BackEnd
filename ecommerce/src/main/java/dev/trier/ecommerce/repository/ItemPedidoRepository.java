@@ -11,4 +11,10 @@ public interface ItemPedidoRepository extends JpaRepository<ItemPedidoModel, Int
     Optional<ItemPedidoModel> findByCdItemPedido(Integer cdItemPedido);
    // Optional<ItemPedidoModel> findByCdProduto(Integer cdProduto);
    // Optional<ItemPedidoModel> findByCdPedido(Integer cdPedido);
+
+
+    boolean existsByProduto_CdProduto(Integer cdProduto);
+
+
+    boolean existsByProduto_Empresa_CdEmpresa(Integer cdEmpresa);
 }

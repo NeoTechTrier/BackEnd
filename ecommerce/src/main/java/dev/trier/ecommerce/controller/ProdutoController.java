@@ -167,4 +167,20 @@ public class ProdutoController {
         }
     }
 
+    // --- Novo endpoint: deletar produto (somente ADMIN) ---
+    @DeleteMapping("/delete/{cdProduto}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> deletarProduto(@PathVariable Integer cdProduto) {
+        try {
+            produtoService.removerProduto(cdProduto);
+            return ResponseEntity.noContent().build();
+        } catch (dev.trier.ecommerce.exceptions.EntityInUseException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        } catch (RecursoNaoEncontradoException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
 }

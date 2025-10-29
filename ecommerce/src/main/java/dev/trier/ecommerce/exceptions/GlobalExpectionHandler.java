@@ -48,4 +48,14 @@ public class GlobalExpectionHandler {
         body.put("message", "O tamanho do arquivo excede o limite permitido. Tente enviar um arquivo menor.");
         return new ResponseEntity<>(body, HttpStatus.PAYLOAD_TOO_LARGE);
     }
+
+    @ExceptionHandler(EntityInUseException.class)
+    public ResponseEntity<Object> handleEntityInUse(EntityInUseException ex) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("status", HttpStatus.CONFLICT.value());
+        body.put("error", "Recurso em uso");
+        body.put("message", ex.getMessage());
+        return new ResponseEntity<>(body, HttpStatus.CONFLICT);
+    }
 }

@@ -13,6 +13,12 @@ public record ItemPedidoCriarDto(
         @NotNull(message = "Obrigatório informar o código do produto")
         @Schema(description = "Identificador único do produto que vai no item pedido", example = "1")
         Integer cdProduto,
+
+        @NotNull(message = "Obrigatório informar o valor do item pedido")
+        @Positive
+        @Schema(description = "Aqui vai ser o valor dos itens para este pedido")
+        Double vlItemPedido,
+
         @NotNull(message = "Obrigatório informar a quantitade do item pedido")
         @Positive
         @Schema(description = "Aqui vai ser a quantidade de itens para este pedido")
