@@ -52,6 +52,7 @@ public class ProdutoService {
         }
         ProdutoModel salvo = produtoRespository.save(produtoModel);
         return new CriarProdutoResponseDto(
+                salvo.getCdProduto(),
                 salvo.getNmProduto(),
                 salvo.getVlProduto(),
                 salvo.getDsCategoria(),
