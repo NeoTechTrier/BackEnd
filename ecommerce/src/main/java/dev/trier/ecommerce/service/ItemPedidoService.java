@@ -48,8 +48,6 @@ public class ItemPedidoService {
 
         estoqueService.diminuirEstoqueProduto(itemPedidoCriarDto.cdProduto(),itemPedidoCriarDto.qtItem());
 
-
-
         ItemPedidoModel itemPedidoModel = new ItemPedidoModel();
         itemPedidoModel.setProduto(produtoModel);
         itemPedidoModel.setPedido(pedidoModel);

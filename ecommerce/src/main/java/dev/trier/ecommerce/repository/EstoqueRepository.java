@@ -13,6 +13,4 @@ public interface EstoqueRepository extends JpaRepository<EstoqueModel, Integer> 
     Optional<EstoqueModel> findByCdEstoque(Integer cdEstoque);
     EstoqueModel findByProduto_CdProduto(Integer cdProduto);
 
-
-
 }

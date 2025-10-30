@@ -42,17 +42,6 @@ public class ProdutoController {
                 .body(produtoCriado);
     }
 
-/*
-//EM TESTE EXEMPLO
-    @PostMapping(path = "/criar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<CriarProdutoResponseDto> criarProduto(@ModelAttribute @Valid ProdutoCriarDto produtoCriarDto) {  //ModelAttribute para receber multipart
-        CriarProdutoResponseDto CriarProdutoResponseDto = produtoService.criarProduto(produtoCriarDto);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(CriarProdutoResponseDto);
-    }
-
- */
-
     //Precisa trocar o return para ResponseDto
     @CrossOrigin
     @GetMapping(path = "/listar/todos")
@@ -84,28 +73,6 @@ public class ProdutoController {
                 .body(produto.getImgProduto());
     }
 
-
-/*
-//Endpoint em teste de criação para usar somente DTO
-    @CrossOrigin
-    @GetMapping(path = "/{cdProduto}/imagem2")
-    @Transactional
-    public ResponseEntity<Optional<ListarImagemCdProdutoDto>> listarImagemCdProduto(Integer cdProduto) {
-        Optional<ListarImagemCdProdutoDto> imagem = produtoService.lsitarImagemCdProduto(cdProduto);
-        return ResponseEntity.ok()
-                .contentType(MediaType.IMAGE_JPEG)
-                .body(imagem);
-    }
-
- */
-
-
-
-
-
-
-
-
     //Endpoint para buscar dados do produto, uso de dto para definidas as entidades em get do BD
     @CrossOrigin
     @GetMapping(path = "/{cdProduto}/idProduto")
@@ -125,16 +92,6 @@ public class ProdutoController {
                 .body(response);
     }
 
-    /*
-
-    //Metodo delete Produto, efeito cascata, na qual só apgara se o produto não estiver sido comprado
-    @DeleteMapping("/{cdProduto}/excluir")
-    public ResponseEntity<?> deleteProduto(@PathVariable Integer cdProduto){
-        produtoService.deleteProduto(cdProduto);
-        return ResponseEntity.noContent().build();
-    }
-
-    // --- Novo endpoint: deletar produto (somente ADMIN) ---
     @DeleteMapping("/delete/{cdProduto}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deletarProduto(@PathVariable Integer cdProduto) {

@@ -49,7 +49,6 @@ public class EstoqueService {
 
     }
 
-
     //Metodo atualizar estoque
     @Transactional
     public EstoqueCriadoRespostaDto atualizarEstoque(Integer cdEstoque, EstoqueUpdateDto updateDto) {
@@ -89,7 +88,6 @@ public class EstoqueService {
                 ))
                 .toList();
     }
-
 
     //Metodo para diminuir estoque
     @Transactional
