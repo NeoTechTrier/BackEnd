@@ -33,13 +33,8 @@ public class PedidoService {
         return pedidoRepository.save(pedidoModel);
     }
 
-    //Metodo Listar Pedidos //SOMENTE PARA ADMIN
     public List<PedidoModel> listarPedidos(){
         return pedidoRepository.findAll();
     }
 
-    //Metodo Finalizar Pedido
-
-
-    //Metodo Retirar Produto do Carrinho (Verificar se é em Pedido ou ItemPedido)
 }
