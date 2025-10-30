@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import dev.trier.ecommerce.exceptions.EntityInUseException;
 import dev.trier.ecommerce.repository.ItemPedidoRepository;
@@ -69,19 +70,27 @@ public class ProdutoService {
     }
 
     //Vericar os dados do DTO
-    public List<ListarProdutosResponseDto> listarProdutos(){
+    public List<ListarProdutosResponseDto> listarProdutos() {
         return produtoRespository.findAll()
                 .stream()
-                .map(produto -> new ListarProdutosResponseDto(
-                        produto.getNmProduto(),
-                        produto.getVlProduto(),
-                        produto.getDsCategoria().toString(),
-                        produto.getDsProduto(),
-                        produto.getImgProduto(),
-                        produto.getCdProduto(),
-                        produto.getEmpresa().getCdEmpresa(),
-                        produto.
-                ))
+                .map(produto -> {
+                    int qtdEstoque = Stream.ofNullable(produto.getEstoques())
+                            .flatMap(List::stream)
+                            .filter(e -> "S".equalsIgnoreCase(e.getFlAtivo()))
+                            .mapToInt(e -> Optional.ofNullable(e.getQtdEstoqueProduto()).orElse(0))
+                            .sum();
+
+                    return new ListarProdutosResponseDto(
+                            produto.getNmProduto(),
+                            produto.getVlProduto(),
+                            produto.getDsCategoria().toString(),
+                            produto.getDsProduto(),
+                            produto.getImgProduto(),
+                            produto.getCdProduto(),
+                            produto.getEmpresa().getCdEmpresa(),
+                            qtdEstoque
+                    );
+                })
                 .collect(Collectors.toList());
     }
 
