@@ -53,12 +53,12 @@ public class ProdutoController {
                 .body(produtoService.listarProdutos());
     }
 
-    @GetMapping(path = "/categoria/{categoria}")
-    @Operation(summary = "Listar por categoria", description = "Lista produtos filtrando pela categoria")
-    public ResponseEntity<List<ProdutoIdResponseDto>> listarPorCategoria(@PathVariable String categoria) {
-        List<ProdutoIdResponseDto> lista = produtoService.listarProdutosPorCategoria(categoria);
-        return ResponseEntity.status(HttpStatus.OK).body(lista);
-    }
+//    @GetMapping(path = "/categoria/{categoria}")
+//    @Operation(summary = "Listar por categoria", description = "Lista produtos filtrando pela categoria")
+//    public ResponseEntity<List<ProdutoIdResponseDto>> listarPorCategoria(@PathVariable String categoria) {
+//        List<ProdutoIdResponseDto> lista = produtoService.listarProdutosPorCategoria(categoria);
+//        return ResponseEntity.status(HttpStatus.OK).body(lista);
+//    }
 
 
 
