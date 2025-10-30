@@ -11,9 +11,9 @@ public record UsuarioUpdateDto(
         @Schema(description = "Email para login do usuário", example = "davi@example.com")
         String dsEmail,
 
-        @Schema(description = "Senha do usuário", example = "Secret@123")
-        @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", message = "Senha precisa ter letras maiúsculas, minúsculas, número e caractere especial, mínimo 8 caracteres")
-        String dsSenha,
+//        @Schema(description = "Senha do usuário", example = "Secret@123")
+//        @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", message = "Senha precisa ter letras maiúsculas, minúsculas, número e caractere especial, mínimo 8 caracteres")
+//        String dsSenha,
 
         @Schema(description = "Número de CPF", example = "112.123.123-22")
         @Pattern(regexp = "^(\\d{3}\\.?){3}-?\\d{2}$")

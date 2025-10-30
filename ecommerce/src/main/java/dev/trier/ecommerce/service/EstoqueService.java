@@ -3,6 +3,7 @@ package dev.trier.ecommerce.service;
 import dev.trier.ecommerce.dto.empresa.criacao.EmpresaCriadaRespostaDto;
 import dev.trier.ecommerce.dto.estoque.criacao.EstoqueCriadoRespostaDto;
 import dev.trier.ecommerce.dto.estoque.criacao.EstoqueCriarDto;
+import dev.trier.ecommerce.dto.estoque.criacao.ListarEstoqueResponseDto;
 import dev.trier.ecommerce.dto.estoque.modificacao.EstoqueUpdateDto;
 import dev.trier.ecommerce.model.EstoqueModel;
 import dev.trier.ecommerce.model.ProdutoModel;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Service
@@ -25,6 +27,7 @@ public class EstoqueService {
     private final EstoqueRepository estoqueRepository;
     private final ProdutoRespository produtoRespository;
 
+    //Metodo criad estoque
     @Transactional
     public EstoqueCriadoRespostaDto criarEstoque(EstoqueCriarDto estoqueCriarDto) {
 
@@ -46,6 +49,7 @@ public class EstoqueService {
 
     }
 
+    //Metodo atualizar estoque
     @Transactional
     public EstoqueCriadoRespostaDto atualizarEstoque(Integer cdEstoque, EstoqueUpdateDto updateDto) {
         EstoqueModel estoqueModel = estoqueRepository.findByCdEstoque(cdEstoque)
@@ -71,7 +75,31 @@ public class EstoqueService {
         );
     }
 
-    public List<EstoqueModel> listarEstoque(){
-        return estoqueRepository.findAll();
+    //Metodo listar estoque
+    public List<ListarEstoqueResponseDto> listarEstoque(){
+        return estoqueRepository.findAll()
+                .stream()
+                .map(estoqueModel -> new ListarEstoqueResponseDto(
+                        estoqueModel.getCdEstoque(),
+                        estoqueModel.getQtdEstoqueProduto(),
+                        estoqueModel.getProduto().getCdProduto(),
+                        estoqueModel.getProduto().getNmProduto(),
+                        estoqueModel.getProduto().getFlAtivo()
+                ))
+                .toList();
     }
+
+    //Metodo para diminuir estoque
+    @Transactional
+    public void diminuirEstoqueProduto(Integer cdProduto, Integer qtdEstoqueProduto) {
+        EstoqueModel estoqueModel = estoqueRepository.findByProduto_CdProduto(cdProduto);
+        if (estoqueModel.getQtdEstoqueProduto() < qtdEstoqueProduto) {
+            throw new RecursoNaoEncontradoException("Estoque insuficente (estoque atual: " + estoqueModel.getQtdEstoqueProduto() + ")");
+        }
+        estoqueModel.setQtdEstoqueProduto(estoqueModel.getQtdEstoqueProduto() - qtdEstoqueProduto);
+        estoqueRepository.save(estoqueModel);
+    }
+
+
+
 }

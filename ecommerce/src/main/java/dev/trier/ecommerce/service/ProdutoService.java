@@ -8,6 +8,7 @@ import dev.trier.ecommerce.dto.produto.response.ProdutoTextUpdateDto;
 import dev.trier.ecommerce.dto.produto.criacao.ProdutoCriarDto;
 import dev.trier.ecommerce.exceptions.RecursoNaoEncontradoException;
 import dev.trier.ecommerce.model.EmpresaModel;
+import dev.trier.ecommerce.model.EstoqueModel;
 import dev.trier.ecommerce.model.ProdutoModel;
 import dev.trier.ecommerce.model.enums.CategoriaProduto;
 import dev.trier.ecommerce.repository.EmpresaRepository;
@@ -59,17 +60,17 @@ public class ProdutoService {
         }
         ProdutoModel salvo = produtoRespository.save(produtoModel);
         return new CriarProdutoResponseDto(
+                salvo.getCdProduto(),
                 salvo.getNmProduto(),
                 salvo.getVlProduto(),
                 salvo.getDsCategoria(),
                 salvo.getDsProduto(),
-                salvo.getImgProduto(),
                 salvo.getCdProduto()
         );
     }
 
     //Vericar os dados do DTO
-    public List<ListarProdutosResponseDto> listarProdutos(){
+    public List<ListarProdutosResponseDto> listarProdutos() {
         return produtoRespository.findAll()
                 .stream()
                 .map(produto -> {
@@ -78,6 +79,7 @@ public class ProdutoService {
                             .filter(e -> "S".equalsIgnoreCase(e.getFlAtivo()))
                             .mapToInt(e -> Optional.ofNullable(e.getQtdEstoqueProduto()).orElse(0))
                             .sum();
+
                     return new ListarProdutosResponseDto(
                             produto.getNmProduto(),
                             produto.getVlProduto(),
@@ -94,11 +96,15 @@ public class ProdutoService {
 
     public List<ProdutoIdResponseDto> listarProdutosPorCategoria(String categoria) {
         CategoriaProduto cat = CategoriaProduto.fromString(categoria);
-        // Repositório já retorna diretamente o DTO via @Query
-        return produtoRespository.findAllByDsCategoria(cat);
+        return produtoRespository.findAllByDsCategoria(cat).stream()
+                .map(produto -> new ProdutoIdResponseDto(
+                        produto.nmProduto(),
+                        produto.vlProduto(),
+                        produto.dsProduto(),
+                        produto.categoria()
+                ))
+                .toList();
     }
-
-    //---------------------------------------------------------------------------------
 
     //Provavel GET busca Imagem
     public ProdutoModel buscarProdutoPorId(Integer cdProduto) {
@@ -106,19 +112,6 @@ public class ProdutoService {
                 .orElseThrow(
                         () -> new RuntimeException("Produto não encontrado"));
     }
-
-    /*
-    //Metodos para o endpoint de imagem pelo DTO
-    public Optional<ListarImagemCdProdutoDto> lsitarImagemCdProduto(Integer cdProduto) {
-        return produtoRespository.findByCdProduto(cdProduto)
-                .map(produto -> new ListarImagemCdProdutoDto(
-                        produto.getImgProduto()
-                ));
-    }
-
-     */
-
-    //---------------------------------------------------------------------------------
 
     public Optional<ProdutoIdResponseDto> buscarProdutoId(Integer cdProduto) {
         return produtoRespository.findByCdProduto(cdProduto)
@@ -128,8 +121,6 @@ public class ProdutoService {
                         produto.getDsProduto(),
                         produto.getDsCategoria()
                 ));
-
-        //.orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 
     }
 

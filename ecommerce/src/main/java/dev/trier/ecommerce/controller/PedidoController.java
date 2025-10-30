@@ -1,6 +1,8 @@
 package dev.trier.ecommerce.controller;
 
+import dev.trier.ecommerce.dto.pedido.criacao.ListarPedidosResponseDto;
 import dev.trier.ecommerce.dto.pedido.criacao.PedidoCriarDto;
+import dev.trier.ecommerce.dto.pedido.criacao.PedidoCriarResponseDto;
 import dev.trier.ecommerce.model.PedidoModel;
 import dev.trier.ecommerce.service.PedidoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,15 +27,15 @@ PedidoController {
 
     @PostMapping(path = "/criar")
     @Operation(summary = "Criar pedido", description = "Cria um novo pedido")
-    public ResponseEntity<PedidoModel> criarPedido(@RequestBody @Valid PedidoCriarDto pedidoCriarDto) {
-        PedidoModel pedidoModel = pedidoService.criarPedido(pedidoCriarDto);
+    public ResponseEntity<PedidoCriarResponseDto> criarPedido(@RequestBody @Valid PedidoCriarDto pedidoCriarDto) {
+        PedidoCriarResponseDto pedidoModel = pedidoService.criarPedido(pedidoCriarDto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(pedidoModel);
     }
     @GetMapping(path = "/listar/todos")
     @Operation(summary = "Listar pedidos", description = "Lista todos os pedidos cadastrados")
-    public ResponseEntity<List<PedidoModel>> listarPedidos(){
+    public ResponseEntity<List<ListarPedidosResponseDto>> listarPedidos(){
         var lista = pedidoService.listarPedidos();
         return ResponseEntity
                 .status(HttpStatus.OK)
