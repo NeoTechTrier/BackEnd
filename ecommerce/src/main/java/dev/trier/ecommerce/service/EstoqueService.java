@@ -27,6 +27,7 @@ public class EstoqueService {
     private final EstoqueRepository estoqueRepository;
     private final ProdutoRespository produtoRespository;
 
+    //Metodo criad estoque
     @Transactional
     public EstoqueCriadoRespostaDto criarEstoque(EstoqueCriarDto estoqueCriarDto) {
 
@@ -48,6 +49,8 @@ public class EstoqueService {
 
     }
 
+
+    //Metodo atualizar estoque
     @Transactional
     public EstoqueCriadoRespostaDto atualizarEstoque(Integer cdEstoque, EstoqueUpdateDto updateDto) {
         EstoqueModel estoqueModel = estoqueRepository.findByCdEstoque(cdEstoque)
@@ -73,6 +76,7 @@ public class EstoqueService {
         );
     }
 
+    //Metodo listar estoque
     public List<ListarEstoqueResponseDto> listarEstoque(){
         return estoqueRepository.findAll()
                 .stream()
