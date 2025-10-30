@@ -8,7 +8,6 @@ import dev.trier.ecommerce.dto.produto.response.ProdutoTextUpdateDto;
 import dev.trier.ecommerce.dto.produto.criacao.ProdutoCriarDto;
 import dev.trier.ecommerce.exceptions.RecursoNaoEncontradoException;
 import dev.trier.ecommerce.model.EmpresaModel;
-import dev.trier.ecommerce.model.EstoqueModel;
 import dev.trier.ecommerce.model.ProdutoModel;
 import dev.trier.ecommerce.model.enums.CategoriaProduto;
 import dev.trier.ecommerce.repository.EmpresaRepository;
@@ -23,6 +22,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import dev.trier.ecommerce.exceptions.EntityInUseException;
 import dev.trier.ecommerce.repository.ItemPedidoRepository;
@@ -72,29 +72,30 @@ public class ProdutoService {
     public List<ListarProdutosResponseDto> listarProdutos(){
         return produtoRespository.findAll()
                 .stream()
-                .map(produto -> new ListarProdutosResponseDto(
-                        produto.getNmProduto(),
-                        produto.getVlProduto(),
-                        produto.getDsCategoria().toString(),
-                        produto.getDsProduto(),
-                        produto.getImgProduto(),
-                        produto.getCdProduto(),
-                        produto.getEmpresa().getCdEmpresa(),
-                        produto.
-                ))
+                .map(produto -> {
+                    int qtdEstoque = Stream.ofNullable(produto.getEstoques())
+                            .flatMap(List::stream)
+                            .filter(e -> "S".equalsIgnoreCase(e.getFlAtivo()))
+                            .mapToInt(e -> Optional.ofNullable(e.getQtdEstoqueProduto()).orElse(0))
+                            .sum();
+                    return new ListarProdutosResponseDto(
+                            produto.getNmProduto(),
+                            produto.getVlProduto(),
+                            produto.getDsCategoria().toString(),
+                            produto.getDsProduto(),
+                            produto.getImgProduto(),
+                            produto.getCdProduto(),
+                            produto.getEmpresa().getCdEmpresa(),
+                            qtdEstoque
+                    );
+                })
                 .collect(Collectors.toList());
     }
 
     public List<ProdutoIdResponseDto> listarProdutosPorCategoria(String categoria) {
         CategoriaProduto cat = CategoriaProduto.fromString(categoria);
-        return produtoRespository.findAllByDsCategoria(cat).stream()
-                .map(produto -> new ProdutoIdResponseDto(
-                        produto.nmProduto(),
-                        produto.vlProduto(),
-                        produto.dsProduto(),
-                        produto.categoria()
-                ))
-                .toList();
+        // Repositório já retorna diretamente o DTO via @Query
+        return produtoRespository.findAllByDsCategoria(cat);
     }
 
     //---------------------------------------------------------------------------------
