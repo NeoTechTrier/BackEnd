@@ -1,7 +1,10 @@
 package dev.trier.ecommerce.service;
 
+import dev.trier.ecommerce.dto.estoque.criacao.ListarEstoqueResponseDto;
 import dev.trier.ecommerce.dto.itempedido.criacao.ItemPedidoCriadoRespostaDto;
 import dev.trier.ecommerce.dto.itempedido.criacao.ItemPedidoCriarDto;
+import dev.trier.ecommerce.dto.itempedido.criacao.ListarItensPedidosResponseDto;
+import dev.trier.ecommerce.model.EstoqueModel;
 import dev.trier.ecommerce.model.ItemPedidoModel;
 import dev.trier.ecommerce.model.PedidoModel;
 import dev.trier.ecommerce.model.ProdutoModel;
@@ -25,15 +28,27 @@ public class ItemPedidoService {
     private final ProdutoRespository produtoRespository;
     private final PedidoRepository pedidoRepository;
     private final EstoqueRepository estoqueRepository;
+    private final EstoqueService estoqueService;
+
 
     @Transactional
     public ItemPedidoCriadoRespostaDto criarItemPedido(ItemPedidoCriarDto itemPedidoCriarDto) {
+
         ProdutoModel produtoModel = produtoRespository.findById(itemPedidoCriarDto.cdProduto())
-                .orElseThrow(
-                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado para o código: " + itemPedidoCriarDto.cdProduto()));  //Procura cdProduto antes de criar no ItemPedido
+                .orElseThrow( //Procura cdProduto antes de criar no ItemPedido
+                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado para o código: " + itemPedidoCriarDto.cdProduto()));
         PedidoModel pedidoModel = pedidoRepository.findById(itemPedidoCriarDto.cdPedido())
-                .orElseThrow(
-                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido não encontrado para o código: " + itemPedidoCriarDto.cdPedido()));  //Procura cdPedido antes de criar no ItemPedido
+                .orElseThrow( //Procura cdPedido antes de criar no ItemPedido
+                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido não encontrado para o código: " + itemPedidoCriarDto.cdPedido()));
+       // EstoqueModel estoqueModel = estoqueRepository.findByCdProduto(itemPedidoCriarDto.cdProduto())
+         //       .orElseThrow( //Verifica quantidade de item Produto no estoque
+           //             ()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Estoque do produto" + itemPedidoCriarDto.cdProduto() + " esgotado"));
+        //----------------------------------------------------------------------------
+
+
+        estoqueService.diminuirEstoqueProduto(itemPedidoCriarDto.cdProduto(),itemPedidoCriarDto.qtItem());
+
+
 
         ItemPedidoModel itemPedidoModel = new ItemPedidoModel();
         itemPedidoModel.setProduto(produtoModel);
@@ -53,7 +68,15 @@ public class ItemPedidoService {
         );
     }
 
-    public List<ItemPedidoModel> listaItemPedidos() {
-        return itemPedidoRepository.findAll();
+    public List<ListarItensPedidosResponseDto> listaItemPedidos() {
+        return itemPedidoRepository.findAll()
+                .stream()
+                .map(itemPedidoModel -> new ListarItensPedidosResponseDto(
+                        itemPedidoModel.getPedido().getCdPedido(),
+                        itemPedidoModel.getVlItemPedido(),
+                        itemPedidoModel.getQtItem()
+                ))
+                .toList();
     }
+
 }

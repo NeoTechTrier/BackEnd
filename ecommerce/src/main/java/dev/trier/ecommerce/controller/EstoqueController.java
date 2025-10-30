@@ -2,6 +2,7 @@ package dev.trier.ecommerce.controller;
 
 import dev.trier.ecommerce.dto.estoque.criacao.EstoqueCriadoRespostaDto;
 import dev.trier.ecommerce.dto.estoque.criacao.EstoqueCriarDto;
+import dev.trier.ecommerce.dto.estoque.criacao.ListarEstoqueResponseDto;
 import dev.trier.ecommerce.dto.estoque.modificacao.EstoqueUpdateDto;
 import dev.trier.ecommerce.model.EstoqueModel;
 import dev.trier.ecommerce.repository.EstoqueRepository;
@@ -21,13 +22,13 @@ import java.util.List;
 @RequestMapping("/estoque")
 @Tag(name = "Estoque", description = "Capacidade de criação e modificação do estoque")
 @CrossOrigin("*")
+@PreAuthorize("hasRole('ADMIN')")
 public class EstoqueController {
 
     @Autowired
     private EstoqueService estoqueService;
 
     @PostMapping(path = "/criar")
-    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Criar estoque", description = "Cria um novo registro de estoque")
     public ResponseEntity<EstoqueCriadoRespostaDto> criarEstoque(@RequestBody @Valid EstoqueCriarDto estoqueCriarDto) {
         EstoqueCriadoRespostaDto estoqueCriado = estoqueService.criarEstoque(estoqueCriarDto);
@@ -37,9 +38,8 @@ public class EstoqueController {
     }
 
     @GetMapping(path = "/listar/todos")
-    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Listar estoque", description = "Lista todos os registros de estoque")
-    public ResponseEntity<List<EstoqueModel>> listarEstoque() {
+    public ResponseEntity<List<ListarEstoqueResponseDto>> listarEstoque() {
         var lista = estoqueService.listarEstoque();
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -48,7 +48,6 @@ public class EstoqueController {
     }
 
     @PutMapping("/update/{cdEstoque}")
-    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Atualizar estoque", description = "Atualiza os dados de um estoque pelo código")
     public ResponseEntity<EstoqueCriadoRespostaDto> atualizarEstoque(@PathVariable Integer cdEstoque,
                                                                     @RequestBody @Valid EstoqueUpdateDto updateDto) {
