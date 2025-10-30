@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Service
@@ -83,4 +84,19 @@ public class EstoqueService {
                 ))
                 .toList();
     }
+
+
+    //Metodo para diminuir estoque
+    @Transactional
+    public void diminuirEstoqueProduto(Integer cdProduto, Integer qtdEstoqueProduto) {
+        EstoqueModel estoqueModel = estoqueRepository.findByProduto_CdProduto(cdProduto);
+        if (estoqueModel.getQtdEstoqueProduto() < qtdEstoqueProduto) {
+            throw new RecursoNaoEncontradoException("Estoque insuficente (estoque atual: " + estoqueModel.getQtdEstoqueProduto() + ")");
+        }
+        estoqueModel.setQtdEstoqueProduto(estoqueModel.getQtdEstoqueProduto() - qtdEstoqueProduto);
+        estoqueRepository.save(estoqueModel);
+    }
+
+
+
 }
