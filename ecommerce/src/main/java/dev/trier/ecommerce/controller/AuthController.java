@@ -41,7 +41,7 @@ public class AuthController {
         UsuarioModel usuario = usuarioRepository.findByDsEmail(request.dsEmail()).orElseThrow();
         String token = tokenConfig.generateToken(usuario);
 
-        return ResponseEntity.ok(new LoginResponse(token, usuario.getCdUsuario(), usuario.getDsEmail()));
+        return ResponseEntity.ok(new LoginResponse(token, usuario.getCdUsuario(), usuario.getDsEmail(), usuario.getUserRole()));
     }
 
     @PostMapping("/register")
