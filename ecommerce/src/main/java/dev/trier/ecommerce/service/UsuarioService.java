@@ -24,7 +24,6 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
 
-
     @Transactional
     public UsuarioResponseDto criarUsuario(UsuarioCriarDto usuarioCriarDto){
         UsuarioModel usuarioModel = new UsuarioModel();
@@ -97,8 +96,6 @@ public class UsuarioService {
                 ));
     }
 
-
-    //Deu Certo
     public List<UsuarioResponseDto> listarUsuarios(){
         return usuarioRepository.findAll() 
                 .stream()
@@ -131,7 +128,6 @@ public class UsuarioService {
                        usuario.getDsEmail(),
                        usuario.getFlAtivo()
                ));
-               // .orElseThrow(() -> new RecursoNaoEncontradoException("Usu\u00e1rio " + nmCliente + " n\u00e3o encontrado."));
     }
 
     public Optional<UsuarioResponseDto> listarUsuarioCPF(String nuCPF){
@@ -148,7 +144,5 @@ public class UsuarioService {
                         usuario.getDsEmail(),
                         usuario.getFlAtivo()
                 ));
-       // .orElseThrow(() -> new RecursoNaoEncontradoException(nuCPF + "n\u00e3o encontrado."));
-
     }
 }

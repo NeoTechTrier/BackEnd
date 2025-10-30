@@ -106,27 +106,12 @@ public class ProdutoService {
                 .toList();
     }
 
-    //---------------------------------------------------------------------------------
-
     //Provavel GET busca Imagem
     public ProdutoModel buscarProdutoPorId(Integer cdProduto) {
         return produtoRespository.findByCdProduto(cdProduto)
                 .orElseThrow(
                         () -> new RuntimeException("Produto não encontrado"));
     }
-
-    /*
-    //Metodos para o endpoint de imagem pelo DTO
-    public Optional<ListarImagemCdProdutoDto> lsitarImagemCdProduto(Integer cdProduto) {
-        return produtoRespository.findByCdProduto(cdProduto)
-                .map(produto -> new ListarImagemCdProdutoDto(
-                        produto.getImgProduto()
-                ));
-    }
-
-     */
-
-    //---------------------------------------------------------------------------------
 
     public Optional<ProdutoIdResponseDto> buscarProdutoId(Integer cdProduto) {
         return produtoRespository.findByCdProduto(cdProduto)
@@ -136,8 +121,6 @@ public class ProdutoService {
                         produto.getDsProduto(),
                         produto.getDsCategoria()
                 ));
-
-        //.orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 
     }
 

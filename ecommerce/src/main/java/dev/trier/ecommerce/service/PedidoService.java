@@ -50,58 +50,6 @@ public class PedidoService {
         );
     }
 
-
-
-/*
-    @Transactional
-    public PedidoCriarResponseDto criarPedido(PedidoCriarDto pedidoCriarDto){
-        UsuarioModel usarioModel = usuarioRepository.findById(pedidoCriarDto.cdUsuario()).orElseThrow(
-                () -> new RuntimeException("Usuário não encontrado para o código: " + pedidoCriarDto.cdUsuario()) // Procura usuário antes de criar o pedidoCriarDto
-        );
-
-        PedidoModel pedidoModel = new PedidoModel();
-        pedidoModel.setUsuario(usarioModel);
-        pedidoModel.setFormaPagamento(pedidoCriarDto.formaPagamento());
-        pedidoModel.setVlFrete(pedidoCriarDto.vlFrete());
-        pedidoModel.setVlTotalPedido(pedidoCriarDto.vlTotalPedido());
-
-    ;
-
-        List<ItemPedidoModel> itens = new ArrayList<>();
-        for (ItemPedidoCriarDto itemDto : pedidoCriarDto.itensPedido()){
-           ProdutoModel produto = produtoRespository.findByCdProduto(itemDto.cdProduto())
-                    .orElseThrow(()-> new RecursoNaoEncontradoException("Produto não encontrado"));
-
-           //Lógica para consultar o estoque do Produtto
-           estoqueService.diminuirEstoqueProduto(produto.getCdProduto(), itemDto.qtItem());
-
-
-           ItemPedidoModel itemPedidoModel = new ItemPedidoModel();
-           itemPedidoModel.setProduto(produto);
-           itemPedidoModel.setQtItem(itemDto.qtItem());
-           itemPedidoModel.setPedido(pedidoModel);
-
-           itens.add(itemPedidoModel);
-        }
-
-        pedidoModel.setItensPedido(itens);
-        PedidoModel salvo = pedidoRepository.save(pedidoModel);
-
-        return new PedidoCriarResponseDto(
-                salvo.getFormaPagamento(),
-                salvo.getVlFrete(),
-                salvo.getVlTotalPedido()
-        );
-    }
-
- */
-
-
-
-
-
-
-
     //Metodo Listar Pedidos //SOMENTE PARA ADMIN
     public List<ListarPedidosResponseDto> listarPedidos(){
         return pedidoRepository.findAll()

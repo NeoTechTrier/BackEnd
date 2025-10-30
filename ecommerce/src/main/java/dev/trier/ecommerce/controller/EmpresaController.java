@@ -62,7 +62,6 @@ public class EmpresaController {
     @PutMapping("/update/{cdEmpresa}")
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Atualizar empresa", description = "Atualiza os dados de uma empresa pelo código")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<EmpresaCriadaRespostaDto> atualizarEmpresa(@PathVariable Integer cdEmpresa,
                                                                      @RequestBody @Valid UpdateEmpresaDto updateEmpresaDto) {
         try {

@@ -10,9 +10,7 @@ import java.util.Optional;
 public interface ItemPedidoRepository extends JpaRepository<ItemPedidoModel, Integer> {
     Optional<ItemPedidoModel> findByCdItemPedido(Integer cdItemPedido);
 
-
     boolean existsByProduto_CdProduto(Integer cdProduto);
-
 
     boolean existsByProduto_Empresa_CdEmpresa(Integer cdEmpresa);
 }
