@@ -77,7 +77,6 @@ public class ProdutoController {
     @CrossOrigin
     @GetMapping(path = "/{cdProduto}/imagem")
     @Transactional
-    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Obter imagem do produto", description = "Retorna a imagem do produto em formato JPEG")
     public ResponseEntity<byte[]> listarImagem(@PathVariable Integer cdProduto) {
         ProdutoModel produto = produtoService.buscarProdutoPorId(cdProduto);
@@ -111,7 +110,6 @@ public class ProdutoController {
     //Endpoint para buscar dados do produto, uso de dto para definidas as entidades em get do BD
     @CrossOrigin
     @GetMapping(path = "/{cdProduto}/idProduto")
-    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Buscar produto por ID", description = "Retorna os dados do produto pelo código")
     public ResponseEntity<Optional<ProdutoIdResponseDto>> buscarProdutoId(@PathVariable Integer cdProduto) {
         //ProdutoIdResponseDto response = produtoService.buscarProdutoId(cdProduto);
