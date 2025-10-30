@@ -16,15 +16,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
 @AllArgsConstructor
 @Tag(name = "Autenticação", description = "Endpoints de autenticação e registro de usuários")
+@CrossOrigin("*")
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
@@ -41,7 +39,8 @@ public class AuthController {
         UsuarioModel usuario = usuarioRepository.findByDsEmail(request.dsEmail()).orElseThrow();
         String token = tokenConfig.generateToken(usuario);
 
-        return ResponseEntity.ok(new LoginResponse(token, usuario.getCdUsuario(), usuario.getDsEmail()));
+
+        return ResponseEntity.ok(new LoginResponse(token, usuario.getCdUsuario(), usuario.getDsEmail(),usuario.getUserRole()));
     }
 
     @PostMapping("/register")
