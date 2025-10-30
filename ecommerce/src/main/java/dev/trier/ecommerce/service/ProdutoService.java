@@ -94,17 +94,17 @@ public class ProdutoService {
                 .collect(Collectors.toList());
     }
 
-    public List<ProdutoIdResponseDto> listarProdutosPorCategoria(String categoria) {
-        CategoriaProduto cat = CategoriaProduto.fromString(categoria);
-        return produtoRespository.findAllByDsCategoria(cat).stream()
-                .map(produto -> new ProdutoIdResponseDto(
-                        produto.nmProduto(),
-                        produto.vlProduto(),
-                        produto.dsProduto(),
-                        produto.categoria()
-                ))
-                .toList();
-    }
+//    public List<ProdutoIdResponseDto> listarProdutosPorCategoria(String categoria) {
+//        CategoriaProduto cat = CategoriaProduto.fromString(categoria);
+//        return produtoRespository.findAllByDsCategoria(cat).stream()
+//                .map(produto -> new ProdutoIdResponseDto(
+//                        produto.nmProduto(),
+//                        produto.vlProduto(),
+//                        produto.dsProduto(),
+//                        produto.categoria()
+//                ))
+//                .toList();
+//    }
 
     //Provavel GET busca Imagem
     public ProdutoModel buscarProdutoPorId(Integer cdProduto) {
