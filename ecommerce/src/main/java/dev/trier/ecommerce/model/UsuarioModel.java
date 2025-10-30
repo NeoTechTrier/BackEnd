@@ -1,4 +1,5 @@
 package dev.trier.ecommerce.model;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import dev.trier.ecommerce.model.enums.UsersRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -54,6 +55,7 @@ public class UsuarioModel implements UserDetails {
 
     private String flAtivo = "S";
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PedidoModel> pedidos;
 

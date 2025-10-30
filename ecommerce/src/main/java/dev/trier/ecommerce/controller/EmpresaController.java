@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 
@@ -61,11 +62,25 @@ public class EmpresaController {
     @PutMapping("/update/{cdEmpresa}")
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Atualizar empresa", description = "Atualiza os dados de uma empresa pelo código")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<EmpresaCriadaRespostaDto> atualizarEmpresa(@PathVariable Integer cdEmpresa,
                                                                      @RequestBody @Valid UpdateEmpresaDto updateEmpresaDto) {
         try {
             EmpresaCriadaRespostaDto atualizado = empresaService.atualizarEmpresa(cdEmpresa, updateEmpresaDto);
             return ResponseEntity.ok(atualizado);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    @DeleteMapping("/delete/{cdEmpresa}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> deletarEmpresa(@PathVariable Integer cdEmpresa) {
+        try {
+            empresaService.removerEmpresa(cdEmpresa);
+            return ResponseEntity.noContent().build();
+        } catch (dev.trier.ecommerce.exceptions.EntityInUseException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }

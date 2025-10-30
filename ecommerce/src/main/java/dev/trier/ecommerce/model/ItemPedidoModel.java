@@ -14,7 +14,7 @@ public class ItemPedidoModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer cdItemPedido;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY )
     @JoinColumn(name = "cdPedido")
     private PedidoModel pedido;
 

@@ -9,6 +9,8 @@ public record ListarProdutosResponseDto(
         String dsProduto,
         byte[] imgProduto,
         Integer cdProduto,
-        Integer cdEmpresa
+        Integer cdEmpresa,
+        Integer qtdEstoqueProduto
+        //Não pode contre camadas do Model, precisa modificar
 ) {
 }

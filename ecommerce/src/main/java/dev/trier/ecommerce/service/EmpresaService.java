@@ -15,11 +15,17 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import dev.trier.ecommerce.exceptions.EntityInUseException;
+import dev.trier.ecommerce.repository.ItemPedidoRepository;
+import dev.trier.ecommerce.repository.ProdutoRespository;
+
 @AllArgsConstructor
 @Service
 public class EmpresaService {
 
     private final EmpresaRepository empresaRepository;
+    private final ItemPedidoRepository itemPedidoRepository;
+    private final ProdutoRespository produtoRespository;
 
     @Transactional
     public EmpresaCriadaRespostaDto criarEmpresa(EmpresaCriarDto empresadto) {
@@ -103,4 +109,22 @@ public class EmpresaService {
                         .collect(Collectors.toList())
         );
     }
+
+    @Transactional
+    public void removerEmpresa(Integer cdEmpresa) {
+
+        if (!empresaRepository.existsById(cdEmpresa)) {
+            throw new RecursoNaoEncontradoException("Empresa não encontrada: " + cdEmpresa);
+        }
+
+        boolean usada = itemPedidoRepository.existsByProduto_Empresa_CdEmpresa(cdEmpresa);
+        if (usada) {
+            throw new EntityInUseException("Empresa possui produtos vinculados a pedidos e não pode ser removida.");
+        }
+
+        produtoRespository.deleteAllByEmpresa_CdEmpresa(cdEmpresa);
+
+        empresaRepository.deleteById(cdEmpresa);
+    }
+
  }
