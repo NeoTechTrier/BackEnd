@@ -93,7 +93,7 @@ public class ProdutoService {
                 })
                 .collect(Collectors.toList());
     }
-
+/*
     public List<ProdutoIdResponseDto> listarProdutosPorCategoria(String categoria) {
         CategoriaProduto cat = CategoriaProduto.fromString(categoria);
         return produtoRespository.findAllByDsCategoria(cat).stream()
@@ -105,6 +105,8 @@ public class ProdutoService {
                 ))
                 .toList();
     }
+
+ */
 
     //Provavel GET busca Imagem
     public ProdutoModel buscarProdutoPorId(Integer cdProduto) {
