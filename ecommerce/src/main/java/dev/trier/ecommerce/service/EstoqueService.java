@@ -49,7 +49,6 @@ public class EstoqueService {
 
     }
 
-
     //Metodo atualizar estoque
     @Transactional
     public EstoqueCriadoRespostaDto atualizarEstoque(Integer cdEstoque, EstoqueUpdateDto updateDto) {
@@ -84,11 +83,11 @@ public class EstoqueService {
                         estoqueModel.getCdEstoque(),
                         estoqueModel.getQtdEstoqueProduto(),
                         estoqueModel.getProduto().getCdProduto(),
-                        estoqueModel.getProduto().getNmProduto()
+                        estoqueModel.getProduto().getNmProduto(),
+                        estoqueModel.getProduto().getFlAtivo()
                 ))
                 .toList();
     }
-
 
     //Metodo para diminuir estoque
     @Transactional

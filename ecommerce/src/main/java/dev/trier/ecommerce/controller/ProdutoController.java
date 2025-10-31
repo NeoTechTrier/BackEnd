@@ -42,17 +42,6 @@ public class ProdutoController {
                 .body(produtoCriado);
     }
 
-/*
-//EM TESTE EXEMPLO
-    @PostMapping(path = "/criar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<CriarProdutoResponseDto> criarProduto(@ModelAttribute @Valid ProdutoCriarDto produtoCriarDto) {  //ModelAttribute para receber multipart
-        CriarProdutoResponseDto CriarProdutoResponseDto = produtoService.criarProduto(produtoCriarDto);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(CriarProdutoResponseDto);
-    }
-
- */
-
     //Precisa trocar o return para ResponseDto
     @CrossOrigin
     @GetMapping(path = "/listar/todos")
@@ -64,19 +53,18 @@ public class ProdutoController {
                 .body(produtoService.listarProdutos());
     }
 
-    @GetMapping(path = "/categoria/{categoria}")
-    @Operation(summary = "Listar por categoria", description = "Lista produtos filtrando pela categoria")
-    public ResponseEntity<List<ProdutoIdResponseDto>> listarPorCategoria(@PathVariable String categoria) {
-        List<ProdutoIdResponseDto> lista = produtoService.listarProdutosPorCategoria(categoria);
-        return ResponseEntity.status(HttpStatus.OK).body(lista);
-    }
+//    @GetMapping(path = "/categoria/{categoria}")
+//    @Operation(summary = "Listar por categoria", description = "Lista produtos filtrando pela categoria")
+//    public ResponseEntity<List<ProdutoIdResponseDto>> listarPorCategoria(@PathVariable String categoria) {
+//        List<ProdutoIdResponseDto> lista = produtoService.listarProdutosPorCategoria(categoria);
+//        return ResponseEntity.status(HttpStatus.OK).body(lista);
+//    }
 
 
 
     @CrossOrigin
     @GetMapping(path = "/{cdProduto}/imagem")
     @Transactional
-    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Obter imagem do produto", description = "Retorna a imagem do produto em formato JPEG")
     public ResponseEntity<byte[]> listarImagem(@PathVariable Integer cdProduto) {
         ProdutoModel produto = produtoService.buscarProdutoPorId(cdProduto);
@@ -85,32 +73,9 @@ public class ProdutoController {
                 .body(produto.getImgProduto());
     }
 
-
-/*
-//Endpoint em teste de criação para usar somente DTO
-    @CrossOrigin
-    @GetMapping(path = "/{cdProduto}/imagem2")
-    @Transactional
-    public ResponseEntity<Optional<ListarImagemCdProdutoDto>> listarImagemCdProduto(Integer cdProduto) {
-        Optional<ListarImagemCdProdutoDto> imagem = produtoService.lsitarImagemCdProduto(cdProduto);
-        return ResponseEntity.ok()
-                .contentType(MediaType.IMAGE_JPEG)
-                .body(imagem);
-    }
-
- */
-
-
-
-
-
-
-
-
     //Endpoint para buscar dados do produto, uso de dto para definidas as entidades em get do BD
     @CrossOrigin
     @GetMapping(path = "/{cdProduto}/idProduto")
-    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Buscar produto por ID", description = "Retorna os dados do produto pelo código")
     public ResponseEntity<Optional<ProdutoIdResponseDto>> buscarProdutoId(@PathVariable Integer cdProduto) {
         //ProdutoIdResponseDto response = produtoService.buscarProdutoId(cdProduto);
@@ -127,14 +92,19 @@ public class ProdutoController {
                 .body(response);
     }
 
-    /*
-
-    //Metodo delete Produto, efeito cascata, na qual só apgara se o produto não estiver sido comprado
-    @DeleteMapping("/{cdProduto}/excluir")
-    public ResponseEntity<?> deleteProduto(@PathVariable Integer cdProduto){
-        produtoService.deleteProduto(cdProduto);
-        return ResponseEntity.noContent().build();
+    @DeleteMapping("/delete/{cdProduto}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> deletarProduto(@PathVariable Integer cdProduto) {
+        try {
+            produtoService.removerProduto(cdProduto);
+            return ResponseEntity.noContent().build();
+        } catch (dev.trier.ecommerce.exceptions.EntityInUseException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        } catch (RecursoNaoEncontradoException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
-     */
 }

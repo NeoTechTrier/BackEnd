@@ -24,7 +24,6 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
 
-
     @Transactional
     public UsuarioResponseDto criarUsuario(UsuarioCriarDto usuarioCriarDto){
         UsuarioModel usuarioModel = new UsuarioModel();
@@ -46,7 +45,13 @@ public class UsuarioService {
                 salvo.getNmCliente(),
                 salvo.getDsEmail(),
                 salvo.getNuTelefone(),
-                salvo.getDsCidade()
+                salvo.getDsCidade(),
+                salvo.getNuCPF(),
+                salvo.getNuRG(),
+                salvo.getNuEndereco(),
+                salvo.getDsEndereco(),
+                salvo.getDsEstado(),
+                salvo.getFlAtivo()
         );
     }
 
@@ -64,7 +69,13 @@ public class UsuarioService {
                 salvo.getNmCliente(),
                 salvo.getDsEmail(),
                 salvo.getNuTelefone(),
-                salvo.getDsCidade()
+                salvo.getDsCidade(),
+                salvo.getNuCPF(),
+                salvo.getNuRG(),
+                salvo.getNuEndereco(),
+                salvo.getDsEndereco(),
+                salvo.getDsEstado(),
+                salvo.getFlAtivo()
         );
     }
 
@@ -72,22 +83,33 @@ public class UsuarioService {
         return usuarioRepository.findByCdUsuario(cdUsuario)
                 .map(usuario -> new UsuarioResponseDto(
                         usuario.getNmCliente(),
-                        usuario.getDsEmail(),
+                        usuario.getNuCPF(),
+                        usuario.getNuRG(),
                         usuario.getNuTelefone(),
-                        usuario.getDsCidade()
+                        usuario.getDsCidade(),
+                        usuario.getDsEstado(),
+                        usuario.getDsEndereco(),
+                        usuario.getNuEndereco(),
+                        usuario.getDsEmail(),
+                        usuario.getFlAtivo()
+
                 ));
     }
 
-
-    //Deu Certo
     public List<UsuarioResponseDto> listarUsuarios(){
         return usuarioRepository.findAll() 
                 .stream()
                 .map(usuario -> new UsuarioResponseDto(
                         usuario.getNmCliente(),
-                        usuario.getDsEmail(),
+                        usuario.getNuCPF(),
+                        usuario.getNuRG(),
                         usuario.getNuTelefone(),
-                        usuario.getDsCidade()
+                        usuario.getDsCidade(),
+                        usuario.getDsEstado(),
+                        usuario.getDsEndereco(),
+                        usuario.getNuEndereco(),
+                        usuario.getDsEmail(),
+                        usuario.getFlAtivo()
                 ))
                 .collect(Collectors.toList()) ;
     }
@@ -96,22 +118,31 @@ public class UsuarioService {
        return usuarioRepository.findByNmCliente(nmCliente)
                .map(usuario -> new UsuarioResponseDto(
                        usuario.getNmCliente(),
-                       usuario.getDsEmail(),
+                       usuario.getNuCPF(),
+                       usuario.getNuRG(),
                        usuario.getNuTelefone(),
-                       usuario.getDsCidade()
+                       usuario.getDsCidade(),
+                       usuario.getDsEstado(),
+                       usuario.getDsEndereco(),
+                       usuario.getNuEndereco(),
+                       usuario.getDsEmail(),
+                       usuario.getFlAtivo()
                ));
-               // .orElseThrow(() -> new RecursoNaoEncontradoException("Usu\u00e1rio " + nmCliente + " n\u00e3o encontrado."));
     }
 
     public Optional<UsuarioResponseDto> listarUsuarioCPF(String nuCPF){
         return  usuarioRepository.findByNuCPF(nuCPF)
                 .map(usuario -> new UsuarioResponseDto(
                         usuario.getNmCliente(),
-                        usuario.getDsEmail(),
+                        usuario.getNuCPF(),
+                        usuario.getNuRG(),
                         usuario.getNuTelefone(),
-                        usuario.getDsCidade()
+                        usuario.getDsCidade(),
+                        usuario.getDsEstado(),
+                        usuario.getDsEndereco(),
+                        usuario.getNuEndereco(),
+                        usuario.getDsEmail(),
+                        usuario.getFlAtivo()
                 ));
-       // .orElseThrow(() -> new RecursoNaoEncontradoException(nuCPF + "n\u00e3o encontrado."));
-
     }
 }

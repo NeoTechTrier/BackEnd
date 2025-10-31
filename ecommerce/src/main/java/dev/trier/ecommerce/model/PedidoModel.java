@@ -1,4 +1,6 @@
 package dev.trier.ecommerce.model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import dev.trier.ecommerce.model.enums.FormaPagamento;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -19,6 +21,8 @@ public class PedidoModel {
     private Integer cdPedido;
 
     @ManyToOne
+    @JsonIgnore
+    @JsonBackReference
     @JoinColumn(name = "cdUsuario")
     private UsuarioModel usuario;
 
