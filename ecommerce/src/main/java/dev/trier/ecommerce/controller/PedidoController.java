@@ -3,7 +3,9 @@ package dev.trier.ecommerce.controller;
 import dev.trier.ecommerce.dto.pedido.criacao.ListarPedidosResponseDto;
 import dev.trier.ecommerce.dto.pedido.criacao.PedidoCriarDto;
 import dev.trier.ecommerce.dto.pedido.criacao.PedidoCriarResponseDto;
-import dev.trier.ecommerce.model.PedidoModel;
+import dev.trier.ecommerce.dto.pedido.PedidoResumoResponseDto;
+import dev.trier.ecommerce.exceptions.RecursoNaoEncontradoException;
+import dev.trier.ecommerce.security.JWTUserData;
 import dev.trier.ecommerce.service.PedidoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -11,6 +13,9 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,5 +45,24 @@ PedidoController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(lista);
+    }
+
+    @GetMapping(path = "/meus")
+    @PreAuthorize("isAuthenticated()")
+    @Operation(summary = "Listar meus pedidos", description = "Retorna cdPedido, valor total e os itens de cada pedido do usuário autenticado")
+    public ResponseEntity<List<PedidoResumoResponseDto>> listarMeusPedidos(Authentication authentication) {
+        // Extrai o cdUsuario do JWT
+        Integer cdUsuario = null;
+
+        if (authentication.getPrincipal() instanceof JWTUserData) {
+            cdUsuario = ((JWTUserData) authentication.getPrincipal()).cdUsuario();
+        }
+
+        if (cdUsuario == null) {
+            throw new RecursoNaoEncontradoException("Usuário não autenticado corretamente");
+        }
+
+        List<PedidoResumoResponseDto> pedidos = pedidoService.listarPedidosDoUsuarioPorId(cdUsuario);
+        return ResponseEntity.ok(pedidos);
     }
 }
