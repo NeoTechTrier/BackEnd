@@ -1,14 +1,11 @@
 package dev.trier.ecommerce.service;
 
-import dev.trier.ecommerce.dto.estoque.criacao.ListarEstoqueResponseDto;
 import dev.trier.ecommerce.dto.itempedido.criacao.ItemPedidoCriadoRespostaDto;
 import dev.trier.ecommerce.dto.itempedido.criacao.ItemPedidoCriarDto;
 import dev.trier.ecommerce.dto.itempedido.criacao.ListarItensPedidosResponseDto;
-import dev.trier.ecommerce.model.EstoqueModel;
 import dev.trier.ecommerce.model.ItemPedidoModel;
 import dev.trier.ecommerce.model.PedidoModel;
 import dev.trier.ecommerce.model.ProdutoModel;
-import dev.trier.ecommerce.repository.EstoqueRepository;
 import dev.trier.ecommerce.repository.ItemPedidoRepository;
 import dev.trier.ecommerce.repository.PedidoRepository;
 import dev.trier.ecommerce.repository.ProdutoRespository;
@@ -27,8 +24,8 @@ public class ItemPedidoService {
     private final ItemPedidoRepository itemPedidoRepository;
     private final ProdutoRespository produtoRespository;
     private final PedidoRepository pedidoRepository;
-    private final EstoqueRepository estoqueRepository;
     private final EstoqueService estoqueService;
+    private final EmailService emailService; // ...existing code... add EmailService
 
 
     @Transactional
@@ -40,11 +37,6 @@ public class ItemPedidoService {
         PedidoModel pedidoModel = pedidoRepository.findById(itemPedidoCriarDto.cdPedido())
                 .orElseThrow( //Procura cdPedido antes de criar no ItemPedido
                         () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido não encontrado para o código: " + itemPedidoCriarDto.cdPedido()));
-       // EstoqueModel estoqueModel = estoqueRepository.findByCdProduto(itemPedidoCriarDto.cdProduto())
-         //       .orElseThrow( //Verifica quantidade de item Produto no estoque
-           //             ()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Estoque do produto" + itemPedidoCriarDto.cdProduto() + " esgotado"));
-        //----------------------------------------------------------------------------
-
 
         estoqueService.diminuirEstoqueProduto(itemPedidoCriarDto.cdProduto(),itemPedidoCriarDto.qtItem());
 
@@ -55,6 +47,25 @@ public class ItemPedidoService {
         itemPedidoModel.setQtItem(itemPedidoCriarDto.qtItem());
 
         ItemPedidoModel salvar=  itemPedidoRepository.save(itemPedidoModel);
+
+
+        try {
+            if (pedidoModel != null && pedidoModel.getUsuario() != null && pedidoModel.getUsuario().getDsEmail() != null) {
+                String destinatario = pedidoModel.getUsuario().getDsEmail();
+                String assunto = "Pedido confirmado - Pedido #" + (pedidoModel.getCdPedido() != null ? pedidoModel.getCdPedido() : "");
+                String nmProduto = produtoModel != null ? produtoModel.getNmProduto() : "";
+                Integer quantidade = salvar.getQtItem();
+                Double valorTotalPedido = pedidoModel.getVlTotalPedido();
+                String mensagem = String.format("Seu pedido foi confirmado. Produto: %s, Quantidade: %d, Valor total do pedido: R$ %.2f",
+                        nmProduto,
+                        quantidade != null ? quantidade : 0,
+                        valorTotalPedido != null ? valorTotalPedido : 0.0);
+
+                emailService.enviarEmail(destinatario, assunto, mensagem);
+            }
+        } catch (Exception e) {
+            System.out.printf("Erro ao enviar email de confirmação: %s%n", e.getMessage());
+        }
 
         return new ItemPedidoCriadoRespostaDto(
                 salvar.getCdItemPedido(),
