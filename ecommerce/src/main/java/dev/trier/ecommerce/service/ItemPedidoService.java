@@ -14,7 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+import org.apache.commons.text.StringEscapeUtils;
 
+import java.util.Base64;
 import java.util.List;
 
 @AllArgsConstructor
@@ -56,12 +58,19 @@ public class ItemPedidoService {
                 String nmProduto = produtoModel != null ? produtoModel.getNmProduto() : "";
                 Integer quantidade = salvar.getQtItem();
                 Double valorTotalPedido = pedidoModel.getVlTotalPedido();
-                String mensagem = String.format("Seu pedido foi confirmado. Produto: %s, Quantidade: %d, Valor total do pedido: R$ %.2f",
-                        nmProduto,
-                        quantidade != null ? quantidade : 0,
-                        valorTotalPedido != null ? valorTotalPedido : 0.0);
 
-                emailService.enviarEmail(destinatario, assunto, mensagem);
+
+                StringBuilder emailHtml = new StringBuilder();
+                emailHtml.append("<html><body>");
+                emailHtml.append("<meta charset='UTF-8'>");
+                emailHtml.append("<h3>Seu pedido foi confirmado!</h3>");
+                emailHtml.append(String.format("<p><strong>Produto:</strong> %s</p>", escapeHtml(nmProduto)));
+                emailHtml.append(String.format("<p><strong>Quantidade:</strong> %d</p>", quantidade != null ? quantidade : 0));
+                emailHtml.append(String.format("<p><strong>Valor total do pedido:</strong> R$ %.2f</p>", valorTotalPedido != null ? valorTotalPedido : 0.0));
+                emailHtml.append("<p>Obrigado por comprar conosco! 😊</p>");
+                emailHtml.append("</body></html>");
+
+                emailService.enviarEmailHtml(destinatario, assunto, emailHtml.toString());
             }
         } catch (Exception e) {
             System.out.printf("Erro ao enviar email de confirmação: %s%n", e.getMessage());
@@ -75,6 +84,10 @@ public class ItemPedidoService {
                 salvar.getQtItem()
 
         );
+    }
+
+    private Object escapeHtml(String nmProduto) {
+        return StringEscapeUtils.escapeHtml4(nmProduto);
     }
 
     public List<ListarItensPedidosResponseDto> listaItemPedidos() {

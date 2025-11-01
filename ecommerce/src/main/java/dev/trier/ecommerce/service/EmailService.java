@@ -6,6 +6,9 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import jakarta.mail.internet.MimeMessage;
+import org.springframework.mail.javamail.MimeMessageHelper;
+
 @Service
 public class EmailService {
     @Autowired
@@ -28,5 +31,19 @@ public class EmailService {
         }
     }
 
+    public String enviarEmailHtml(String destinatario, String assunto, String mensagemHtml) {
+        try {
+            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
+            helper.setFrom(remetente);
+            helper.setTo(destinatario);
+            helper.setSubject(assunto);
+            helper.setText(mensagemHtml, true);
+            javaMailSender.send(mimeMessage);
+            return "Email enviado";
+        } catch (Exception e) {
+            return "Erro ao enviar email em HTML para " + destinatario + ": " + e.getMessage();
+        }
+    }
 
 }
