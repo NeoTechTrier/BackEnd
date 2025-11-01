@@ -9,4 +9,3 @@ public record ItemPedidoResponseDto(
         Double precoPorProdutoUnidade,
         Double total
 ) {}
-
