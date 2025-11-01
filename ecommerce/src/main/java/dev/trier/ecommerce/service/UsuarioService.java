@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 @Service
 public class UsuarioService {
 
+    private EmailService emailService;
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -145,4 +146,6 @@ public class UsuarioService {
                         usuario.getFlAtivo()
                 ));
     }
+
+
 }
