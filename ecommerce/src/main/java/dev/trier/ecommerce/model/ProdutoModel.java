@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+
 import java.util.List;
 
 @Entity
@@ -36,6 +38,7 @@ public class ProdutoModel {
     private String dsProduto;
 
     @Lob
+    @Basic(fetch = FetchType.LAZY)
     @Column(nullable = false)
     private byte[] imgProduto;
 
