@@ -50,7 +50,7 @@ public class EmpresaController {
                 .body(lista);
     }
 
-    //Get com possivel unutilidade, verificar em que situação será necessario
+
     @GetMapping("/listarCNPJ/{nuCNPJ}")
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Buscar empresa por CNPJ", description = "Retorna os dados da empresa a partir do CNPJ informado")
