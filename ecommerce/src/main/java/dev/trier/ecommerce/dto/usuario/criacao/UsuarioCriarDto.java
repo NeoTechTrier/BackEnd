@@ -14,7 +14,7 @@ public record UsuarioCriarDto(
     String nmCliente,
 
     @NotBlank(message = "O Email é obrigatório.")
-    @Schema(description = "Email para login do usuário", example = "davibeckhauser@hotmail.com", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "Email para login do usuário", example = "davi@hotmail.com", requiredMode = Schema.RequiredMode.REQUIRED)
     @Email
     String dsEmail,
 
@@ -29,7 +29,7 @@ public record UsuarioCriarDto(
     String nuCPF,
 
     @NotNull(message = "O telefone é obrigatório.")
-    @Schema(description = "Número de telefone da pessoa", example = "48920023805", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "Número de telefone da pessoa", example = "48920003890", requiredMode = Schema.RequiredMode.REQUIRED)
     String nuTelefone,
 
     @Schema(description = "Número de RG da pessoa", example = "7510437")
