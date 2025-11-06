@@ -25,17 +25,6 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
-
-    @PostMapping(path = "/criar")
-    @Operation(summary = "Criar usuário", description = "Cria um novo usuário")
-    public ResponseEntity<UsuarioResponseDto> criarUsuario(@RequestBody @Valid UsuarioCriarDto usuarioCriarDto) {
-        UsuarioResponseDto usuarioCriado = usuarioService.criarUsuario(usuarioCriarDto);
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(usuarioCriado);
-    }
-
-    //Funcioando
     @CrossOrigin
     @GetMapping(path = "/listar/usuarios")
     @Operation(summary = "Listar usuários", description = "Lista todos os usuários cadastrados")
@@ -52,7 +41,6 @@ public class UsuarioController {
 
     @CrossOrigin
     @GetMapping("/nome/{nmCliente}")
-    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Buscar usuário por nome", description = "Retorna os dados do usuário pelo nome informado")
     public ResponseEntity<?> listarUsuarioNome(@PathVariable String nmCliente) {
         Optional<UsuarioResponseDto> usuario = usuarioService.listarUsuarioNome(nmCliente);

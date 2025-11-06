@@ -35,9 +35,20 @@ public class SecurityConfig {
                         .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "auth/register").permitAll()
+
+
                         .requestMatchers(HttpMethod.GET, "produto/{cdProduto}/imagem").permitAll()
                         .requestMatchers(HttpMethod.GET, "produto/listar/todos").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/produto/criar").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/produto/delete/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/produto/{cdProduto}/idProduto").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/produto/{nmProduto}").hasRole("ADMIN")
+
+
                         .requestMatchers(HttpMethod.GET,"/usuario/buscar/*").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/usuario/listar/usuarios").hasRole("ADMIN")
+
+
                         .requestMatchers(
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
@@ -46,11 +57,19 @@ public class SecurityConfig {
                                 "/swagger-resources/**",
                                 "/webjars/**"
                         ).permitAll()
+
+
                         .requestMatchers(HttpMethod.POST, "/empresa/criar").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/empresa/update/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/empresa/delete/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/empresa/listar/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/empresa/listarCNPJ/**").hasRole("ADMIN")
+
+
+                        .requestMatchers(HttpMethod.POST, "/estoque/criar").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/estoque/update/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/estoque/listar/**").hasRole("ADMIN")
+
 
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
