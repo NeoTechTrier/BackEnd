@@ -46,6 +46,12 @@ public class SecurityConfig {
                                 "/swagger-resources/**",
                                 "/webjars/**"
                         ).permitAll()
+                        .requestMatchers(HttpMethod.POST, "/empresa/criar").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/empresa/update/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/empresa/delete/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/empresa/listar/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/empresa/listarCNPJ/**").hasRole("ADMIN")
+
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

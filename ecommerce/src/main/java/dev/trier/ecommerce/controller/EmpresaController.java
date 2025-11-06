@@ -30,7 +30,6 @@ public class EmpresaController {
 
     @PostMapping("/criar")
     @Operation(summary = "Criar empresa", description = "Cria uma nova empresa")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<EmpresaCriadaRespostaDto> criarEmpresa(@RequestBody @Valid EmpresaCriarDto empresaCriarDto){
         EmpresaCriadaRespostaDto empresaCriado = empresaService.criarEmpresa(empresaCriarDto);
         return  ResponseEntity
@@ -41,7 +40,6 @@ public class EmpresaController {
     @CrossOrigin
     @GetMapping("/listar/todos")
     @Transactional
-    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Listar empresas", description = "Lista todas as empresas cadastradas")
     public ResponseEntity<List<EmpresaListResponseDto>> listar(){
         var lista = empresaService.listarTodos();
@@ -52,7 +50,6 @@ public class EmpresaController {
 
     //Get com possivel unutilidade, verificar em que situação será necessario
     @GetMapping("/listarCNPJ/{nuCNPJ}")
-    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Buscar empresa por CNPJ", description = "Retorna os dados da empresa a partir do CNPJ informado")
     public ResponseEntity<EmpresaListResponseDto> listarEmpresaCNPJ(@PathVariable String nuCNPJ){
         EmpresaListResponseDto empresa = empresaService.listarEmpresaCNPJ(nuCNPJ);
