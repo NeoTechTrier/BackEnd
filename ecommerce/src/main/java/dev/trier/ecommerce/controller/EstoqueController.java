@@ -22,7 +22,6 @@ import java.util.List;
 @RequestMapping("/estoque")
 @Tag(name = "Estoque", description = "Capacidade de criação e modificação do estoque")
 @CrossOrigin("*")
-@PreAuthorize("hasRole('ADMIN')")
 public class EstoqueController {
 
     @Autowired

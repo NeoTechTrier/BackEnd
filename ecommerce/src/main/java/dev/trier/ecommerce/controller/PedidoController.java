@@ -48,7 +48,6 @@ PedidoController {
     }
 
     @GetMapping(path = "/meus")
-    @PreAuthorize("isAuthenticated()")
     @Operation(summary = "Listar meus pedidos", description = "Retorna cdPedido, valor total e os itens de cada pedido do usuário autenticado")
     public ResponseEntity<List<PedidoResumoResponseDto>> listarMeusPedidos(Authentication authentication) {
         // Extrai o cdUsuario do JWT

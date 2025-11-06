@@ -25,7 +25,6 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
-
     @PostMapping(path = "/criar")
     @Operation(summary = "Criar usuário", description = "Cria um novo usuário")
     public ResponseEntity<UsuarioResponseDto> criarUsuario(@RequestBody @Valid UsuarioCriarDto usuarioCriarDto) {
@@ -35,17 +34,6 @@ public class UsuarioController {
                 .body(usuarioCriado);
     }
 
-    /*
-    @GetMapping(path = "/listar/usuarios")
-    public ResponseEntity<List<UsuarioModel>> listarUsuarios() {
-        var lista = usuarioService.listarUsuarios();
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(lista);
-    }
-     */
-
-    //Funcioando
     @CrossOrigin
     @GetMapping(path = "/listar/usuarios")
     @Operation(summary = "Listar usuários", description = "Lista todos os usuários cadastrados")
@@ -53,16 +41,6 @@ public class UsuarioController {
         return ResponseEntity.ok().body(usuarioService.listarUsuarios());
     }
 
-
-/*
- public ResponseEntity<List<ProdutoDto>> findAll() {
-        return ResponseEntity.ok().body(service.buscarTodos());
-    }
- */
-
-
-
-    //IMCOMPLETO
     @CrossOrigin
     @GetMapping("/buscar/{cdCliente}")
     @Operation(summary = "Buscar usuário por código", description = "Retorna os dados do usuário pelo código informado")
@@ -70,12 +48,8 @@ public class UsuarioController {
         return usuarioService.listarCdUsuario(cdCliente);
     }
 
-
-    //<<<<<<<VERIFICAR ESSAS DUAS SEQUENCIAS DE ENDPOINT>>>>>>>>
-    //Talvez seja inutil,
     @CrossOrigin
     @GetMapping("/nome/{nmCliente}")
-    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Buscar usuário por nome", description = "Retorna os dados do usuário pelo nome informado")
     public ResponseEntity<?> listarUsuarioNome(@PathVariable String nmCliente) {
         Optional<UsuarioResponseDto> usuario = usuarioService.listarUsuarioNome(nmCliente);
@@ -83,7 +57,6 @@ public class UsuarioController {
     }
 
     @PutMapping("/update/{cdUsuario}")
-    //@PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Atualizar usuário", description = "Atualiza os dados de um usuário pelo código")
     public ResponseEntity<UsuarioResponseDto> atualizarUsuario(@PathVariable Integer cdUsuario,
                                                                 @RequestBody @Valid UsuarioUpdateDto usuarioUpdateDto) {

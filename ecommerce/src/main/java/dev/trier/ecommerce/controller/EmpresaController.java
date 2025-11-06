@@ -57,7 +57,6 @@ public class EmpresaController {
     }
 
     @PutMapping("/update/{cdEmpresa}")
-    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Atualizar empresa", description = "Atualiza os dados de uma empresa pelo código")
     public ResponseEntity<EmpresaCriadaRespostaDto> atualizarEmpresa(@PathVariable Integer cdEmpresa,
                                                                      @RequestBody @Valid UpdateEmpresaDto updateEmpresaDto) {
@@ -70,7 +69,6 @@ public class EmpresaController {
     }
 
     @DeleteMapping("/delete/{cdEmpresa}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deletarEmpresa(@PathVariable Integer cdEmpresa) {
         try {
             empresaService.removerEmpresa(cdEmpresa);

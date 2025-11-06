@@ -35,14 +35,13 @@ public class ProdutoController {
 
     @PostMapping(path = "/criar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "Criar produto", description = "Cria um novo produto com imagem (multipart/form-data)")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CriarProdutoResponseDto> criarProduto(@ModelAttribute @Valid ProdutoCriarDto produtoCriarDto) {  //ModelAttribute para receber multipart
         CriarProdutoResponseDto produtoCriado = produtoService.criarProduto(produtoCriarDto);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(produtoCriado);
     }
 
-    //Precisa trocar o return para ResponseDto
+
     @CrossOrigin
     @GetMapping(path = "/listar/todos")
     @Operation(summary = "Listar produtos", description = "Lista todos os produtos")
@@ -52,15 +51,6 @@ public class ProdutoController {
                 .status(HttpStatus.OK)
                 .body(produtoService.listarProdutos());
     }
-
-//    @GetMapping(path = "/categoria/{categoria}")
-//    @Operation(summary = "Listar por categoria", description = "Lista produtos filtrando pela categoria")
-//    public ResponseEntity<List<ProdutoIdResponseDto>> listarPorCategoria(@PathVariable String categoria) {
-//        List<ProdutoIdResponseDto> lista = produtoService.listarProdutosPorCategoria(categoria);
-//        return ResponseEntity.status(HttpStatus.OK).body(lista);
-//    }
-
-
 
     @CrossOrigin
     @GetMapping(path = "/{cdProduto}/imagem")
@@ -73,7 +63,6 @@ public class ProdutoController {
                 .body(produto.getImgProduto());
     }
 
-    //Endpoint para buscar dados do produto, uso de dto para definidas as entidades em get do BD
     @CrossOrigin
     @GetMapping(path = "/{cdProduto}/idProduto")
     @Operation(summary = "Buscar produto por ID", description = "Retorna os dados do produto pelo código")
@@ -93,7 +82,6 @@ public class ProdutoController {
     }
 
     @DeleteMapping("/delete/{cdProduto}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deletarProduto(@PathVariable Integer cdProduto) {
         try {
             produtoService.removerProduto(cdProduto);
