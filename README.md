@@ -62,4 +62,5 @@ Este é um projeto desenvolvido com **Spring Boot 3.3.4**, utilizando as tecnolo
    spring.datasource.username=postgres
    spring.datasource.password=senha
    spring.jpa.hibernate.ddl-auto=update
-
+   spring.mail.username={seuEmail}
+   spring.mail.password={Sua senha gerada pelo google na aba "Senhas de APP"}
